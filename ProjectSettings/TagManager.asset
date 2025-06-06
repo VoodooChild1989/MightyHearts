@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Player
+  - Enemy
+  - PlayerProjectile
+  - EnemyProjectile
+  - Block
+  - Cell
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Background
+    uniqueID: 1999662421
+    locked: 0
+  - name: Decorations
+    uniqueID: 2377900295
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: SFX
+    uniqueID: 2949656663
+    locked: 0
+  - name: Block
+    uniqueID: 1160146863
+    locked: 0
+  - name: Character
+    uniqueID: 2225369515
+    locked: 0
+  - name: World_UI
+    uniqueID: 937281729
+    locked: 0
+  - name: Overlay_UI
+    uniqueID: 3102346995
+    locked: 0
+  m_RenderingLayers:
+  - Default
