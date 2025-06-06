@@ -105,11 +105,9 @@ MonoBehaviour:
   notes: 
   speed: 5
   dir: {x: 1, y: 0}
-  lastPos: {x: 0, y: 0, z: 0}
   damageAmount: 1
   maxBlocks: 3
   curBlocks: 0
-  spriteTransform: {fileID: 0}
   curOwner: 0
   col: {fileID: 0}
   rb: {fileID: 0}
