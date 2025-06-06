@@ -6692,8 +6692,8 @@ MonoBehaviour:
   waitButton: {fileID: 1567804862}
   defaultWaitReward: 5
   curTurnNumber: 1
-  isPlayerAuto: 0
-  isEnemyAuto: 0
+  isPlayerAuto: 1
+  isEnemyAuto: 1
   cinemCamera: {fileID: 426318938}
   camDefaultPos: {fileID: 26943194}
 --- !u!4 &523131793
