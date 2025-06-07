@@ -65,7 +65,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
         [Header("ANIMATIONS")]
             
-            [Header("Sprites")]
+            [Header("Basic Variables")]
             public Sprite[] idleSprites;
             public Sprite[] runningSprites;
             public Sprite[] attackSprites;

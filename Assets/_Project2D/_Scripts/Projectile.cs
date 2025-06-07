@@ -34,6 +34,13 @@ public abstract class Projectile : MonoBehaviour
             [ShowOnly] public Rigidbody2D rb;
             private GameObject collidingObj;
 
+        [Header("ANIMATIONS")]
+            
+            [Header("Basic Variables")]
+            public Sprite[] idleSprites;
+            public float frameLength;
+            private SpriteRenderer sr;
+
     #endregion
 
     #region LIFE CYCLE METHODS
@@ -45,6 +52,7 @@ public abstract class Projectile : MonoBehaviour
         public void ProjectileAwake()
         {
             rb = GetComponent<Rigidbody2D>();
+            sr = GetComponent<SpriteRenderer>();
             col = GetComponent<Collider2D>();
         }
 
@@ -54,8 +62,7 @@ public abstract class Projectile : MonoBehaviour
         /// </summary>
         public void ProjectileStart()
         {
-            // Perform initial setup that occurs when the game starts.
-            // Example: Initialize game state, start coroutines, load resources, etc.
+            StartCoroutine(Animation(idleSprites));
         }
 
         /// <summary>
@@ -118,6 +125,22 @@ public abstract class Projectile : MonoBehaviour
         public void Death()
         {
             Destroy(gameObject);
+        }
+
+    #endregion
+
+    #region ANIMATION
+
+        private IEnumerator Animation(Sprite[] sprites)
+        {
+            while (true)
+            {
+                foreach (Sprite sprite in sprites)
+                {
+                    sr.sprite = sprite;
+                    yield return new WaitForSeconds(frameLength);
+                }
+            }
         }
 
     #endregion

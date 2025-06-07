@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: 684aaeeed8fdc5b44aa9903478059ea8
+guid: 5bad3e523c129e5448d145b1a82b478b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7767649378895964715
-    second: Meggy_Projectile_0
+      213: -8014774246758756502
+    second: Maggy_Projectile_0
+  - first:
+      213: 38291735183647181
+    second: Maggy_Projectile_1
+  - first:
+      213: -4280090040413819344
+    second: Maggy_Projectile_2
+  - first:
+      213: 3608507672204763640
+    second: Maggy_Projectile_3
+  - first:
+      213: 6042087974331973927
+    second: Maggy_Projectile_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +58,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -139,13 +151,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Meggy_Projectile_0
+      name: Maggy_Projectile_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 3
-        width: 10
-        height: 10
+        x: 0
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +166,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5d55f1f6b04c33490800000000000000
-      internalID: -7767649378895964715
+      spriteID: a6fcef2694dc5c090800000000000000
+      internalID: -8014774246758756502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maggy_Projectile_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc16479512a088000800000000000000
+      internalID: 38291735183647181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maggy_Projectile_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03e627ef8c01a94c0800000000000000
+      internalID: -4280090040413819344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maggy_Projectile_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f16903fb9ef31230800000000000000
+      internalID: 3608507672204763640
       vertices: []
       indices: 
       edges: []
@@ -164,7 +242,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 86c9616ccfc45f04b9559c88e4ee843f
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +252,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Meggy_Projectile_0: -7767649378895964715
+      Maggy_Projectile_0: -8014774246758756502
+      Maggy_Projectile_1: 38291735183647181
+      Maggy_Projectile_2: -4280090040413819344
+      Maggy_Projectile_3: 3608507672204763640
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

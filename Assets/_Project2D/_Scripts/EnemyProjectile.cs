@@ -47,8 +47,7 @@ public abstract class EnemyProjectile : Projectile
         /// </summary>
         public void EnemyProjectileFixedUpdate()
         {
-            // Add physics-related logic here.
-            // Example: Rigidbody movement, applying forces, or collision detection.
+            base.ProjectileFixedUpdate();
         }
 
     #endregion

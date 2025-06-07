@@ -5590,7 +5590,7 @@ MonoBehaviour:
   block: {fileID: 3997427403903637831, guid: ee31cf7a933302b42b56fa30707b4d70, type: 3}
   cell: {fileID: 2405756130404241067, guid: 4d758899d2b3b074abdf5ed689690d45, type: 3}
   gridOffset: {x: 0.5, y: 0.5}
-  areCellsVisible: 0
+  areCellsVisible: 1
   width: 0
   height: 0
   startX: 0
@@ -12485,7 +12485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notes: 
-  maxHealth: 1
+  maxHealth: 2
   curHealth: 0
   maxStamina: 100
   curStamina: 0
@@ -12840,7 +12840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notes: 
-  maxHealth: 1
+  maxHealth: 2
   curHealth: 0
   maxStamina: 100
   curStamina: 0
@@ -13300,7 +13300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notes: 
-  maxHealth: 1
+  maxHealth: 2
   curHealth: 0
   maxStamina: 100
   curStamina: 0
@@ -13518,7 +13518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notes: 
-  maxHealth: 1
+  maxHealth: 2
   curHealth: 0
   maxStamina: 100
   curStamina: 0
