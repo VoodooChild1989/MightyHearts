@@ -132,21 +132,28 @@ public abstract class Projectile : MonoBehaviour
 
         public IEnumerator Death()
         {
-            yield return null;
+            speed = 0f;
+            sr.color = new Color(0f, 0f, 0f, 0f);
+            Instantiate(deathVFX, transform.position, Quaternion.identity);
+
+            yield return new WaitForSeconds(1.1f);
 
             if (collidingObj != null)
             {
                 if (collidingObj.GetComponent<Character>() != null && !collidingObj.GetComponent<Character>().isDead)
+                {
                     LevelManager.instance.MoveQueue();
+                }
                 else if (collidingObj.GetComponent<Block>() != null)
+                {
                     LevelManager.instance.MoveQueue();
+                }
             }
             else
             {
                 LevelManager.instance.MoveQueue();
             }
 
-            Instantiate(deathVFX, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
 

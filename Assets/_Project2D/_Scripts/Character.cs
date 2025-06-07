@@ -21,7 +21,7 @@ public interface IDamageable
 {
     public void TakeDamage(int damageAmount);
     public void Heal(int healAmount);
-    public void Death();
+    // public void Death();
 }
 
 public interface ICards
@@ -206,7 +206,6 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
         public void TurnFinished()
         {
-            // LevelManager.instance.MoveQueue();
             LevelManager.instance.RemoveCards();
             RemoveCooldown(curCooldown);
             
@@ -538,12 +537,14 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
                 {
                     TurnFinished();
                     SetIdleAnimation();
+                    LevelManager.instance.MoveQueue();
                 }
             }
             else
             {
                 TurnFinished();
                 SetIdleAnimation();
+                LevelManager.instance.MoveQueue();
             }
         }
 
@@ -596,16 +597,24 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             }
             else if (curHealth <= 0) 
             {
-                Death();
+                StartDeath();
             }
 
             healthTMP.text = curHealth.ToString() + "/" + maxHealth.ToString();            
         }
         
-        public void Death()
+        private void StartDeath()
         {
-            LevelManager.instance.RemoveCards();
+            StartCoroutine(Death());
+        }
+
+        public IEnumerator Death()
+        {
             isDead = true;
+            LevelManager.instance.RemoveCards();
+
+            yield return new WaitForSeconds(1f);
+
             Instantiate(deathVFX, transform.position, Quaternion.identity);
             Destroy(transform.parent.gameObject);
         }
@@ -645,6 +654,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             AddStamina(LevelManager.instance.defaultWaitReward);
             LevelManager.instance.MoveQueue();
             LevelManager.instance.RemoveCards();
+            LevelManager.instance.MoveQueue();
             TurnFinished();
         }
 
