@@ -117,6 +117,8 @@ MonoBehaviour:
   - {fileID: -4280090040413819344, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}
   - {fileID: 3608507672204763640, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}
   frameLength: 0.1
+  birthVFX: {fileID: 6245361130249214102, guid: e370322f1f2972946b9c958674726325, type: 3}
+  deathVFX: {fileID: 6245361130249214102, guid: c1e767dcaff89954594b38cbf018a571, type: 3}
 --- !u!61 &3946702404741169161
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -40,6 +40,8 @@ public abstract class Projectile : MonoBehaviour
             public Sprite[] idleSprites;
             public float frameLength;
             private SpriteRenderer sr;
+            public GameObject birthVFX;
+            public GameObject deathVFX;
 
     #endregion
 
@@ -62,6 +64,7 @@ public abstract class Projectile : MonoBehaviour
         /// </summary>
         public void ProjectileStart()
         {
+            Instantiate(birthVFX, transform.position, Quaternion.identity);
             StartCoroutine(Animation(idleSprites));
         }
 
@@ -118,12 +121,32 @@ public abstract class Projectile : MonoBehaviour
             if (collidingObj != null)
             {
                 collidingObj.GetComponent<Character>()?.GetComponent<IDamageable>().TakeDamage(damageAmount); 
-                Death();
+                StartDeath();
             }
         }
 
-        public void Death()
+        public void StartDeath()
         {
+            StartCoroutine(Death());
+        }
+
+        public IEnumerator Death()
+        {
+            yield return null;
+
+            if (collidingObj != null)
+            {
+                if (collidingObj.GetComponent<Character>() != null && !collidingObj.GetComponent<Character>().isDead)
+                    LevelManager.instance.MoveQueue();
+                else if (collidingObj.GetComponent<Block>() != null)
+                    LevelManager.instance.MoveQueue();
+            }
+            else
+            {
+                LevelManager.instance.MoveQueue();
+            }
+
+            Instantiate(deathVFX, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
 

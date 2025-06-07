@@ -106,7 +106,7 @@ public class Cell : MonoBehaviour
 
                 if (projScript.curBlocks == projScript.maxBlocks)
                 {
-                    projScript.Death();
+                    projScript.StartDeath();
                 }
                 else
                 {

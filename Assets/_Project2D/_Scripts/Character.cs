@@ -57,6 +57,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             public FacingDirection curFacingDirection;
             public List<GameObject> sizeMatrix;
             private Coroutine movementCrt;
+            public bool isDead;
 
             [Header("UI")]
             public TMP_Text healthTMP;
@@ -79,13 +80,13 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         [Header("CARDS")]
             
             [Header("First Card")]
-            public Card cardOne;
+            public CardSO cardOne;
 
             [Header("Second Card")]
-            public Card cardTwo;
+            public CardSO cardTwo;
 
             [Header("Third Card")]
-            public Card cardThree;
+            public CardSO cardThree;
 
     #endregion
 
@@ -205,7 +206,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
         public void TurnFinished()
         {
-            LevelManager.instance.MoveQueue();
+            // LevelManager.instance.MoveQueue();
             LevelManager.instance.RemoveCards();
             RemoveCooldown(curCooldown);
             
@@ -603,6 +604,8 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         
         public void Death()
         {
+            LevelManager.instance.RemoveCards();
+            isDead = true;
             Instantiate(deathVFX, transform.position, Quaternion.identity);
             Destroy(transform.parent.gameObject);
         }
@@ -640,6 +643,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         public void Wait()
         {
             AddStamina(LevelManager.instance.defaultWaitReward);
+            LevelManager.instance.MoveQueue();
             LevelManager.instance.RemoveCards();
             TurnFinished();
         }

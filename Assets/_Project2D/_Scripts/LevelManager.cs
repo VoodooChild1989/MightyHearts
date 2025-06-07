@@ -22,6 +22,7 @@ public class LevelManager : MonoBehaviour
             public List<PlayerCharacter> playerCharacters;
             public List<EnemyCharacter> enemyCharacters;
             public List<Character> charactersOnQueue;
+            public List<int> charactersOnQueueToIgnore;
             private int curQueueIndex;
             public Coroutine cooldownCrt;
             public static LevelManager instance;
@@ -60,11 +61,13 @@ public class LevelManager : MonoBehaviour
         private void Start()
         {
             playerCharacters = FindObjectsByType<PlayerCharacter>(FindObjectsSortMode.None).ToList();
+            enemyCharacters = FindObjectsByType<EnemyCharacter>(FindObjectsSortMode.None).ToList();
+
             foreach (PlayerCharacter pc in playerCharacters)
             {
                 pc.transform.parent.SetParent(GameObject.Find("Players").transform);
             }
-            enemyCharacters = FindObjectsByType<EnemyCharacter>(FindObjectsSortMode.None).ToList();
+
             foreach (EnemyCharacter ec in enemyCharacters)
             {
                 ec.transform.parent.SetParent(GameObject.Find("Enemies").transform);
@@ -76,6 +79,7 @@ public class LevelManager : MonoBehaviour
             RemoveCards();
             
             charactersOnQueue = new List<Character>();
+            charactersOnQueueToIgnore = new List<int>();
             curQueueIndex = 0;
         }
 
@@ -133,6 +137,7 @@ public class LevelManager : MonoBehaviour
                         if (character is PlayerCharacter pc)
                         {
                             charactersOnQueue.Add(character);
+                            charactersOnQueueToIgnore.Add(0);
                         }
                     }   
                     foreach (Character character in readyCharacters)
@@ -140,6 +145,7 @@ public class LevelManager : MonoBehaviour
                         if (character is EnemyCharacter ec)
                         {
                             charactersOnQueue.Add(character);
+                            charactersOnQueueToIgnore.Add(0);
                         }
                     }   
 
@@ -152,18 +158,28 @@ public class LevelManager : MonoBehaviour
         public void MoveQueue()
         {
             // If it was a last index, then end the queue
-            if (curQueueIndex == charactersOnQueue.Count)
+            if (curQueueIndex >= charactersOnQueue.Count)
             {
                 curQueueIndex = 0;
                 charactersOnQueue.Clear();
+                charactersOnQueueToIgnore.Clear();
                 cinemCamera.Follow = camDefaultPos;
                 StartCooldown();
             }
             else
             {   
-                charactersOnQueue[curQueueIndex].Ready();
-                curTurnNumber++;
-                curQueueIndex++;
+                if (charactersOnQueueToIgnore[curQueueIndex] == 1)
+                {
+                    curTurnNumber++;
+                    curQueueIndex++;
+                    MoveQueue();
+                }
+                else
+                {
+                    charactersOnQueue[curQueueIndex].Ready();
+                    curTurnNumber++;
+                    curQueueIndex++;
+                }
             }
         }
 
@@ -185,19 +201,37 @@ public class LevelManager : MonoBehaviour
         public void RemovePlayer(PlayerCharacter playerCharacter)
         {
             playerCharacters.Remove(playerCharacter);   
+
+            for (int i = 0; i < charactersOnQueue.Count; i++)
+            {
+                if (charactersOnQueue[i] == playerCharacter)
+                {
+                    charactersOnQueueToIgnore[i] = 1;
+                    break;   
+                }
+            }
         }
 
         public void RemoveEnemy(EnemyCharacter enemyCharacter)
         {
             enemyCharacters.Remove(enemyCharacter);   
+
+            for (int i = 0; i < charactersOnQueue.Count; i++)
+            {
+                if (charactersOnQueue[i] == enemyCharacter)
+                {
+                    charactersOnQueueToIgnore[i] = 1;
+                    break;   
+                }
+            }
         }
 
-        public void ShowCards(Card cardOne, Card cardTwo, Card cardThree)
+        public void ShowCards(CardSO cardOne, CardSO cardTwo, CardSO cardThree)
         {
             StartCoroutine(ShowCardsAnimation(cardOne, cardTwo, cardThree));
         }
 
-        public IEnumerator ShowCardsAnimation(Card cardOne, Card cardTwo, Card cardThree)
+        public IEnumerator ShowCardsAnimation(CardSO cardOne, CardSO cardTwo, CardSO cardThree)
         {
             yield return new WaitForSeconds(0.1f);
 
@@ -224,7 +258,7 @@ public class LevelManager : MonoBehaviour
             waitButton.GetComponent<CanvasGroup>().interactable = true;
         }
 
-        public void AddDataToCard(Card card, Button cardButton)
+        public void AddDataToCard(CardSO card, Button cardButton)
         {
             foreach (Transform child in cardButton.transform)
             {
