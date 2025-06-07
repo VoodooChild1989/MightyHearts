@@ -109,6 +109,9 @@ public class WindowManager : MonoBehaviour
         /// </summary>
         public void OpenButton()
         {
+            initX = 834f;    
+            initY = -429f;
+            
             // RectTransform
             rectTransform.anchoredPosition = new Vector2(initX + 200f, initY);
             rectTransform.localScale = new Vector2(0.2f, 0.2f);
@@ -135,6 +138,9 @@ public class WindowManager : MonoBehaviour
         /// </summary>
         public void CloseButton()
         {   
+            initX = 834f; 
+            initY = -429f;
+
             // RectTransform
             rectTransform.anchoredPosition = new Vector2(initX, initY);
             rectTransform.localScale = new Vector2(3f, 3f);
@@ -146,6 +152,58 @@ public class WindowManager : MonoBehaviour
                         
             Sequence seq = DOTween.Sequence();
             seq.Append(rectTransform.DOAnchorPos(new Vector2(initX + 200f, initY), tweenDuration).SetEase(Ease.InOutSine));
+            seq.Join(rectTransform.DOScale(0.2f, tweenDuration).SetEase(Ease.InOutSine));
+            seq.Join(canvasGroup.DOFade(0f, tweenDuration).SetEase(Ease.InOutSine));
+            seq.OnComplete(() =>
+            {
+                canvasGroup.alpha = 0f;
+                canvasGroup.interactable = false;
+                canvasGroup.blocksRaycasts = false;
+            });
+        }
+
+        /// <summary>
+        /// Opening a window.
+        /// </summary>
+        public void OpenInformation()
+        {
+            // RectTransform
+            rectTransform.anchoredPosition = new Vector2(initX, initY);
+            rectTransform.localScale = new Vector2(0.2f, 0.2f);
+
+            // CanvasGroup
+            canvasGroup.alpha = 0f;
+            canvasGroup.interactable = false;   
+            canvasGroup.blocksRaycasts = false;
+                        
+            Sequence seq = DOTween.Sequence();
+            seq.Append(rectTransform.DOAnchorPos(new Vector2(initX, initY), tweenDuration).SetEase(Ease.InOutSine));
+            seq.Join(rectTransform.DOScale(1f, tweenDuration).SetEase(Ease.InOutSine));
+            seq.Join(canvasGroup.DOFade(1f, tweenDuration).SetEase(Ease.InOutSine));
+            seq.OnComplete(() =>
+            {
+                canvasGroup.alpha = 1f;
+                canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = true;
+            });
+        }
+
+        /// <summary>
+        /// Closing a window.
+        /// </summary>
+        public void CloseInformation()
+        {   
+            // RectTransform
+            rectTransform.anchoredPosition = new Vector2(initX, initY);
+            rectTransform.localScale = new Vector2(1f, 1f);
+
+            // CanvasGroup
+            canvasGroup.alpha = 1f;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+                        
+            Sequence seq = DOTween.Sequence();
+            seq.Append(rectTransform.DOAnchorPos(new Vector2(initX, initY), tweenDuration).SetEase(Ease.InOutSine));
             seq.Join(rectTransform.DOScale(0.2f, tweenDuration).SetEase(Ease.InOutSine));
             seq.Join(canvasGroup.DOFade(0f, tweenDuration).SetEase(Ease.InOutSine));
             seq.OnComplete(() =>

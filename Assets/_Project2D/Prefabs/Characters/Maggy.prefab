@@ -110,7 +110,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2069597781
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -7586852357584557507, guid: abed7faf75084084c8039720f701cf9f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -172,8 +172,8 @@ MonoBehaviour:
   damagedFrameLength: 1
   deathVFX: {fileID: 6245361130249214102, guid: 338f8d3e69b81604cbad808df8494381, type: 3}
   cardOne: {fileID: 11400000, guid: 09983d32e26464a47820a3eaa88555bc, type: 2}
-  cardTwo: {fileID: 11400000, guid: 09983d32e26464a47820a3eaa88555bc, type: 2}
-  cardThree: {fileID: 11400000, guid: 09983d32e26464a47820a3eaa88555bc, type: 2}
+  cardTwo: {fileID: 11400000, guid: 44e152edd5b515a4480fcdd8a3c59eef, type: 2}
+  cardThree: {fileID: 11400000, guid: 447eb4269ec9a80439e1643b8bc8eef0, type: 2}
   spawnPoint: {fileID: 1040408162933978672}
   projectile: {fileID: 596752385873810632, guid: a4af4cde54cf9654e9376044cfd9e948, type: 3}
   secondCardData: 0

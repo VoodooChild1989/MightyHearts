@@ -14,6 +14,7 @@ public class CardSO : ScriptableObject
             [Header("Basic Variables")]
             public Sprite cardIcon;
             public string cardName;
+            public string cardDescription;
             public int staminaCost;
             public int damageAmount;
 

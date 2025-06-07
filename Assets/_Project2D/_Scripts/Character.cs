@@ -180,6 +180,10 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
                 card02.onClick.AddListener(SecondCard);   
                 card03.onClick.AddListener(ThirdCard);    
                 waitButton.onClick.AddListener(Wait);   
+
+                card01.gameObject.GetComponent<CardButtonDisplay>().card = cardOne;
+                card02.gameObject.GetComponent<CardButtonDisplay>().card = cardTwo;
+                card03.gameObject.GetComponent<CardButtonDisplay>().card = cardThree;
             }
         }
 

@@ -41,14 +41,14 @@ TagManager:
   - name: Background
     uniqueID: 1999662421
     locked: 0
+  - name: Background_VFX
+    uniqueID: 2949656663
+    locked: 0
   - name: Decorations
     uniqueID: 2377900295
     locked: 0
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Background_VFX
-    uniqueID: 2949656663
     locked: 0
   - name: Block
     uniqueID: 1160146863
