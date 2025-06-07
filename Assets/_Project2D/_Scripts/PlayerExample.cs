@@ -70,6 +70,7 @@ public class PlayerExample : PlayerCharacter
         {   
             if (curStamina >= cardOne.staminaCost)
             {
+                SetAttackAnimation();
                 GameObject projectileObj = Instantiate(projectile, spawnPoint.position, Quaternion.identity);
                 Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
                 Vector2 curDir = projectileScript.dir;
@@ -92,6 +93,7 @@ public class PlayerExample : PlayerCharacter
         {
             if (curStamina >= cardTwo.staminaCost)
             {
+                SetAttackAnimation();
                 GameObject projectileObj = Instantiate(projectile, spawnPoint.position, Quaternion.identity);
                 Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
                 Vector2 curDir = projectileScript.dir;
@@ -114,6 +116,7 @@ public class PlayerExample : PlayerCharacter
         {
             if (curStamina >= cardThree.staminaCost)
             {
+                SetAttackAnimation();
                 GameObject projectileObj = Instantiate(projectile, spawnPoint.position, Quaternion.identity);
                 Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
                 Vector2 curDir = projectileScript.dir;

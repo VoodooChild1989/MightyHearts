@@ -63,6 +63,19 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             public TMP_Text staminaTMP;
             public TMP_Text cooldownTMP;
 
+        [Header("ANIMATIONS")]
+            
+            [Header("Sprites")]
+            public Sprite[] idleSprites;
+            public Sprite[] runningSprites;
+            public Sprite[] attackSprites;
+            public Sprite[] damagedSprites;
+            public float frameLength;
+            public float damagedFrameLength;
+            private SpriteRenderer sr;
+            public GameObject deathVFX;
+            public Coroutine animationCrt;
+
         [Header("CARDS")]
             
             [Header("First Card")]
@@ -84,8 +97,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         /// </summary>
         public void CharacterAwake()
         {
-            // Initialize variables or cache references here.
-            // Example: Setting up components or data before start is called. 
+            sr = GetComponent<SpriteRenderer>();
         }
 
         /// <summary>
@@ -103,6 +115,8 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             UpdateHealth(0);
             UpdateStamina(0);
             UpdateCooldown(0);
+
+            SetIdleAnimation();
         }
 
         /// <summary>
@@ -409,6 +423,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
                 if (Input.GetKeyDown(KeyCode.S))
                 {
+                    yield return null;
                     Flip();
                     yield break;
                 }
@@ -419,6 +434,69 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         
     #endregion
 
+    #region ANIMATION
+
+        private IEnumerator Animation(Sprite[] sprites, bool playOnce = false, bool useNewSpeed = false, float newSpeed = 0f)
+        {
+            while (true)
+            {
+                foreach (Sprite sprite in sprites)
+                {
+                    sr.sprite = sprite;
+
+                    if (!useNewSpeed)
+                    {
+                        yield return new WaitForSeconds(frameLength);
+                    }
+                    else
+                    {
+                        yield return new WaitForSeconds(newSpeed);
+                    }
+                }
+
+                if (playOnce) 
+                {
+                    SetIdleAnimation();
+                    yield break;
+                }
+            }
+        }
+
+        private void SetIdleAnimation()
+        {
+            CheckAnimationCoroutine();
+            animationCrt = StartCoroutine(Animation(idleSprites));
+        }
+
+        private void SetRunningAnimation()
+        {
+            CheckAnimationCoroutine();
+            animationCrt = StartCoroutine(Animation(runningSprites));
+        }
+
+        public void SetAttackAnimation()
+        {
+            CheckAnimationCoroutine();
+            animationCrt = StartCoroutine(Animation(attackSprites, true));
+        }
+
+        public void SetDamagedAnimation()
+        {
+            CheckAnimationCoroutine();
+            animationCrt = StartCoroutine(Animation(damagedSprites, true, true, damagedFrameLength));
+        }
+
+        private void CheckAnimationCoroutine()
+        {
+            if (animationCrt != null)
+            {
+                StopCoroutine(animationCrt);
+                animationCrt = null;
+            }
+        }
+
+    #endregion
+    
     #region MOVEMENT
 
         public void Move(int moveX, int moveY)
@@ -434,6 +512,8 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
         private IEnumerator MoveToNewPos(Vector3 newPos)
         {
+            SetRunningAnimation();
+            
             while (transform.parent.position != newPos)
             {
                 transform.parent.position = Vector2.MoveTowards(transform.parent.position, newPos, 0.05f);
@@ -456,11 +536,13 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
                 else
                 {
                     TurnFinished();
+                    SetIdleAnimation();
                 }
             }
             else
             {
                 TurnFinished();
+                SetIdleAnimation();
             }
         }
 
@@ -485,8 +567,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
                 curFacingDirection = FacingDirection.Right;
             }
 
-            if (useTurnFinished)
-                TurnFinished();
+            if (useTurnFinished) TurnFinished();
         }
 
     #endregion
@@ -495,6 +576,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         
         public void TakeDamage(int damageAmount)
         {
+            SetDamagedAnimation();
             UpdateHealth(-damageAmount);
         }
     
@@ -521,6 +603,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         
         public void Death()
         {
+            Instantiate(deathVFX, transform.position, Quaternion.identity);
             Destroy(transform.parent.gameObject);
         }
 

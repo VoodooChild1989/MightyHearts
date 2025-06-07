@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notes: 
-  speed: 5
+  speed: 7
   dir: {x: 1, y: 0}
   damageAmount: 1
   maxBlocks: 4
