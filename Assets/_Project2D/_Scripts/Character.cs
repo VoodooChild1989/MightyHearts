@@ -506,6 +506,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
             if (TilemapManager.instance.IsNewPositionPossible(gameObject, sizeMatrix, moveX, moveY, curMovementType))
             {
+                LevelManager.instance.RemoveCards();
                 StartCoroutine(MoveToNewPos(newPos));
             }
         }
@@ -569,7 +570,11 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
                 curFacingDirection = FacingDirection.Right;
             }
 
-            if (useTurnFinished) TurnFinished();
+            if (useTurnFinished) 
+            {
+                LevelManager.instance.MoveQueue();
+                TurnFinished();
+            }
         }
 
     #endregion

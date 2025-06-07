@@ -237,8 +237,7 @@ public class LevelManager : MonoBehaviour
 
             for (int i = 0; i < 3; i++)
             {
-                cards[i].GetComponent<CanvasGroup>().alpha = 1f;
-                cards[i].GetComponent<CanvasGroup>().interactable = true;
+                cards[i].GetComponent<WindowManager>().OpenCard();
 
                 if (i == 0)
                 {
@@ -254,8 +253,7 @@ public class LevelManager : MonoBehaviour
                 }
             }
 
-            waitButton.GetComponent<CanvasGroup>().alpha = 1f;
-            waitButton.GetComponent<CanvasGroup>().interactable = true;
+            waitButton.GetComponent<WindowManager>().OpenButton();
         }
 
         public void AddDataToCard(CardSO card, Button cardButton)
@@ -289,12 +287,10 @@ public class LevelManager : MonoBehaviour
         {
             foreach (Button card in cards)
             {
-                card.GetComponent<CanvasGroup>().alpha = 0f;
-                card.GetComponent<CanvasGroup>().interactable = false;
+                card.GetComponent<WindowManager>().CloseCard();
             }
             
-            waitButton.GetComponent<CanvasGroup>().alpha = 0f;
-            waitButton.GetComponent<CanvasGroup>().interactable = false;
+            waitButton.GetComponent<WindowManager>().CloseButton();
         }
 
     #endregion

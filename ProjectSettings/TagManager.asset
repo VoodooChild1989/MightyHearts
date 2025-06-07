@@ -47,7 +47,7 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: SFX
+  - name: Background_VFX
     uniqueID: 2949656663
     locked: 0
   - name: Block
@@ -55,6 +55,12 @@ TagManager:
     locked: 0
   - name: Character
     uniqueID: 2225369515
+    locked: 0
+  - name: Projectile
+    uniqueID: 2082747217
+    locked: 0
+  - name: VFX
+    uniqueID: 2888281025
     locked: 0
   - name: World_UI
     uniqueID: 937281729
