@@ -37,7 +37,7 @@ public class DefaultButtonStyle : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             rectTransform = GetComponent<RectTransform>();
         
-            buttonSFX = Resources.Load<AudioClip>("ButtonClick");
+            buttonSFX = Resources.Load<AudioClip>("SFX/ButtonClick");
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ public class DefaultButtonStyle : MonoBehaviour, IPointerEnterHandler, IPointerE
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            // SFXManager.PlaySFX(buttonSFX, transform, volume);
+            SFXManager.PlaySFX(buttonSFX, transform, volume);
         }
 
     #endregion
