@@ -1,11 +1,13 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Playables;
 using TMPro;
 
-public class PlayerExample : PlayerCharacter
+public class MaggyCharacter : Character
 {
 
     #region FIELDS
@@ -32,7 +34,7 @@ public class PlayerExample : PlayerCharacter
         /// </summary>
         private void Awake()
         {
-            base.PlayerCharacterAwake();
+            base.CharacterAwake();
         }
 
         /// <summary>
@@ -41,7 +43,7 @@ public class PlayerExample : PlayerCharacter
         /// </summary>
         private void Start()
         {
-            base.PlayerCharacterStart();
+            base.CharacterStart();
         }
 
         /// <summary>
@@ -50,7 +52,7 @@ public class PlayerExample : PlayerCharacter
         /// </summary>
         private void Update()
         {
-            base.PlayerCharacterUpdate();
+            base.CharacterUpdate();
         }
 
         /// <summary>
@@ -59,7 +61,7 @@ public class PlayerExample : PlayerCharacter
         /// </summary>
         private void FixedUpdate()
         {
-            base.PlayerCharacterFixedUpdate();
+            base.CharacterFixedUpdate();
         }
 
     #endregion
@@ -73,6 +75,14 @@ public class PlayerExample : PlayerCharacter
                 SetAttackAnimation();
                 GameObject projectileObj = Instantiate(projectile, spawnPoint.position, Quaternion.identity);
                 Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
+                if (curCharacterType == CharacterType.Player)
+                {
+                    projectileScript.TurnToPlayer();
+                }
+                else if (curCharacterType == CharacterType.Enemy)
+                {
+                    projectileScript.TurnToEnemy();
+                }
                 Vector2 curDir = projectileScript.dir;
                 
                 if (curFacingDirection == FacingDirection.Right)
@@ -95,7 +105,15 @@ public class PlayerExample : PlayerCharacter
             {
                 SetAttackAnimation();
                 GameObject projectileObj = Instantiate(projectile, spawnPoint.position, Quaternion.identity);
-                Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
+                Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();    
+                if (curCharacterType == CharacterType.Player)
+                {
+                    projectileScript.TurnToPlayer();
+                }
+                else if (curCharacterType == CharacterType.Enemy)
+                {
+                    projectileScript.TurnToEnemy();
+                }
                 Vector2 curDir = projectileScript.dir;
                 
                 if (curFacingDirection == FacingDirection.Right)
@@ -119,6 +137,14 @@ public class PlayerExample : PlayerCharacter
                 SetAttackAnimation();
                 GameObject projectileObj = Instantiate(projectile, spawnPoint.position, Quaternion.identity);
                 Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
+                if (curCharacterType == CharacterType.Player)
+                {
+                    projectileScript.TurnToPlayer();
+                }
+                else if (curCharacterType == CharacterType.Enemy)
+                {
+                    projectileScript.TurnToEnemy();
+                }
                 Vector2 curDir = projectileScript.dir;
                 
                 if (curFacingDirection == FacingDirection.Right)

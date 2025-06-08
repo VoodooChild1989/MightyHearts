@@ -19,13 +19,15 @@ public class LevelManager : MonoBehaviour
         [Header("VARIABLES")]
             
             [Header("Basic Variables")]
-            public List<PlayerCharacter> playerCharacters;
-            public List<EnemyCharacter> enemyCharacters;
+            public List<Character> allCharacters;
+            public List<Character> playerCharacters;
+            public List<Character> enemyCharacters;
             public List<Character> charactersOnQueue;
             public List<int> charactersOnQueueToIgnore;
             private int curQueueIndex;
             public Coroutine cooldownCrt;
             public static LevelManager instance;
+            public bool areCardsOpen;
             
             [Header("Buttons")]
             public Button[] cards; 
@@ -60,6 +62,22 @@ public class LevelManager : MonoBehaviour
         /// </summary>
         private void Start()
         {
+            allCharacters = FindObjectsByType<Character>(FindObjectsSortMode.None).ToList();
+            foreach (Character chr in allCharacters)
+            {
+                if (chr.curCharacterType == CharacterType.Player)
+                {
+                    playerCharacters.Add(chr);
+                    chr.transform.parent.SetParent(GameObject.Find("Players").transform);
+                }
+                else if (chr.curCharacterType == CharacterType.Enemy)
+                {
+                    enemyCharacters.Add(chr);
+                    chr.transform.parent.SetParent(GameObject.Find("Enemies").transform);
+                }
+            }
+
+            /*
             playerCharacters = FindObjectsByType<PlayerCharacter>(FindObjectsSortMode.None).ToList();
             enemyCharacters = FindObjectsByType<EnemyCharacter>(FindObjectsSortMode.None).ToList();
 
@@ -72,6 +90,7 @@ public class LevelManager : MonoBehaviour
             {
                 ec.transform.parent.SetParent(GameObject.Find("Enemies").transform);
             }
+            */
                 
             curTurnNumber = 1;
             cooldownCrt = StartCoroutine(Cooldown());
@@ -131,6 +150,25 @@ public class LevelManager : MonoBehaviour
 
                 if (readyCharacters.Count > 0)
                 {
+                    foreach (Character character in readyCharacters)
+                    {
+                        if (character.curCharacterType == CharacterType.Player)
+                        {
+                            charactersOnQueue.Add(character);
+                            charactersOnQueueToIgnore.Add(0);
+                        }
+                    }   
+                    
+                    foreach (Character character in readyCharacters)
+                    {
+                        if (character.curCharacterType == CharacterType.Enemy)
+                        {
+                            charactersOnQueue.Add(character);
+                            charactersOnQueueToIgnore.Add(0);
+                        }
+                    }   
+
+                    /*
                     // Adding player characters first, so a player moves first.
                     foreach (Character character in readyCharacters)
                     {
@@ -148,6 +186,7 @@ public class LevelManager : MonoBehaviour
                             charactersOnQueueToIgnore.Add(0);
                         }
                     }   
+                    */
 
                     StopCooldown();
                     MoveQueue();
@@ -198,7 +237,7 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        public void RemovePlayer(PlayerCharacter playerCharacter)
+        public void RemovePlayer(Character playerCharacter)
         {
             playerCharacters.Remove(playerCharacter);   
 
@@ -212,7 +251,7 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        public void RemoveEnemy(EnemyCharacter enemyCharacter)
+        public void RemoveEnemy(Character enemyCharacter)
         {
             enemyCharacters.Remove(enemyCharacter);   
 
@@ -228,6 +267,7 @@ public class LevelManager : MonoBehaviour
 
         public void ShowCards(CardSO cardOne, CardSO cardTwo, CardSO cardThree)
         {
+            areCardsOpen = true;
             StartCoroutine(ShowCardsAnimation(cardOne, cardTwo, cardThree));
         }
 
@@ -285,6 +325,8 @@ public class LevelManager : MonoBehaviour
 
         public void RemoveCards()
         {
+            areCardsOpen = false;
+
             foreach (Button card in cards)
             {
                 card.GetComponent<WindowManager>().CloseCard();

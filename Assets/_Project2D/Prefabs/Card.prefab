@@ -696,9 +696,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notes: 
-  hoverScaleBonus: 0.1
-  pressScaleBonus: -0.1
+  hoverScaleBonus: 0.05
+  pressScaleBonus: -0.05
   animationDuration: 0.1
+  card: {fileID: 0}
   buttonSFX: {fileID: 0}
   volume: 1
 --- !u!1 &7791292434142029482

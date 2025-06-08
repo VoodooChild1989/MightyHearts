@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.Playables;
 using TMPro;
 
-public class EnemyProjectileExample : EnemyProjectile
+public class MaggyProjectile : Projectile
 {
 
     #region LIFE CYCLE METHODS
@@ -18,7 +18,7 @@ public class EnemyProjectileExample : EnemyProjectile
         /// </summary>
         private void Awake()
         {
-            base.EnemyProjectileAwake();
+            base.ProjectileAwake();
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ public class EnemyProjectileExample : EnemyProjectile
         /// </summary>
         private void Start()
         {
-            base.EnemyProjectileStart();
+            base.ProjectileStart();
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ public class EnemyProjectileExample : EnemyProjectile
         /// </summary>
         private void Update()
         {
-            base.EnemyProjectileUpdate();
+            base.ProjectileUpdate();
         }
 
         /// <summary>
@@ -45,32 +45,7 @@ public class EnemyProjectileExample : EnemyProjectile
         /// </summary>
         private void FixedUpdate()
         {
-            base.EnemyProjectileFixedUpdate();
-        }
-
-    #endregion
-
-    #region CUSTOM METHODS
-
-        /// <summary>
-        /// An example custom method.
-        /// Replace with your own custom logic.
-        /// </summary>
-        private void ExampleMethod()
-        {
-            // Implement custom functionality here.
-            // Example: Execute game-specific behavior or helper logic.
-        }
-
-        /// <summary>
-        /// An example coroutine that waits for 2 seconds.
-        /// </summary>
-        private IEnumerator ExampleCoroutine()
-        {
-            // Wait for 2 seconds before executing further code.
-            yield return new WaitForSeconds(2f);
-
-            Debug.Log("Action after 2 seconds.");
+            base.ProjectileFixedUpdate();
         }
 
     #endregion

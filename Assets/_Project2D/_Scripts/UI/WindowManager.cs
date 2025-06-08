@@ -19,6 +19,7 @@ public class WindowManager : MonoBehaviour
             private RectTransform rectTransform;
             private float initX;
             private float initY;
+            private bool isTweening;
 
     #endregion
 
@@ -44,6 +45,8 @@ public class WindowManager : MonoBehaviour
             initX = rectTransform.anchoredPosition.x;
             initY = rectTransform.anchoredPosition.y;
 
+            isTweening = false;
+
             // CloseCard();
             // CloseButton()
         }
@@ -57,6 +60,10 @@ public class WindowManager : MonoBehaviour
         /// </summary>
         public void OpenCard()
         {
+            if (isTweening) return;
+
+            isTweening = true;
+
             // RectTransform
             rectTransform.anchoredPosition = new Vector2(initX, initY + 200f);
             rectTransform.localScale = new Vector2(0.2f, 0.2f);
@@ -75,6 +82,7 @@ public class WindowManager : MonoBehaviour
                 canvasGroup.alpha = 1f;
                 canvasGroup.interactable = true;
                 canvasGroup.blocksRaycasts = true;
+                isTweening = false;
             });
         }
 
@@ -83,13 +91,17 @@ public class WindowManager : MonoBehaviour
         /// </summary>
         public void CloseCard()
         {   
+            if (isTweening) return;
+
+            isTweening = true;
+
             // RectTransform
             rectTransform.anchoredPosition = new Vector2(initX, initY - 10f);
             rectTransform.localScale = new Vector2(0.8f, 0.8f);
 
             // CanvasGroup
             canvasGroup.alpha = 1f;
-            canvasGroup.interactable = true;
+            canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = true;
                         
             Sequence seq = DOTween.Sequence();
@@ -101,6 +113,7 @@ public class WindowManager : MonoBehaviour
                 canvasGroup.alpha = 0f;
                 canvasGroup.interactable = false;
                 canvasGroup.blocksRaycasts = false;
+                isTweening = false;
             });
         }
 

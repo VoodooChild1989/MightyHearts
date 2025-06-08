@@ -45,6 +45,20 @@ public abstract class Projectile : MonoBehaviour
 
     #endregion
 
+    #region SETUP
+
+        public void TurnToEnemy()
+        {
+            SetOwner(2);
+        }
+
+        public void TurnToPlayer()
+        {
+            SetOwner(1);
+        }
+        
+    #endregion
+
     #region LIFE CYCLE METHODS
 
         /// <summary>

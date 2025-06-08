@@ -5,6 +5,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+public enum CharacterType
+{
+    Player, 
+    Enemy
+}
+
 public enum MovementType
 {
     Ground,
@@ -53,6 +59,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             [ShowOnly] public int curStamina;
             public int maxCooldown;
             [ShowOnly] public int curCooldown;
+            public CharacterType curCharacterType;
             public MovementType curMovementType;
             public FacingDirection curFacingDirection;
             public List<GameObject> sizeMatrix;
@@ -73,7 +80,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             public Sprite[] damagedSprites;
             public float frameLength;
             public float damagedFrameLength;
-            private SpriteRenderer sr;
+            public SpriteRenderer sr;
             public GameObject deathVFX;
             public Coroutine animationCrt;
 
@@ -107,6 +114,15 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         /// </summary>
         public void CharacterStart()
         {
+            if (curCharacterType == CharacterType.Player)
+            {
+                TurnToPlayer();
+            }
+            else if (curCharacterType == CharacterType.Enemy)
+            {
+                TurnToEnemy();
+            }
+
             sizeMatrix = new List<GameObject>();
 
             curHealth = maxHealth;
@@ -142,13 +158,55 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
     #endregion
 
+    #region SETUP
+
+        private void TurnToPlayer()
+        {
+            gameObject.layer = LayerMask.NameToLayer("Player");
+            Material mat = Resources.Load<Material>("Materials/Player_Outline");
+            sr.material = mat;
+        }
+
+        private void TurnToEnemy()
+        {
+            gameObject.layer = LayerMask.NameToLayer("Enemy");
+            Material mat = Resources.Load<Material>("Materials/Enemy_Outline");
+            sr.material = mat;
+            Flip(false);
+        }
+
+        private void CheckCards()
+        {
+            if ((curCharacterType == CharacterType.Player && !LevelManager.instance.isPlayerAuto) || (curCharacterType == CharacterType.Enemy && !LevelManager.instance.isEnemyAuto))
+            {
+                if (LevelManager.instance.areCardsOpen)
+                {
+                    LevelManager.instance.RemoveCards();
+                }
+            }   
+        }
+
+        private void OnDestroy() 
+        {
+            if (curCharacterType == CharacterType.Player)
+            {
+                LevelManager.instance.RemovePlayer(this);
+            }
+            else if (curCharacterType == CharacterType.Enemy)
+            {
+                LevelManager.instance.RemoveEnemy(this);
+            }
+        }
+        
+    #endregion
+
     #region CUSTOM METHODS
 
         public void Ready()
         {
             TurnStarted();
 
-            if ((this is PlayerCharacter && LevelManager.instance.isPlayerAuto) || (this is EnemyCharacter && LevelManager.instance.isEnemyAuto))
+            if ((curCharacterType == CharacterType.Player && LevelManager.instance.isPlayerAuto) || (curCharacterType == CharacterType.Enemy && LevelManager.instance.isEnemyAuto))
             {
                 int rndNum = UnityEngine.Random.Range(1, 3);
                 
@@ -210,7 +268,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
         public void TurnFinished()
         {
-            LevelManager.instance.RemoveCards();
+            CheckCards();
             RemoveCooldown(curCooldown);
             
             // Used with manual movement.
@@ -343,6 +401,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
                     if (IsThisNewPositionPossible(newX, newY))
                     {
+                        CheckCards();
                         Move(newX, newY);
                         yield break;
                     }
@@ -354,6 +413,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
                     if (IsThisNewPositionPossible(newX, newY))
                     {
+                        CheckCards();
                         Move(newX, newY);
                         yield break;
                     }
@@ -365,6 +425,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
                     if (IsThisNewPositionPossible(newX, newY))
                     {
+                        CheckCards();
                         Move(newX, newY);
                         yield break;
                     }
@@ -376,6 +437,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
                     if (IsThisNewPositionPossible(newX, newY))
                     {
+                        CheckCards();
                         Move(newX, newY);
                         yield break;
                     }
@@ -387,6 +449,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
                     if (IsThisNewPositionPossible(newX, newY))
                     {
+                        CheckCards();
                         Move(newX, newY);
                         yield break;
                     }
@@ -398,6 +461,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
                     if (IsThisNewPositionPossible(newX, newY))
                     {
+                        CheckCards();
                         Move(newX, newY);
                         yield break;
                     }
@@ -409,6 +473,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
                     if (IsThisNewPositionPossible(newX, newY))
                     {
+                        CheckCards();
                         Move(newX, newY);
                         yield break;
                     }
@@ -420,6 +485,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
                     if (IsThisNewPositionPossible(newX, newY))
                     {
+                        CheckCards();
                         Move(newX, newY);
                         yield break;
                     }
@@ -510,7 +576,6 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
             if (TilemapManager.instance.IsNewPositionPossible(gameObject, sizeMatrix, moveX, moveY, curMovementType))
             {
-                LevelManager.instance.RemoveCards();
                 StartCoroutine(MoveToNewPos(newPos));
             }
         }
@@ -620,7 +685,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         public IEnumerator Death()
         {
             isDead = true;
-            LevelManager.instance.RemoveCards();
+            CheckCards();
 
             yield return new WaitForSeconds(1f);
 
