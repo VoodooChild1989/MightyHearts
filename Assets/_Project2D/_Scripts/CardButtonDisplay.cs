@@ -50,7 +50,7 @@ public class CardButtonDisplay : MonoBehaviour, IPointerEnterHandler, IPointerEx
         {
             defaultScale = rectTransform.localScale.x;
 
-            window = GameObject.Find("Card_Info").GetComponent<WindowManager>();
+            window = GameObject.Find("CardWindow").GetComponent<WindowManager>();
             window.GetComponent<CanvasGroup>().alpha = 0f;
             window.GetComponent<CanvasGroup>().interactable = false;
             window.GetComponent<CanvasGroup>().blocksRaycasts = false;

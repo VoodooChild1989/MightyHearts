@@ -41,7 +41,7 @@ TagManager:
   - name: Background
     uniqueID: 1999662421
     locked: 0
-  - name: Background_VFX
+  - name: BackgroundVFX
     uniqueID: 2949656663
     locked: 0
   - name: Decorations
@@ -62,10 +62,10 @@ TagManager:
   - name: VFX
     uniqueID: 2888281025
     locked: 0
-  - name: World_UI
+  - name: WorldUI
     uniqueID: 937281729
     locked: 0
-  - name: Overlay_UI
+  - name: OverlayUI
     uniqueID: 3102346995
     locked: 0
   m_RenderingLayers:
