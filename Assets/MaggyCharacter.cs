@@ -15,14 +15,14 @@ public class MaggyCharacter : Character
         [Header("CARDS DATA")]
             
             [Header("First Card")]
-            public Transform spawnPoint;
+            public Transform spawnPoint1;
             public GameObject projectile;
 
             [Header("Second Card")]
-            public int secondCardData;
+            public Transform spawnPoint2;
 
             [Header("Third Card")]
-            public int thirdCardData;
+            public Transform spawnPoint3;
 
     #endregion
 
@@ -73,7 +73,7 @@ public class MaggyCharacter : Character
             if (curStamina >= cardOne.staminaCost)
             {
                 SetAttackAnimation();
-                GameObject projectileObj = Instantiate(projectile, spawnPoint.position, Quaternion.identity);
+                GameObject projectileObj = Instantiate(projectile, spawnPoint1.position, Quaternion.identity);
                 Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
                 if (curCharacterType == CharacterType.Player)
                 {
@@ -104,7 +104,7 @@ public class MaggyCharacter : Character
             if (curStamina >= cardTwo.staminaCost)
             {
                 SetAttackAnimation();
-                GameObject projectileObj = Instantiate(projectile, spawnPoint.position, Quaternion.identity);
+                GameObject projectileObj = Instantiate(projectile, spawnPoint2.position, Quaternion.identity);
                 Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();    
                 if (curCharacterType == CharacterType.Player)
                 {
@@ -135,7 +135,7 @@ public class MaggyCharacter : Character
             if (curStamina >= cardThree.staminaCost)
             {
                 SetAttackAnimation();
-                GameObject projectileObj = Instantiate(projectile, spawnPoint.position, Quaternion.identity);
+                GameObject projectileObj = Instantiate(projectile, spawnPoint3.position, Quaternion.identity);
                 Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
                 if (curCharacterType == CharacterType.Player)
                 {

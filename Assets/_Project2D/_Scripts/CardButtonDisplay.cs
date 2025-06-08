@@ -51,7 +51,7 @@ public class CardButtonDisplay : MonoBehaviour, IPointerEnterHandler, IPointerEx
             defaultScale = rectTransform.localScale.x;
 
             window = GameObject.Find("Card_Info").GetComponent<WindowManager>();
-            window.CloseInformation();
+            window.GetComponent<CanvasGroup>().alpha = 0f;
         }
 
     #endregion

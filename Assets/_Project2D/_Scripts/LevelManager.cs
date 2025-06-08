@@ -76,26 +76,11 @@ public class LevelManager : MonoBehaviour
                     chr.transform.parent.SetParent(GameObject.Find("Enemies").transform);
                 }
             }
-
-            /*
-            playerCharacters = FindObjectsByType<PlayerCharacter>(FindObjectsSortMode.None).ToList();
-            enemyCharacters = FindObjectsByType<EnemyCharacter>(FindObjectsSortMode.None).ToList();
-
-            foreach (PlayerCharacter pc in playerCharacters)
-            {
-                pc.transform.parent.SetParent(GameObject.Find("Players").transform);
-            }
-
-            foreach (EnemyCharacter ec in enemyCharacters)
-            {
-                ec.transform.parent.SetParent(GameObject.Find("Enemies").transform);
-            }
-            */
                 
             curTurnNumber = 1;
             cooldownCrt = StartCoroutine(Cooldown());
             cinemCamera.Follow = camDefaultPos;
-            RemoveCards();
+            RemoveCardsStart();
             
             charactersOnQueue = new List<Character>();
             charactersOnQueueToIgnore = new List<int>();
@@ -125,6 +110,18 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     #region CUSTOM METHODS
+
+        private void RemoveCardsStart()
+        {
+            areCardsOpen = false;
+
+            foreach (Button card in cards)
+            {
+                card.GetComponent<CanvasGroup>().alpha = 0f;
+            }
+            
+            waitButton.GetComponent<CanvasGroup>().alpha = 0f;
+        }
 
         public IEnumerator Cooldown()
         {
@@ -167,26 +164,6 @@ public class LevelManager : MonoBehaviour
                             charactersOnQueueToIgnore.Add(0);
                         }
                     }   
-
-                    /*
-                    // Adding player characters first, so a player moves first.
-                    foreach (Character character in readyCharacters)
-                    {
-                        if (character is PlayerCharacter pc)
-                        {
-                            charactersOnQueue.Add(character);
-                            charactersOnQueueToIgnore.Add(0);
-                        }
-                    }   
-                    foreach (Character character in readyCharacters)
-                    { 
-                        if (character is EnemyCharacter ec)
-                        {
-                            charactersOnQueue.Add(character);
-                            charactersOnQueueToIgnore.Add(0);
-                        }
-                    }   
-                    */
 
                     StopCooldown();
                     MoveQueue();

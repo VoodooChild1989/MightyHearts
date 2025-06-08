@@ -59,12 +59,12 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             [ShowOnly] public int curStamina;
             public int maxCooldown;
             [ShowOnly] public int curCooldown;
+            [ShowOnly] public bool isDead;
             public CharacterType curCharacterType;
             public MovementType curMovementType;
             public FacingDirection curFacingDirection;
-            public List<GameObject> sizeMatrix;
+            [ShowOnly] public List<GameObject> sizeMatrix;
             private Coroutine movementCrt;
-            public bool isDead;
 
             [Header("UI")]
             public TMP_Text healthTMP;
@@ -80,7 +80,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             public Sprite[] damagedSprites;
             public float frameLength;
             public float damagedFrameLength;
-            public SpriteRenderer sr;
+            [ShowOnly] public SpriteRenderer sr;
             public GameObject deathVFX;
             public Coroutine animationCrt;
 
@@ -494,6 +494,8 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
                 if (Input.GetKeyDown(KeyCode.S))
                 {
                     yield return null;
+                    CheckCards();
+                    yield return null;
                     Flip();
                     yield break;
                 }
@@ -628,6 +630,11 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
         public void Flip(bool useTurnFinished = true)
         {
+            StartCoroutine(FlipCoroutine(useTurnFinished));
+        }
+
+        private IEnumerator FlipCoroutine(bool useTurnFinished = true)
+        {
             if (curFacingDirection == FacingDirection.Right)
             {
                 transform.localScale = new Vector3(-1f, 1f, 1f);
@@ -641,8 +648,10 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
             if (useTurnFinished) 
             {
-                LevelManager.instance.MoveQueue();
+                CheckCards();
+                yield return new WaitForSeconds(1f);
                 TurnFinished();
+                LevelManager.instance.MoveQueue();
             }
         }
 
@@ -726,10 +735,15 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         public void Wait()
         {
             AddStamina(LevelManager.instance.defaultWaitReward);
-            LevelManager.instance.MoveQueue();
-            LevelManager.instance.RemoveCards();
-            LevelManager.instance.MoveQueue();
+            CheckCards();
+            StartCoroutine(WaitCoroutine());
+        }
+
+        private IEnumerator WaitCoroutine()
+        {
+            yield return new WaitForSeconds(1f);
             TurnFinished();
+            LevelManager.instance.MoveQueue();
         }
 
     #endregion
