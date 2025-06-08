@@ -27,15 +27,16 @@ public class LevelManager : MonoBehaviour
             private int curQueueIndex;
             public Coroutine cooldownCrt;
             public static LevelManager instance;
-            public bool areCardsOpen;
+            [ShowOnly] public bool areCardsOpen;
             
             [Header("Buttons")]
             public Button[] cards; 
             public Button waitButton;
             public int defaultWaitReward;
+            public Button autoButton;
 
             [Header("Data")]
-            public int curTurnNumber;
+            [ShowOnly] public int curTurnNumber;
             public bool isPlayerAuto;
             public bool isEnemyAuto;
 
@@ -110,6 +111,20 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     #region CUSTOM METHODS
+
+        public void TogglePlayerAuto()
+        {
+            isPlayerAuto = !isPlayerAuto;
+
+            if (isPlayerAuto)
+            {
+                autoButton.GetComponent<Image>().color = new Color(0f, 1f, 0f, 1f);
+            }
+            else
+            {
+                autoButton.GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+            }
+        }
 
         private void RemoveCardsStart()
         {

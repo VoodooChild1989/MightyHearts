@@ -65,6 +65,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             public FacingDirection curFacingDirection;
             [ShowOnly] public List<GameObject> sizeMatrix;
             private Coroutine movementCrt;
+            private bool onTurn;
 
             [Header("UI")]
             public TMP_Text healthTMP;
@@ -144,6 +145,19 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         {
             // Add your per-frame logic here.
             // Example: Move objects, check user input, update animations, etc.
+
+            if (onTurn)
+            {
+                if ((curCharacterType == CharacterType.Player && LevelManager.instance.isPlayerAuto) || (curCharacterType == CharacterType.Enemy && LevelManager.instance.isEnemyAuto))
+                {
+                    onTurn = false;
+                    if (LevelManager.instance.areCardsOpen)
+                    {
+                        LevelManager.instance.RemoveCards();
+                    }
+                    DelayedAuto();
+                }
+            }
         }
 
         /// <summary>
@@ -202,6 +216,27 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
     #region CUSTOM METHODS
 
+        private void DelayedAuto()
+        {
+            StartCoroutine(DelayedAutoCoroutine());
+        }
+
+        private IEnumerator DelayedAutoCoroutine()
+        {
+            yield return new WaitForSeconds(1f);
+            
+            int rndNum = UnityEngine.Random.Range(1, 3);
+            
+            if (rndNum == 1)
+            {
+                StartAutoAttack();
+            }
+            else
+            {
+                StartAutoMove();
+            }
+        }
+
         public void Ready()
         {
             TurnStarted();
@@ -221,6 +256,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             }
             else
             {
+                onTurn = true;
                 movementCrt = StartCoroutine(Movement());
                 LevelManager.instance.ShowCards(cardOne, cardTwo, cardThree);
 
@@ -268,6 +304,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
         public void TurnFinished()
         {
+            onTurn = false;
             CheckCards();
             RemoveCooldown(curCooldown);
             

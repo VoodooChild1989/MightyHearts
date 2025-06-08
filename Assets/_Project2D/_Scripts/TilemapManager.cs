@@ -24,6 +24,7 @@ public class TilemapManager : MonoBehaviour
             public GameObject cell;
             public Vector2 gridOffset;
             public bool areCellsVisible;
+            public Button cellButton;
             public GameObject[,] collisionMatrixCells;
             public int[,] collisionMatrix;
             public static TilemapManager instance;
@@ -149,6 +150,28 @@ public class TilemapManager : MonoBehaviour
             return true;
         }
     
+        public void ToggleCellsVisibility()
+        {
+            areCellsVisible = !areCellsVisible;
+
+            if (areCellsVisible)
+            {
+                cellButton.GetComponent<Image>().color = new Color(0f, 1f, 0f, 1f);
+            }
+            else
+            {
+                cellButton.GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+            }
+            
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    collisionMatrixCells[i, j].GetComponent<Cell>().CheckVisibility();
+                }
+            }
+        }
+
     #endregion
 
 }

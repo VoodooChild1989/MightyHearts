@@ -119,6 +119,13 @@ public abstract class Projectile : MonoBehaviour
             }
         }
 
+        public void Flip()
+        {
+            Vector2 curDir = dir;
+            dir = new Vector2(-curDir.x, curDir.y);
+            sr.flipX = true;
+        }
+
         /// <summary>
         /// Sent when an incoming collider makes contact with this object's
         /// collider (2D physics only).

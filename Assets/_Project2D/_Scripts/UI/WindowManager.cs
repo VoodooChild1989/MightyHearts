@@ -122,8 +122,8 @@ public class WindowManager : MonoBehaviour
         /// </summary>
         public void OpenButton()
         {
-            initX = 834f;    
-            initY = -429f;
+            initX = 862f;    
+            initY = -451f;
             
             // RectTransform
             rectTransform.anchoredPosition = new Vector2(initX + 200f, initY);
@@ -136,7 +136,7 @@ public class WindowManager : MonoBehaviour
                         
             Sequence seq = DOTween.Sequence();
             seq.Append(rectTransform.DOAnchorPos(new Vector2(initX, initY), tweenDuration).SetEase(Ease.InOutSine));
-            seq.Join(rectTransform.DOScale(3f, tweenDuration).SetEase(Ease.InOutSine));
+            seq.Join(rectTransform.DOScale(3.5f, tweenDuration).SetEase(Ease.InOutSine));
             seq.Join(canvasGroup.DOFade(1f, tweenDuration).SetEase(Ease.InOutSine));
             seq.OnComplete(() =>
             {
@@ -151,12 +151,12 @@ public class WindowManager : MonoBehaviour
         /// </summary>
         public void CloseButton()
         {   
-            initX = 834f; 
-            initY = -429f;
+            initX = 862f; 
+            initY = -451f;
 
             // RectTransform
             rectTransform.anchoredPosition = new Vector2(initX, initY);
-            rectTransform.localScale = new Vector2(3f, 3f);
+            rectTransform.localScale = new Vector2(3.5f, 3.5f);
 
             // CanvasGroup
             canvasGroup.alpha = 1f;

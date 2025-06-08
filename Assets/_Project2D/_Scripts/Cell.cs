@@ -21,7 +21,8 @@ public class Cell : MonoBehaviour
             public int x;
             public int y;
             public GameObject collidesWith;
-            public SpriteRenderer sr;
+            public float defautTransparency;
+            [ShowOnly] public SpriteRenderer sr;
 
     #endregion
 
@@ -69,17 +70,17 @@ public class Cell : MonoBehaviour
 
     #region CUSTOM METHODS
 
-        private void CheckVisibility()
+        public void CheckVisibility()
         {
             if (TilemapManager.instance.areCellsVisible)
             {
                 if (collidesWith != null)
                 {
-                    sr.color = Color.green;   
+                    sr.color = new Color(0f, 1f, 0f, defautTransparency);   
                 }
                 else
                 {
-                    sr.color = Color.red;      
+                    sr.color = new Color(1f, 0f, 0f, defautTransparency);   
                 }
             }
             else

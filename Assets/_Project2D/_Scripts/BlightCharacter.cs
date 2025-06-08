@@ -83,15 +83,10 @@ public class BlightCharacter : Character
                 {
                     projectileScript.TurnToEnemy();
                 }
-                Vector2 curDir = projectileScript.dir;
-                
-                if (curFacingDirection == FacingDirection.Right)
+
+                if (curFacingDirection == FacingDirection.Left)
                 {
-                    projectileScript.dir = new Vector2(curDir.x, curDir.y);
-                }
-                else if (curFacingDirection == FacingDirection.Left)
-                {
-                    projectileScript.dir = new Vector2(-curDir.x, curDir.y);
+                    projectileScript.Flip();
                 }
 
                 TurnFinished();
@@ -114,15 +109,10 @@ public class BlightCharacter : Character
                 {
                     projectileScript.TurnToEnemy();
                 }
-                Vector2 curDir = projectileScript.dir;
                 
-                if (curFacingDirection == FacingDirection.Right)
+                if (curFacingDirection == FacingDirection.Left)
                 {
-                    projectileScript.dir = new Vector2(curDir.x, curDir.y);
-                }
-                else if (curFacingDirection == FacingDirection.Left)
-                {
-                    projectileScript.dir = new Vector2(-curDir.x, curDir.y);
+                    projectileScript.Flip();
                 }
 
                 TurnFinished();
@@ -145,17 +135,12 @@ public class BlightCharacter : Character
                 {
                     projectileScript.TurnToEnemy();
                 }
-                Vector2 curDir = projectileScript.dir;
                 
-                if (curFacingDirection == FacingDirection.Right)
+                if (curFacingDirection == FacingDirection.Left)
                 {
-                    projectileScript.dir = new Vector2(curDir.x, curDir.y);
+                    projectileScript.Flip();
                 }
-                else if (curFacingDirection == FacingDirection.Left)
-                {
-                    projectileScript.dir = new Vector2(-curDir.x, curDir.y);
-                }
-
+                
                 TurnFinished();
                 RemoveStamina(cardThree.staminaCost);
             }

@@ -83,17 +83,12 @@ public class MaggyCharacter : Character
                 {
                     projectileScript.TurnToEnemy();
                 }
-                Vector2 curDir = projectileScript.dir;
                 
-                if (curFacingDirection == FacingDirection.Right)
+                if (curFacingDirection == FacingDirection.Left)
                 {
-                    projectileScript.dir = new Vector2(curDir.x, curDir.y);
+                    projectileScript.Flip();
                 }
-                else if (curFacingDirection == FacingDirection.Left)
-                {
-                    projectileScript.dir = new Vector2(-curDir.x, curDir.y);
-                }
-
+                
                 TurnFinished();
                 RemoveStamina(cardOne.staminaCost);
             }
@@ -114,15 +109,10 @@ public class MaggyCharacter : Character
                 {
                     projectileScript.TurnToEnemy();
                 }
-                Vector2 curDir = projectileScript.dir;
                 
-                if (curFacingDirection == FacingDirection.Right)
+                if (curFacingDirection == FacingDirection.Left)
                 {
-                    projectileScript.dir = new Vector2(curDir.x, curDir.y);
-                }
-                else if (curFacingDirection == FacingDirection.Left)
-                {
-                    projectileScript.dir = new Vector2(-curDir.x, curDir.y);
+                    projectileScript.Flip();
                 }
 
                 TurnFinished();
@@ -145,17 +135,12 @@ public class MaggyCharacter : Character
                 {
                     projectileScript.TurnToEnemy();
                 }
-                Vector2 curDir = projectileScript.dir;
-                
-                if (curFacingDirection == FacingDirection.Right)
-                {
-                    projectileScript.dir = new Vector2(curDir.x, curDir.y);
-                }
-                else if (curFacingDirection == FacingDirection.Left)
-                {
-                    projectileScript.dir = new Vector2(-curDir.x, curDir.y);
-                }
 
+                if (curFacingDirection == FacingDirection.Left)
+                {
+                    projectileScript.Flip();
+                }
+                
                 TurnFinished();
                 RemoveStamina(cardThree.staminaCost);
             }
