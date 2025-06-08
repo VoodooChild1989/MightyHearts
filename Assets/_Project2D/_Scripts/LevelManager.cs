@@ -118,9 +118,13 @@ public class LevelManager : MonoBehaviour
             foreach (Button card in cards)
             {
                 card.GetComponent<CanvasGroup>().alpha = 0f;
+                card.GetComponent<CanvasGroup>().interactable = false;
+                card.GetComponent<CanvasGroup>().blocksRaycasts = false;
             }
             
             waitButton.GetComponent<CanvasGroup>().alpha = 0f;
+            waitButton.GetComponent<CanvasGroup>().interactable = false;
+            waitButton.GetComponent<CanvasGroup>().blocksRaycasts = false;
         }
 
         public IEnumerator Cooldown()

@@ -52,6 +52,8 @@ public class CardButtonDisplay : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
             window = GameObject.Find("Card_Info").GetComponent<WindowManager>();
             window.GetComponent<CanvasGroup>().alpha = 0f;
+            window.GetComponent<CanvasGroup>().interactable = false;
+            window.GetComponent<CanvasGroup>().blocksRaycasts = false;
         }
 
     #endregion
