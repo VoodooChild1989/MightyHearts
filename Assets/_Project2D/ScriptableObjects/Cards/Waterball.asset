@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d7529fba9561b641b8dcdbc6ee2bada, type: 3}
-  m_Name: Slimeball
+  m_Name: Waterball
   m_EditorClassIdentifier: 
   notes: 
-  cardIcon: {fileID: 21300000, guid: d2fec5f16d911e640bdbde4b7c206053, type: 3}
-  cardName: Slimeball
-  cardDescription: A powerful slimeball.
-  staminaCost: 15
-  damageAmount: 5
-  cardProjectile: {fileID: 7001223671196701799, guid: b8bd88b89717dda4ca0271d923f4def0, type: 3}
+  cardIcon: {fileID: 21300000, guid: a46bb5ba81a6d5f4c94c4b9d9a0898c7, type: 3}
+  cardName: Waterball
+  cardDescription: A powerful waterball.
+  staminaCost: 10
+  damageAmount: 20
+  cardProjectile: {fileID: 11400000, guid: 49ac8f6f537ae4a4d8c5cffe747779bd, type: 2}

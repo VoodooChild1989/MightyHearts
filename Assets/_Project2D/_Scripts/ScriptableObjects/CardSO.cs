@@ -17,7 +17,7 @@ public class CardSO : ScriptableObject
             public string cardDescription;
             public int staminaCost;
             public int damageAmount;
-            public GameObject cardProjectile;
+            public ProjectileSO cardProjectile;
 
     #endregion
     

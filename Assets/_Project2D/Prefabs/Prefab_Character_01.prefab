@@ -286,7 +286,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8973366120876666786}
   - component: {fileID: 4705391897085988695}
-  - component: {fileID: 6235596401828010395}
+  - component: {fileID: 9210564450419280051}
   - component: {fileID: 4899758862547987174}
   - component: {fileID: 1451625865535172542}
   m_Layer: 0
@@ -367,7 +367,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6235596401828010395
+--- !u!114 &9210564450419280051
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -376,24 +376,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 6621984952118159000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3db5cc15a514f7540a7d7c59ea89938f, type: 3}
+  m_Script: {fileID: 11500000, guid: d9bba17c955e43e47b6500a9d03d6110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   notes: 
-  maxHealth: 100
+  maxHealth: 10
   curHealth: 0
-  maxStamina: 100
+  maxStamina: 20
   curStamina: 0
-  maxCooldown: 1
+  maxCooldown: 3
+  waitReward: 5
   curCooldown: 0
   isDead: 0
   curCharacterType: 0
   curMovementType: 0
   curFacingDirection: 0
-  sizeMatrix: []
-  healthTMP: {fileID: 4794581968504296159}
-  staminaTMP: {fileID: 4679036479900895251}
-  cooldownTMP: {fileID: 6740401934576243098}
   idleSprites:
   - {fileID: -7586852357584557507, guid: abed7faf75084084c8039720f701cf9f, type: 3}
   - {fileID: 7448851012896059752, guid: abed7faf75084084c8039720f701cf9f, type: 3}
@@ -416,14 +413,14 @@ MonoBehaviour:
   frameLength: 0.1
   damagedFrameLength: 1
   sr: {fileID: 0}
-  deathVFX: {fileID: 6245361130249214102, guid: 338f8d3e69b81604cbad808df8494381, type: 3}
-  cardOne: {fileID: 11400000, guid: 447eb4269ec9a80439e1643b8bc8eef0, type: 2}
+  deathVFX: {fileID: 0}
+  cardOne: {fileID: 0}
   cardOneSpawnPoint: {fileID: 1040408162933978672}
   cardOneAttackWaves: 1
-  cardTwo: {fileID: 11400000, guid: 09983d32e26464a47820a3eaa88555bc, type: 2}
+  cardTwo: {fileID: 0}
   cardTwoSpawnPoint: {fileID: 8126469756734938150}
   cardTwoAttackWaves: 1
-  cardThree: {fileID: 11400000, guid: 44e152edd5b515a4480fcdd8a3c59eef, type: 2}
+  cardThree: {fileID: 0}
   cardThreeSpawnPoint: {fileID: 4057960734366867350}
   cardThreeAttackWaves: 1
 --- !u!61 &4899758862547987174
@@ -629,8 +626,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2683708202475843038}
+  - component: {fileID: 1355562633307905217}
   m_Layer: 0
-  m_Name: Maggy_Character_01
+  m_Name: Prefab_Character_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -653,6 +651,20 @@ Transform:
   - {fileID: 8015133022648815991}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1355562633307905217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8462518135990203020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ef97fc2ccb037e44bf7fb07bed8f55a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notes: 
+  chrSO: {fileID: 0}
 --- !u!1001 &5481491505278604943
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -802,39 +814,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 562cbdaa467d7d54093c7a7dbd27f51f, type: 3}
---- !u!114 &4679036479900895251 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 936024797448871580, guid: 562cbdaa467d7d54093c7a7dbd27f51f, type: 3}
-  m_PrefabInstance: {fileID: 5481491505278604943}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4794581968504296159 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1052696203403379792, guid: 562cbdaa467d7d54093c7a7dbd27f51f, type: 3}
-  m_PrefabInstance: {fileID: 5481491505278604943}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6740401934576243098 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1267935521996670741, guid: 562cbdaa467d7d54093c7a7dbd27f51f, type: 3}
-  m_PrefabInstance: {fileID: 5481491505278604943}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &8015133022648815991 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2533646974965483512, guid: 562cbdaa467d7d54093c7a7dbd27f51f, type: 3}

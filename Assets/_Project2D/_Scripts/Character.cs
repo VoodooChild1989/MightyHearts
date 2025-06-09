@@ -27,7 +27,6 @@ public interface IDamageable
 {
     public void TakeDamage(int damageAmount);
     public void Heal(int healAmount);
-    // public void Death();
 }
 
 public interface ICards
@@ -42,7 +41,7 @@ public interface IWait
     public void Wait();
 }
 
-public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
+public class Character : MonoBehaviour, IDamageable, ICards, IWait
 {
 
     #region FIELDS
@@ -53,24 +52,25 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         [Header("CHARACTER")]
             
             [Header("Data")]
-            public int maxHealth;
+            public int maxHealth = 10;
             [ShowOnly] public int curHealth;
-            public int maxStamina;
+            public int maxStamina = 20;
             [ShowOnly] public int curStamina;
-            public int maxCooldown;
+            public int maxCooldown = 3;
+            public int waitReward = 5;
             [ShowOnly] public int curCooldown;
             [ShowOnly] public bool isDead;
             [ShowOnly] public CharacterType curCharacterType;
-            public MovementType curMovementType;
+            [ShowOnly] public MovementType curMovementType;
             [ShowOnly] public FacingDirection curFacingDirection;
-            [ShowOnly] public List<GameObject> sizeMatrix;
+            private List<GameObject> sizeMatrix;
             private Coroutine movementCrt;
             private bool onTurn;
 
             [Header("UI")]
-            public TMP_Text healthTMP;
-            public TMP_Text staminaTMP;
-            public TMP_Text cooldownTMP;
+            private TMP_Text healthTMP;
+            private TMP_Text staminaTMP;
+            private TMP_Text cooldownTMP;
 
         [Header("ANIMATIONS")]
             
@@ -79,10 +79,10 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             public Sprite[] runningSprites;
             public Sprite[] attackSprites;
             public Sprite[] damagedSprites;
-            public float frameLength;
+            [ShowOnly] public float frameLength = 0.1f;
             [ShowOnly] public float damagedFrameLength = 1f;
             [ShowOnly] public SpriteRenderer sr;
-            public GameObject deathVFX;
+            [ShowOnly] public GameObject deathVFX;
             private Coroutine animationCrt;
 
         [Header("CARDS")]
@@ -110,7 +110,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         /// Called when the script instance is being loaded.
         /// Useful for initialization before the game starts.
         /// </summary>
-        public void CharacterAwake()
+        private void Awake()
         {
             sr = GetComponent<SpriteRenderer>();
         }
@@ -119,7 +119,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         /// Called before the first frame update.
         /// Useful for initialization once the game starts.
         /// </summary>
-        public void CharacterStart()
+        private void Start()
         {
             if (curCharacterType == CharacterType.Player)
             {
@@ -130,8 +130,36 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
                 TurnToEnemy();
             }
 
-            sizeMatrix = new List<GameObject>();
+            foreach (Transform child in transform.parent)
+            {
+                if (child.name == "Character_UI")
+                {
+                    foreach (Transform childChild in child.transform)
+                    {
+                        if (childChild.name == "Data")
+                        {
+                            foreach (Transform childChildChild in childChild.transform)
+                            {
+                                if (childChildChild.name == "Health")
+                                {   
+                                    healthTMP = childChildChild.GetComponent<TMP_Text>();
+                                }
+                                else if (childChildChild.name == "Stamina")
+                                {   
+                                    staminaTMP = childChildChild.GetComponent<TMP_Text>();
+                                }
+                                else if (childChildChild.name == "Cooldown")
+                                {   
+                                    cooldownTMP = childChildChild.GetComponent<TMP_Text>();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
+            deathVFX = Resources.Load<GameObject>("Prefabs/VFX/Character_Death");
+            sizeMatrix = new List<GameObject>();
             curHealth = maxHealth;
             curStamina = maxStamina;
             curCooldown = 0;
@@ -147,20 +175,17 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         /// Called once per frame.
         /// Use for logic that needs to run every frame, such as user input or animations.
         /// </summary>
-        public void CharacterUpdate()
+        private void Update()
         {
-            // Add your per-frame logic here.
-            // Example: Move objects, check user input, update animations, etc.
-
             if (onTurn)
             {
                 if ((curCharacterType == CharacterType.Player && LevelManager.instance.isPlayerAuto) || (curCharacterType == CharacterType.Enemy && LevelManager.instance.isEnemyAuto))
                 {
                     onTurn = false;
+
                     if (LevelManager.instance.areCardsOpen)
-                    {
                         LevelManager.instance.RemoveCards();
-                    }
+
                     DelayedAuto();
                 }
             }
@@ -170,7 +195,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         /// Called at fixed intervals, ideal for physics updates.
         /// Use this for physics-related updates like applying forces or handling Rigidbody physics.
         /// </summary>
-        public void CharacterFixedUpdate()
+        private void FixedUpdate()
         {
             // Add physics-related logic here.
             // Example: Rigidbody movement, applying forces, or collision detection.
@@ -777,7 +802,7 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
         public void Wait()
         {
-            AddStamina(LevelManager.instance.defaultWaitReward);
+            AddStamina(waitReward);
             CheckCards();
             StartCoroutine(WaitCoroutine());
         }
@@ -823,77 +848,89 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
 
     #region CARDS
 
-        public abstract void FirstCard();
-        public abstract void SecondCard();
-        public abstract void ThirdCard();
+        public void FirstCard()
+        {
+            if (curStamina >= cardOne.staminaCost)
+            {
+                StartCoroutine(CardCoroutine(cardOne, 1));
+            }   
+        }
+        
+        public void SecondCard()
+        {
+            if (curStamina >= cardTwo.staminaCost)
+            {
+                StartCoroutine(CardCoroutine(cardTwo, 2));
+            }
+        }
+
+        public void ThirdCard()
+        {
+            if (curStamina >= cardThree.staminaCost)
+            {
+                StartCoroutine(CardCoroutine(cardThree, 3));
+            }
+        }
 
         public IEnumerator CardCoroutine(CardSO card, int cardNum)
         {
-            if (curStamina >= card.staminaCost)
+            int attackWaves = 1;
+            if (cardNum == 1) attackWaves = cardOneAttackWaves;
+            else if (cardNum == 2) attackWaves = cardTwoAttackWaves;
+            else if (cardNum == 3) attackWaves = cardThreeAttackWaves;
+                
+            for (int i = 1; i <= attackWaves; i++)
             {
-                int attackWaves = 1;
+                SetAttackAnimation();
+
+                GameObject projToSpawn = Resources.Load<GameObject>("Prefabs/Prefab_Projectile_01");
+                projToSpawn.GetComponent<HandleProjectileSO>().projSO = card.cardProjectile;
+
+                Vector3 spawnPos = Vector3.zero;
+                if (cardNum == 1) spawnPos = cardOneSpawnPoint.position;
+                else if (cardNum == 2) spawnPos = cardTwoSpawnPoint.position;
+                else if (cardNum == 3) spawnPos = cardThreeSpawnPoint.position;
+
+                GameObject projectileObj = Instantiate(projToSpawn, spawnPos, Quaternion.identity);
+                Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
+
+                if (curCharacterType == CharacterType.Player)
+                {
+                    projectileScript.TurnToPlayer();
+                }
+                else if (curCharacterType == CharacterType.Enemy)
+                {
+                    projectileScript.TurnToEnemy();
+                }
+                
+                if (curFacingDirection == FacingDirection.Left)
+                {
+                    projectileScript.Flip();
+                }
 
                 if (cardNum == 1)
-                    attackWaves = cardOneAttackWaves;
-                else if (cardNum == 2)
-                    attackWaves = cardTwoAttackWaves;
-                else if (cardNum == 3)
-                    attackWaves = cardThreeAttackWaves;
-                    
-                for (int i = 1; i <= attackWaves; i++)
                 {
-                    SetAttackAnimation();
-
-                    GameObject projToSpawn = card.cardProjectile;
-                    Vector3 spawnPos = Vector3.zero;
-                    if (cardNum == 1)
-                        spawnPos = cardOneSpawnPoint.position;
-                    else if (cardNum == 2)
-                        spawnPos = cardTwoSpawnPoint.position;
-                    else if (cardNum == 3)
-                        spawnPos = cardThreeSpawnPoint.position;
-
-                    GameObject projectileObj = Instantiate(projToSpawn, spawnPos, Quaternion.identity);
-                    Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
-
-                    if (curCharacterType == CharacterType.Player)
+                    if (i == cardOneAttackWaves)
                     {
-                        projectileScript.TurnToPlayer();
+                        projectileScript.isLast = true;
                     }
-                    else if (curCharacterType == CharacterType.Enemy)
-                    {
-                        projectileScript.TurnToEnemy();
-                    }
-                    
-                    if (curFacingDirection == FacingDirection.Left)
-                    {
-                        projectileScript.Flip();
-                    }
-
-                    if (cardNum == 1)
-                    {
-                        if (i == cardOneAttackWaves)
-                        {
-                            projectileScript.isLast = true;
-                        }
-                    }
-                    else if (cardNum == 2)
-                    {
-                        if (i == cardTwoAttackWaves)
-                        {
-                            projectileScript.isLast = true;
-                        }
-                    }
-                    else if (cardNum == 3)
-                    {
-                        if (i == cardThreeAttackWaves)
-                        {
-                            projectileScript.isLast = true;
-                        }
-                    }
-
-                    yield return new WaitForSeconds(0.5f);
                 }
+                else if (cardNum == 2)
+                {
+                    if (i == cardTwoAttackWaves)
+                    {
+                        projectileScript.isLast = true;
+                    }
+                }
+                else if (cardNum == 3)
+                {
+                    if (i == cardThreeAttackWaves)
+                    {
+                        projectileScript.isLast = true;
+                    }
+                }
+
+                yield return new WaitForSeconds(0.5f);
             }
                 
             RemoveStamina(card.staminaCost);

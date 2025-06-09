@@ -175,7 +175,7 @@ public class TilemapManager : MonoBehaviour
         public void ShowTrajectory(CardSO card)
         {
             Character curChar = LevelManager.instance.charactersOnQueue[LevelManager.instance.curQueueIndex - 1];
-            int blocksToDraw = card.cardProjectile.GetComponent<Projectile>().maxBlocks;
+            int blocksToDraw = card.cardProjectile.maxBlocks;
             int initX = 0;
             int initY = 0;
 
@@ -201,7 +201,7 @@ public class TilemapManager : MonoBehaviour
         public void HideTrajectory(CardSO card)
         {
             Character curChar = LevelManager.instance.charactersOnQueue[LevelManager.instance.curQueueIndex - 1];
-            int blocksToDraw = card.cardProjectile.GetComponent<Projectile>().maxBlocks;
+            int blocksToDraw = card.cardProjectile.maxBlocks;
             int initX = 0;
             int initY = 0;
 

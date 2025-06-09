@@ -32,7 +32,6 @@ public class LevelManager : MonoBehaviour
             [Header("Buttons")]
             public Button[] cards; 
             public Button waitButton;
-            public int defaultWaitReward;
             public Button autoButton;
 
             [Header("Data")]
