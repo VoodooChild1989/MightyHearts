@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   notes: 
   maxHealth: 11
-  maxStamina: 19
-  maxCooldown: 4
+  maxStamina: 100
+  maxCooldown: 2
   waitReward: 7
-  curMovementType: 1
+  curMovementType: 0
   idleSprites:
   - {fileID: -7586852357584557507, guid: abed7faf75084084c8039720f701cf9f, type: 3}
   - {fileID: 7448851012896059752, guid: abed7faf75084084c8039720f701cf9f, type: 3}

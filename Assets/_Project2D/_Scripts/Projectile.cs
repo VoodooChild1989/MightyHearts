@@ -62,9 +62,9 @@ public class Projectile : MonoBehaviour
         {
             birthVFX = Resources.Load<GameObject>("Prefabs/VFX/Projectile_Birth");
             deathVFX = Resources.Load<GameObject>("Prefabs/VFX/Projectile_Death");
-            dir = new Vector2(1f, 0f);
             Instantiate(birthVFX, transform.position, Quaternion.identity);
             StartCoroutine(Animation(idleSprites));
+            dir = new Vector2(1f, 0f);
         }
 
         /// <summary>
@@ -120,8 +120,7 @@ public class Projectile : MonoBehaviour
 
         public void Flip()
         {
-            Vector2 curDir = dir;
-            dir = new Vector2(-curDir.x, curDir.y);
+            speed = -speed;
             sr.flipX = true;
         }
 
@@ -178,7 +177,7 @@ public class Projectile : MonoBehaviour
                 }
             }
             
-            Destroy(transform.parent);
+            Destroy(transform.parent.gameObject);
         }
 
     #endregion

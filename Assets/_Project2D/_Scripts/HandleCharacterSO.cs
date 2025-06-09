@@ -12,6 +12,7 @@ public class HandleCharacterSO : MonoBehaviour
             
             [Header("Basic Variables")]
             public CharacterSO chrSO;
+            public CharacterType curCharacterType;
 
     #endregion
 
@@ -33,6 +34,7 @@ public class HandleCharacterSO : MonoBehaviour
                     chr.maxStamina = chrSO.maxStamina;
                     chr.maxCooldown = chrSO.maxCooldown;
                     chr.waitReward = chrSO.waitReward;
+                    chr.curCharacterType = curCharacterType;
                     chr.curMovementType = chrSO.curMovementType;
 
                     chr.idleSprites = chrSO.idleSprites;

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   notes: 
   maxHealth: 11
-  maxStamina: 19
-  maxCooldown: 4
+  maxStamina: 100
+  maxCooldown: 2
   waitReward: 7
   curMovementType: 1
   idleSprites:
