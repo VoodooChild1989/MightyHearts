@@ -178,8 +178,10 @@ public class WindowManager : MonoBehaviour
         /// <summary>
         /// Opening a window.
         /// </summary>
-        public void OpenInformation()
+        public void OpenInformation(CardSO card)
         {
+            TilemapManager.instance.ShowTrajectory(card);
+
             // RectTransform
             rectTransform.anchoredPosition = new Vector2(initX, initY);
             rectTransform.localScale = new Vector2(0.2f, 0.2f);
@@ -191,7 +193,7 @@ public class WindowManager : MonoBehaviour
                         
             Sequence seq = DOTween.Sequence();
             seq.Append(rectTransform.DOAnchorPos(new Vector2(initX, initY), tweenDuration).SetEase(Ease.InOutSine));
-            seq.Join(rectTransform.DOScale(1f, tweenDuration).SetEase(Ease.InOutSine));
+            seq.Join(rectTransform.DOScale(0.8f, tweenDuration).SetEase(Ease.InOutSine));
             seq.Join(canvasGroup.DOFade(1f, tweenDuration).SetEase(Ease.InOutSine));
             seq.OnComplete(() =>
             {
@@ -204,11 +206,13 @@ public class WindowManager : MonoBehaviour
         /// <summary>
         /// Closing a window.
         /// </summary>
-        public void CloseInformation()
+        public void CloseInformation(CardSO card)
         {   
+            TilemapManager.instance.HideTrajectory(card);
+
             // RectTransform
             rectTransform.anchoredPosition = new Vector2(initX, initY);
-            rectTransform.localScale = new Vector2(1f, 1f);
+            rectTransform.localScale = new Vector2(0.8f, 0.8f);
 
             // CanvasGroup
             canvasGroup.alpha = 1f;

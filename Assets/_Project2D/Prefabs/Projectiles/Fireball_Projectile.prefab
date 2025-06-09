@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3333708101251888786}
   - component: {fileID: 8063442462680120660}
   m_Layer: 0
-  m_Name: Blight_Projectile
+  m_Name: Fireball_Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,11 +106,12 @@ MonoBehaviour:
   speed: 7
   dir: {x: 1, y: 0}
   damageAmount: 1
-  maxBlocks: 5
+  maxBlocks: 4
   curBlocks: 0
   curOwner: 0
   col: {fileID: 0}
   rb: {fileID: 0}
+  isLast: 0
   idleSprites:
   - {fileID: 2286642844302290808, guid: d9a2ad1b39a5b9347be8421c31435425, type: 3}
   - {fileID: 1034776368, guid: d9a2ad1b39a5b9347be8421c31435425, type: 3}

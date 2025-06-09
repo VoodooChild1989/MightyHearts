@@ -33,6 +33,7 @@ public abstract class Projectile : MonoBehaviour
             [ShowOnly] public Collider2D col;
             [ShowOnly] public Rigidbody2D rb;
             private GameObject collidingObj;
+            [ShowOnly] public bool isLast;
 
         [Header("ANIMATIONS")]
             
@@ -155,26 +156,30 @@ public abstract class Projectile : MonoBehaviour
         {
             speed = 0f;
             sr.color = new Color(0f, 0f, 0f, 0f);
+            col.enabled = false;
             Instantiate(deathVFX, transform.position, Quaternion.identity);
 
             yield return new WaitForSeconds(1.1f);
 
-            if (collidingObj != null)
+            if (isLast)
             {
-                if (collidingObj.GetComponent<Character>() != null && !collidingObj.GetComponent<Character>().isDead)
+                if (collidingObj != null)
                 {
-                    LevelManager.instance.MoveQueue();
+                    if (collidingObj.GetComponent<Character>() != null && !collidingObj.GetComponent<Character>().isDead)
+                    {
+                        LevelManager.instance.MoveQueue();
+                    }
+                    else if (collidingObj.GetComponent<Block>() != null)
+                    {
+                        LevelManager.instance.MoveQueue();
+                    }
                 }
-                else if (collidingObj.GetComponent<Block>() != null)
+                else
                 {
                     LevelManager.instance.MoveQueue();
                 }
             }
-            else
-            {
-                LevelManager.instance.MoveQueue();
-            }
-
+            
             Destroy(gameObject);
         }
 

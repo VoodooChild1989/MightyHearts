@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.Playables;
 using TMPro;
 
-public class MaggyProjectile : Projectile
+public class WaterballProjectile : Projectile
 {
 
     #region LIFE CYCLE METHODS

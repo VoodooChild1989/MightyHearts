@@ -172,6 +172,84 @@ public class TilemapManager : MonoBehaviour
             }
         }
 
+        public void ShowTrajectory(CardSO card)
+        {
+            Character curChar = LevelManager.instance.charactersOnQueue[LevelManager.instance.curQueueIndex - 1];
+            int blocksToDraw = card.cardProjectile.GetComponent<Projectile>().maxBlocks;
+            int initX = 0;
+            int initY = 0;
+
+            if (curChar.cardOne == card)
+            {
+                initX = curChar.cardOneSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
+                initY = curChar.cardOneSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
+            }
+            else if (curChar.cardTwo == card)
+            {
+                initX = curChar.cardTwoSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
+                initY = curChar.cardTwoSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
+            }
+            else if (curChar.cardThree == card)
+            {
+                initX = curChar.cardThreeSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
+                initY = curChar.cardThreeSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
+            }
+            
+            SetTrajectory(curChar, initX, initY, blocksToDraw, true);
+        }
+
+        public void HideTrajectory(CardSO card)
+        {
+            Character curChar = LevelManager.instance.charactersOnQueue[LevelManager.instance.curQueueIndex - 1];
+            int blocksToDraw = card.cardProjectile.GetComponent<Projectile>().maxBlocks;
+            int initX = 0;
+            int initY = 0;
+
+            if (curChar.cardOne == card)
+            {
+                initX = curChar.cardOneSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
+                initY = curChar.cardOneSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
+            }
+            else if (curChar.cardTwo == card)
+            {
+                initX = curChar.cardTwoSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
+                initY = curChar.cardTwoSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
+            }
+            else if (curChar.cardThree == card)
+            {
+                initX = curChar.cardThreeSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
+                initY = curChar.cardThreeSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
+            }
+            
+            SetTrajectory(curChar, initX, initY, blocksToDraw, false);
+        }
+
+        private void SetTrajectory(Character curChar, int initX, int initY, int blocksToDraw, bool show)
+        {
+            for (int i = 0; i < blocksToDraw; i++)
+            {
+                Cell cellObj = null;
+
+                if (curChar.curFacingDirection == FacingDirection.Left)
+                {
+                    cellObj = collisionMatrixCells[initX - i, initY].GetComponent<Cell>();
+                }
+                else
+                {
+                    cellObj = collisionMatrixCells[initX + i, initY].GetComponent<Cell>();
+                }
+
+                if (show)
+                {
+                    cellObj.SetAsTrajectory();
+                }
+                else
+                {
+                    cellObj.RemoveAsTrajectory();
+                }
+            }
+        }
+
     #endregion
 
 }

@@ -24,7 +24,7 @@ public class LevelManager : MonoBehaviour
             public List<Character> enemyCharacters;
             public List<Character> charactersOnQueue;
             public List<int> charactersOnQueueToIgnore;
-            private int curQueueIndex;
+            [ShowOnly] public int curQueueIndex;
             public Coroutine cooldownCrt;
             public static LevelManager instance;
             [ShowOnly] public bool areCardsOpen;

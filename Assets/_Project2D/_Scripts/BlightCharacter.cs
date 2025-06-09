@@ -10,22 +10,6 @@ using TMPro;
 public class BlightCharacter : Character
 {
 
-    #region FIELDS
-
-        [Header("CARDS DATA")]
-            
-            [Header("First Card")]
-            public Transform spawnPoint1;
-            public GameObject projectile;
-
-            [Header("Second Card")]
-            public Transform spawnPoint2;
-
-            [Header("Third Card")]
-            public Transform spawnPoint3;
-
-    #endregion
-
     #region LIFE CYCLE METHODS
 
         /// <summary>
@@ -70,80 +54,17 @@ public class BlightCharacter : Character
 
         public override void FirstCard()
         {   
-            if (curStamina >= cardOne.staminaCost)
-            {
-                SetAttackAnimation();
-                GameObject projectileObj = Instantiate(projectile, spawnPoint1.position, Quaternion.identity);
-                Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
-                if (curCharacterType == CharacterType.Player)
-                {
-                    projectileScript.TurnToPlayer();
-                }
-                else if (curCharacterType == CharacterType.Enemy)
-                {
-                    projectileScript.TurnToEnemy();
-                }
-
-                if (curFacingDirection == FacingDirection.Left)
-                {
-                    projectileScript.Flip();
-                }
-
-                TurnFinished();
-                RemoveStamina(cardOne.staminaCost);
-            }
+            StartCoroutine(CardCoroutine(cardOne, 1));
         }
-
+        
         public override void SecondCard()
         {
-            if (curStamina >= cardTwo.staminaCost)
-            {
-                SetAttackAnimation();
-                GameObject projectileObj = Instantiate(projectile, spawnPoint2.position, Quaternion.identity);
-                Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();    
-                if (curCharacterType == CharacterType.Player)
-                {
-                    projectileScript.TurnToPlayer();
-                }
-                else if (curCharacterType == CharacterType.Enemy)
-                {
-                    projectileScript.TurnToEnemy();
-                }
-                
-                if (curFacingDirection == FacingDirection.Left)
-                {
-                    projectileScript.Flip();
-                }
-
-                TurnFinished();
-                RemoveStamina(cardTwo.staminaCost);
-            }
+            StartCoroutine(CardCoroutine(cardTwo, 2));
         }
 
         public override void ThirdCard()
         {
-            if (curStamina >= cardThree.staminaCost)
-            {
-                SetAttackAnimation();
-                GameObject projectileObj = Instantiate(projectile, spawnPoint3.position, Quaternion.identity);
-                Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
-                if (curCharacterType == CharacterType.Player)
-                {
-                    projectileScript.TurnToPlayer();
-                }
-                else if (curCharacterType == CharacterType.Enemy)
-                {
-                    projectileScript.TurnToEnemy();
-                }
-                
-                if (curFacingDirection == FacingDirection.Left)
-                {
-                    projectileScript.Flip();
-                }
-                
-                TurnFinished();
-                RemoveStamina(cardThree.staminaCost);
-            }
+            StartCoroutine(CardCoroutine(cardThree, 3));
         }
 
     #endregion

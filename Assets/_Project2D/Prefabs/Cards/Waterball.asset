@@ -15,6 +15,7 @@ MonoBehaviour:
   notes: 
   cardIcon: {fileID: 21300000, guid: a46bb5ba81a6d5f4c94c4b9d9a0898c7, type: 3}
   cardName: Waterball
-  cardDescription: The projectile goes 8 blocks.
+  cardDescription: A powerful waterball.
   staminaCost: 30
   damageAmount: 20
+  cardProjectile: {fileID: 7001223671196701799, guid: 9441786655cb9f141b5c7af2e65408e5, type: 3}

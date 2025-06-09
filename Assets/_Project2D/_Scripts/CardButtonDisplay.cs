@@ -76,13 +76,13 @@ public class CardButtonDisplay : MonoBehaviour, IPointerEnterHandler, IPointerEx
                 }
             }
 
-            window.OpenInformation();
+            window.OpenInformation(card);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             AnimateScale(defaultScale);
-            window.CloseInformation();
+            window.CloseInformation(card);
         }
 
         public void OnPointerDown(PointerEventData eventData)

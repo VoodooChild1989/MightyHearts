@@ -60,9 +60,9 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             public int maxCooldown;
             [ShowOnly] public int curCooldown;
             [ShowOnly] public bool isDead;
-            public CharacterType curCharacterType;
+            [ShowOnly] public CharacterType curCharacterType;
             public MovementType curMovementType;
-            public FacingDirection curFacingDirection;
+            [ShowOnly] public FacingDirection curFacingDirection;
             [ShowOnly] public List<GameObject> sizeMatrix;
             private Coroutine movementCrt;
             private bool onTurn;
@@ -80,21 +80,27 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             public Sprite[] attackSprites;
             public Sprite[] damagedSprites;
             public float frameLength;
-            public float damagedFrameLength;
+            [ShowOnly] public float damagedFrameLength = 1f;
             [ShowOnly] public SpriteRenderer sr;
             public GameObject deathVFX;
-            public Coroutine animationCrt;
+            private Coroutine animationCrt;
 
         [Header("CARDS")]
             
-            [Header("First Card")]
+            [Header("Card One")]
             public CardSO cardOne;
+            public Transform cardOneSpawnPoint;
+            public int cardOneAttackWaves = 1;
 
-            [Header("Second Card")]
+            [Header("Card Two")]
             public CardSO cardTwo;
+            public Transform cardTwoSpawnPoint;
+            public int cardTwoAttackWaves = 1;
 
-            [Header("Third Card")]
+            [Header("Card Three")]
             public CardSO cardThree;
+            public Transform cardThreeSpawnPoint;
+            public int cardThreeAttackWaves = 1;
 
     #endregion
 
@@ -198,18 +204,6 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
                     LevelManager.instance.RemoveCards();
                 }
             }   
-        }
-
-        private void OnDestroy() 
-        {
-            if (curCharacterType == CharacterType.Player)
-            {
-                LevelManager.instance.RemovePlayer(this);
-            }
-            else if (curCharacterType == CharacterType.Enemy)
-            {
-                LevelManager.instance.RemoveEnemy(this);
-            }
         }
         
     #endregion
@@ -739,6 +733,18 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
             Destroy(transform.parent.gameObject);
         }
 
+        private void OnDestroy() 
+        {
+            if (curCharacterType == CharacterType.Player)
+            {
+                LevelManager.instance.RemovePlayer(this);
+            }
+            else if (curCharacterType == CharacterType.Enemy)
+            {
+                LevelManager.instance.RemoveEnemy(this);
+            }
+        }
+
     #endregion
 
     #region STAMINA
@@ -820,6 +826,79 @@ public abstract class Character : MonoBehaviour, IDamageable, ICards, IWait
         public abstract void FirstCard();
         public abstract void SecondCard();
         public abstract void ThirdCard();
+
+        public IEnumerator CardCoroutine(CardSO card, int cardNum)
+        {
+            if (curStamina >= card.staminaCost)
+            {
+                int attackWaves = 1;
+
+                if (cardNum == 1)
+                    attackWaves = cardOneAttackWaves;
+                else if (cardNum == 2)
+                    attackWaves = cardTwoAttackWaves;
+                else if (cardNum == 3)
+                    attackWaves = cardThreeAttackWaves;
+                    
+                for (int i = 1; i <= attackWaves; i++)
+                {
+                    SetAttackAnimation();
+
+                    GameObject projToSpawn = card.cardProjectile;
+                    Vector3 spawnPos = Vector3.zero;
+                    if (cardNum == 1)
+                        spawnPos = cardOneSpawnPoint.position;
+                    else if (cardNum == 2)
+                        spawnPos = cardTwoSpawnPoint.position;
+                    else if (cardNum == 3)
+                        spawnPos = cardThreeSpawnPoint.position;
+
+                    GameObject projectileObj = Instantiate(projToSpawn, spawnPos, Quaternion.identity);
+                    Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
+
+                    if (curCharacterType == CharacterType.Player)
+                    {
+                        projectileScript.TurnToPlayer();
+                    }
+                    else if (curCharacterType == CharacterType.Enemy)
+                    {
+                        projectileScript.TurnToEnemy();
+                    }
+                    
+                    if (curFacingDirection == FacingDirection.Left)
+                    {
+                        projectileScript.Flip();
+                    }
+
+                    if (cardNum == 1)
+                    {
+                        if (i == cardOneAttackWaves)
+                        {
+                            projectileScript.isLast = true;
+                        }
+                    }
+                    else if (cardNum == 2)
+                    {
+                        if (i == cardTwoAttackWaves)
+                        {
+                            projectileScript.isLast = true;
+                        }
+                    }
+                    else if (cardNum == 3)
+                    {
+                        if (i == cardThreeAttackWaves)
+                        {
+                            projectileScript.isLast = true;
+                        }
+                    }
+
+                    yield return new WaitForSeconds(0.5f);
+                }
+            }
+                
+            RemoveStamina(card.staminaCost);
+            TurnFinished();
+        }
 
     #endregion
 

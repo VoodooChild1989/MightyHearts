@@ -15,6 +15,7 @@ MonoBehaviour:
   notes: 
   cardIcon: {fileID: 21300000, guid: 40d9adccb8bcbe947aab43c7b5ba51a7, type: 3}
   cardName: Fireball
-  cardDescription: The projectile goes 5 blocks.
+  cardDescription: A powerful fireball.
   staminaCost: 10
   damageAmount: 15
+  cardProjectile: {fileID: 7001223671196701799, guid: aced319789393fd4497b164f69ddb671, type: 3}

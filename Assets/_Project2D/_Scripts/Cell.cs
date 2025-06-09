@@ -23,6 +23,7 @@ public class Cell : MonoBehaviour
             public GameObject collidesWith;
             public float defautTransparency;
             [ShowOnly] public SpriteRenderer sr;
+            [ShowOnly] public bool isTrajectory;
 
     #endregion
 
@@ -70,17 +71,34 @@ public class Cell : MonoBehaviour
 
     #region CUSTOM METHODS
 
+        public void SetAsTrajectory()
+        {
+            isTrajectory = true;
+        }
+
+        public void RemoveAsTrajectory()
+        {
+            isTrajectory = false;
+        }
+
         public void CheckVisibility()
         {
             if (TilemapManager.instance.areCellsVisible)
             {
-                if (collidesWith != null)
+                if (isTrajectory)
                 {
-                    sr.color = new Color(0f, 1f, 0f, defautTransparency);   
+                    sr.color = new Color(0f, 0f, 1f, defautTransparency);   
                 }
                 else
                 {
-                    sr.color = new Color(1f, 0f, 0f, defautTransparency);   
+                    if (collidesWith != null)
+                    {
+                        sr.color = new Color(0f, 1f, 0f, defautTransparency);   
+                    }
+                    else
+                    {
+                        sr.color = new Color(1f, 0f, 0f, defautTransparency);   
+                    }
                 }
             }
             else
