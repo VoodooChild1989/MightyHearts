@@ -340,6 +340,51 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
             }
         }
 
+        /// <summary>
+        /// Sent when an incoming collider makes contact with this object's
+        /// collider (2D physics only).
+        /// </summary>
+        /// <param name="other">The Collision2D data associated with this collision.</param>
+        void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("CardBooster"))
+            {
+                int num = UnityEngine.Random.Range(1, 4);
+                int amount = UnityEngine.Random.Range(5, 11);
+
+                if (num == 1)
+                {
+                    CardStamina(amount);
+                }
+                else if (num == 2)
+                {
+                    CardDamage(amount);
+                }
+                else if (num == 3)
+                {
+                    CardWave();
+                }
+                
+                Destroy(other.gameObject);
+            }
+            else if (other.gameObject.CompareTag("FlyBooster"))
+            {
+                curMovementType = MovementType.Air;
+
+                Destroy(other.gameObject);
+            }
+            else if (other.gameObject.CompareTag("CharacterBooster"))
+            {
+                int num = UnityEngine.Random.Range(1, 4);
+
+                if (num == 1) IncreaseMaxHealth();
+                else if (num == 2) IncreaseMaxStamina();
+                else if (num == 3) DecreaseMaxCooldown();
+            
+                Destroy(other.gameObject);
+            }
+        }
+
     #endregion
 
     #region AUTO
@@ -720,6 +765,13 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
 
     #region HEALTH
         
+        private void IncreaseMaxHealth()
+        {
+            int amount = UnityEngine.Random.Range(10, 31);
+            maxHealth += amount;
+            Heal(maxHealth - curHealth);
+        }
+
         public void TakeDamage(int damageAmount)
         {
             SetDamagedAnimation();
@@ -779,6 +831,13 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
 
     #region STAMINA
 
+        private void IncreaseMaxStamina()
+        {
+            int amount = UnityEngine.Random.Range(10, 31);
+            maxStamina += amount;
+            AddStamina(maxStamina - curStamina);
+        }
+
         public void AddStamina(int amount)
         {
             UpdateStamina(amount);
@@ -823,6 +882,22 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
  
     #region COOLDOWN
 
+        private void DecreaseMaxCooldown()
+        {
+            int amount = UnityEngine.Random.Range(1, 4);
+
+            if (amount < maxCooldown)
+            {
+                maxCooldown -= amount;
+            }
+            else
+            {
+                maxCooldown = 1;
+            }
+
+            UpdateCooldown(0);
+        }
+
         public void AddCooldown(int amount)
         {
             UpdateCooldown(amount);
@@ -852,35 +927,6 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
     #endregion
 
     #region CARDS
-
-        /// <summary>
-        /// Sent when an incoming collider makes contact with this object's
-        /// collider (2D physics only).
-        /// </summary>
-        /// <param name="other">The Collision2D data associated with this collision.</param>
-        void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.gameObject.CompareTag("Collectible"))
-            {
-                int num = UnityEngine.Random.Range(1, 4);
-                int amount = UnityEngine.Random.Range(5, 11);
-
-                if (num == 1)
-                {
-                    CardStamina(amount);
-                }
-                else if (num == 2)
-                {
-                    CardDamage(amount);
-                }
-                else if (num == 3)
-                {
-                    CardWave();
-                }
-
-                Destroy(other.gameObject);
-            }
-        }
 
         private void CardStamina(int amount)
         {

@@ -96,8 +96,10 @@ public class TilemapManager : MonoBehaviour
         /// </summary>
         private void Update()
         {
-            // Add your per-frame logic here.
-            // Example: Move objects, check user input, update animations, etc.
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                ToggleCellsVisibility();
+            }
         }
 
         /// <summary>

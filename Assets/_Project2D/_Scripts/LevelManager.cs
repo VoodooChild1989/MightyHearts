@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.Playables;
 using TMPro;
 using Unity.Cinemachine;
+using DG.Tweening;
 
 public class LevelManager : MonoBehaviour
 {
@@ -29,6 +30,13 @@ public class LevelManager : MonoBehaviour
             public static LevelManager instance;
             [ShowOnly] public bool areCardsOpen;
             
+            [Header("Camera")]
+            public CinemachineCamera cinemCamera;
+            public Transform camDefaultPos;
+            public float initOrthoSize;
+            public float finalOrthoSize;
+            public float levelCamIntroDuration;
+
             [Header("Buttons")]
             public Button[] cards; 
             public Button waitButton;
@@ -38,10 +46,6 @@ public class LevelManager : MonoBehaviour
             [ShowOnly] public int curTurnNumber;
             public bool isPlayerAuto;
             public bool isEnemyAuto;
-
-            [Header("Camera")]
-            public CinemachineCamera cinemCamera;
-            public Transform camDefaultPos;
 
     #endregion
 
@@ -76,15 +80,14 @@ public class LevelManager : MonoBehaviour
                     chr.transform.parent.SetParent(GameObject.Find("Enemies").transform);
                 }
             }
-                
-            curTurnNumber = 1;
-            cooldownCrt = StartCoroutine(Cooldown());
-            cinemCamera.Follow = camDefaultPos;
+
             RemoveCardsStart();
-            
+            LevelStart();
+                
             charactersOnQueue = new List<Character>();
             charactersOnQueueToIgnore = new List<int>();
             curQueueIndex = 0;
+            curTurnNumber = 1;
         }
 
         /// <summary>
@@ -93,8 +96,10 @@ public class LevelManager : MonoBehaviour
         /// </summary>
         private void Update()
         {
-            // Add your per-frame logic here.
-            // Example: Move objects, check user input, update animations, etc.
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                TogglePlayerAuto();
+            }
         }
 
         /// <summary>
@@ -110,6 +115,22 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     #region CUSTOM METHODS
+
+        private void LevelStart()
+        {
+            cinemCamera.Follow = camDefaultPos;
+            cinemCamera.Lens.OrthographicSize = initOrthoSize;
+            
+            DOTween.To(() => cinemCamera.Lens.OrthographicSize,
+                    x => cinemCamera.Lens.OrthographicSize = x,
+                    finalOrthoSize,
+                    levelCamIntroDuration)
+                .SetEase(Ease.InExpo)
+                .OnComplete(() =>
+                {
+                    cooldownCrt = StartCoroutine(Cooldown());
+                });
+        }
 
         public void TogglePlayerAuto()
         {
