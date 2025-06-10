@@ -13,7 +13,6 @@ public class ProjectileSO : ScriptableObject
             
             [Header("Basic Variables")]
             public float speed = 5f;
-            public int damageAmount = 3;
             public int maxBlocks = 4;
 
         [Header("ANIMATIONS")]

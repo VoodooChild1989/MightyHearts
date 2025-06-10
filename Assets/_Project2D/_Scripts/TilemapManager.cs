@@ -195,7 +195,21 @@ public class TilemapManager : MonoBehaviour
                 initY = curChar.cardThreeSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
             }
             
-            SetTrajectory(curChar, initX, initY, blocksToDraw, true);
+            for (int i = 0; i < blocksToDraw; i++)
+            {
+                Cell cellObj = null;
+
+                if (curChar.curFacingDirection == FacingDirection.Left)
+                {
+                    cellObj = collisionMatrixCells[initX - i, initY].GetComponent<Cell>();
+                }
+                else
+                {
+                    cellObj = collisionMatrixCells[initX + i, initY].GetComponent<Cell>();
+                }
+
+                cellObj.SetAsTrajectory();
+            }
         }
 
         public void HideTrajectory(CardSO card)
@@ -221,31 +235,11 @@ public class TilemapManager : MonoBehaviour
                 initY = curChar.cardThreeSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
             }
             
-            SetTrajectory(curChar, initX, initY, blocksToDraw, false);
-        }
-
-        private void SetTrajectory(Character curChar, int initX, int initY, int blocksToDraw, bool show)
-        {
-            for (int i = 0; i < blocksToDraw; i++)
+            for (int i = 0; i < width; i++)
             {
-                Cell cellObj = null;
-
-                if (curChar.curFacingDirection == FacingDirection.Left)
+                for (int j = 0; j < height; j++)
                 {
-                    cellObj = collisionMatrixCells[initX - i, initY].GetComponent<Cell>();
-                }
-                else
-                {
-                    cellObj = collisionMatrixCells[initX + i, initY].GetComponent<Cell>();
-                }
-
-                if (show)
-                {
-                    cellObj.SetAsTrajectory();
-                }
-                else
-                {
-                    cellObj.RemoveAsTrajectory();
+                    collisionMatrixCells[i, j].GetComponent<Cell>().RemoveAsTrajectory();
                 }
             }
         }

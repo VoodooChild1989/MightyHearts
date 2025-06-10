@@ -42,9 +42,17 @@ public class HandleCharacterSO : MonoBehaviour
                     chr.attackSprites = chrSO.attackSprites;
                     chr.damagedSprites = chrSO.damagedSprites;
                     
-                    chr.cardOne = chrSO.cardOne;
-                    chr.cardTwo = chrSO.cardTwo;
-                    chr.cardThree = chrSO.cardThree;
+                    chr.cardOneOriginal = chrSO.cardOne;
+                    chr.cardOneAttackWaves = chrSO.cardOneAttackWaves;
+                    chr.cardOne = chr.CloneCard(chr.cardOneOriginal, 1);
+                    
+                    chr.cardTwoOriginal = chrSO.cardTwo;
+                    chr.cardTwoAttackWaves = chrSO.cardTwoAttackWaves;
+                    chr.cardTwo = chr.CloneCard(chr.cardTwoOriginal, 2);
+
+                    chr.cardThreeOriginal = chrSO.cardThree;
+                    chr.cardThreeAttackWaves = chrSO.cardThreeAttackWaves;
+                    chr.cardThree = chr.CloneCard(chr.cardThreeOriginal, 3);
                 }
             }
         }

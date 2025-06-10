@@ -30,7 +30,6 @@ public class HandleProjectileSO : MonoBehaviour
                     Projectile proj = child.GetComponent<Projectile>();
 
                     proj.speed = projSO.speed;
-                    proj.damageAmount = projSO.damageAmount;
                     proj.maxBlocks = projSO.maxBlocks;
 
                     proj.idleSprites = projSO.idleSprites;

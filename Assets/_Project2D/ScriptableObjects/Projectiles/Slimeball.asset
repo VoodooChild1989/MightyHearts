@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53214733c0c5af64a9b465ad4713a07d, type: 3}
-  m_Name: Waterball
+  m_Name: Slimeball
   m_EditorClassIdentifier: 
   notes: 
   speed: 7
   damageAmount: 8
-  maxBlocks: 7
+  maxBlocks: 6
   idleSprites:
-  - {fileID: -8014774246758756502, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}
-  - {fileID: 38291735183647181, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}
-  - {fileID: -4280090040413819344, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}
-  - {fileID: 3608507672204763640, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}
+  - {fileID: 916162526, guid: 627af6fda1e00f243a8ee101762db3f1, type: 3}
+  - {fileID: 532747415, guid: 627af6fda1e00f243a8ee101762db3f1, type: 3}
+  - {fileID: 2109391692, guid: 627af6fda1e00f243a8ee101762db3f1, type: 3}
+  - {fileID: -1349296262, guid: 627af6fda1e00f243a8ee101762db3f1, type: 3}

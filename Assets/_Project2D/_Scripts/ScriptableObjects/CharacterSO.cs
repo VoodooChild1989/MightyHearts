@@ -30,12 +30,15 @@ public class CharacterSO : ScriptableObject
             
             [Header("Card One")]
             public CardSO cardOne;
+            public int cardOneAttackWaves = 1;
 
             [Header("Card Two")]
             public CardSO cardTwo;
+            public int cardTwoAttackWaves = 1;
 
             [Header("Card Three")]
             public CardSO cardThree;
+            public int cardThreeAttackWaves = 1;
 
     #endregion
     

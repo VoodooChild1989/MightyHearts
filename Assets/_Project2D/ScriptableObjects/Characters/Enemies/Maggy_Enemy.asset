@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5607fc9c76ec1984eac9a10c5b79e584, type: 3}
+  m_Name: Maggy_Enemy
+  m_EditorClassIdentifier: 
+  notes: 
+  maxHealth: 240
+  maxStamina: 110
+  maxCooldown: 3
+  waitReward: 20
+  curMovementType: 0
+  idleSprites:
+  - {fileID: -7586852357584557507, guid: abed7faf75084084c8039720f701cf9f, type: 3}
+  - {fileID: 7448851012896059752, guid: abed7faf75084084c8039720f701cf9f, type: 3}
+  - {fileID: -1387039012818876686, guid: abed7faf75084084c8039720f701cf9f, type: 3}
+  - {fileID: 4098548935300105281, guid: abed7faf75084084c8039720f701cf9f, type: 3}
+  runningSprites:
+  - {fileID: 6967322450546757142, guid: 4a3866910c047d04593bcc437c74674f, type: 3}
+  - {fileID: -5586602234978812731, guid: 4a3866910c047d04593bcc437c74674f, type: 3}
+  - {fileID: -7927022541204908731, guid: 4a3866910c047d04593bcc437c74674f, type: 3}
+  - {fileID: 6703319091120071605, guid: 4a3866910c047d04593bcc437c74674f, type: 3}
+  - {fileID: -3221811172818602303, guid: 4a3866910c047d04593bcc437c74674f, type: 3}
+  - {fileID: -4861019434228660986, guid: 4a3866910c047d04593bcc437c74674f, type: 3}
+  attackSprites:
+  - {fileID: 8695115198482381349, guid: 4c8a4c5ae50b185429790e2508c271f2, type: 3}
+  - {fileID: 8909795333928431393, guid: 4c8a4c5ae50b185429790e2508c271f2, type: 3}
+  - {fileID: -8979637410535010027, guid: 4c8a4c5ae50b185429790e2508c271f2, type: 3}
+  - {fileID: -5352298344744963943, guid: 4c8a4c5ae50b185429790e2508c271f2, type: 3}
+  damagedSprites:
+  - {fileID: 21300000, guid: 5cd4d3bb802c2a94cbb6cd918ea9ed22, type: 3}
+  cardOne: {fileID: 11400000, guid: 447eb4269ec9a80439e1643b8bc8eef0, type: 2}
+  cardOneAttackWaves: 2
+  cardTwo: {fileID: 11400000, guid: 09983d32e26464a47820a3eaa88555bc, type: 2}
+  cardTwoAttackWaves: 1
+  cardThree: {fileID: 11400000, guid: 44e152edd5b515a4480fcdd8a3c59eef, type: 2}
+  cardThreeAttackWaves: 1

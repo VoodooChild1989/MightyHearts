@@ -66,6 +66,7 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
             private List<GameObject> sizeMatrix;
             private Coroutine movementCrt;
             private bool onTurn;
+            private bool choseCard;
 
             [Header("UI")]
             private TMP_Text healthTMP;
@@ -89,16 +90,19 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
             
             [Header("Card One")]
             public CardSO cardOne;
+            [ShowOnly] public CardSO cardOneOriginal;
             public Transform cardOneSpawnPoint;
             public int cardOneAttackWaves = 1;
 
             [Header("Card Two")]
             public CardSO cardTwo;
+            [ShowOnly] public CardSO cardTwoOriginal;
             public Transform cardTwoSpawnPoint;
             public int cardTwoAttackWaves = 1;
 
             [Header("Card Three")]
             public CardSO cardThree;
+            [ShowOnly] public CardSO cardThreeOriginal;
             public Transform cardThreeSpawnPoint;
             public int cardThreeAttackWaves = 1;
 
@@ -324,6 +328,7 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
         public void TurnFinished()
         {
             onTurn = false;
+            choseCard = false;
             CheckCards();
             RemoveCooldown(curCooldown);
             
@@ -848,8 +853,112 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
 
     #region CARDS
 
+        /// <summary>
+        /// Sent when an incoming collider makes contact with this object's
+        /// collider (2D physics only).
+        /// </summary>
+        /// <param name="other">The Collision2D data associated with this collision.</param>
+        void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Collectible"))
+            {
+                int num = UnityEngine.Random.Range(1, 4);
+                int amount = UnityEngine.Random.Range(5, 11);
+
+                if (num == 1)
+                {
+                    CardStamina(amount);
+                }
+                else if (num == 2)
+                {
+                    CardDamage(amount);
+                }
+                else if (num == 3)
+                {
+                    CardWave();
+                }
+
+                Destroy(other.gameObject);
+            }
+        }
+
+        private void CardStamina(int amount)
+        {
+            if (cardOne.staminaCost > amount)
+            {
+                cardOne.staminaCost -= amount;
+            }
+            else if (cardTwo.staminaCost > amount)
+            {
+                cardTwo.staminaCost -= amount;
+            }
+            else if (cardThree.staminaCost > amount)
+            {
+                cardThree.staminaCost -= amount;
+            }
+            else
+            {
+                CardDamage(amount);
+            }
+        }
+
+        private void CardDamage(int amount)
+        {
+            int cardNum = UnityEngine.Random.Range(1, 3);
+
+            if (cardNum == 1) cardOne.damageAmount += amount;
+            if (cardNum == 2) cardTwo.damageAmount += amount;
+            if (cardNum == 3) cardThree.damageAmount += amount;
+        }
+
+        private void CardWave()
+        {
+            int cardNum = UnityEngine.Random.Range(1, 4);
+
+            if (cardNum == 1)
+            {
+                cardOneAttackWaves++;
+                cardOne.cardDescription = cardOneOriginal.cardDescription;
+                cardOne.cardDescription += " " + cardOneAttackWaves + " waves.";
+            }
+            else if (cardNum == 2)
+            {
+                cardTwoAttackWaves++;
+                cardTwo.cardDescription = cardTwoOriginal.cardDescription;
+                cardTwo.cardDescription += " " + cardTwoAttackWaves + " waves.";
+            }
+            else if (cardNum == 3)
+            {
+                cardThreeAttackWaves++;
+                cardThree.cardDescription = cardThreeOriginal.cardDescription;
+                cardThree.cardDescription += " " + cardThreeAttackWaves + " waves.";
+            }
+        }
+
+        public CardSO CloneCard(CardSO cardToClone, int cardNum)
+        {
+            CardSO clone = ScriptableObject.CreateInstance<CardSO>();
+
+            clone.cardIcon = cardToClone.cardIcon;
+            clone.cardName = cardToClone.cardName;
+            clone.cardDescription = cardToClone.cardDescription;
+            
+            if (cardNum == 1) clone.cardDescription += " " + cardOneAttackWaves + " waves.";
+            if (cardNum == 2) clone.cardDescription += " " + cardTwoAttackWaves + " waves.";
+            if (cardNum == 3) clone.cardDescription += " " + cardThreeAttackWaves + " waves.";
+            
+            clone.staminaCost = cardToClone.staminaCost;
+            clone.damageAmount = cardToClone.damageAmount;
+            clone.damageAmount = cardToClone.damageAmount;
+            clone.cardProjectile = cardToClone.cardProjectile;
+
+            return clone;
+        }
+
         public void FirstCard()
         {
+            if (choseCard) return;
+
             if (curStamina >= cardOne.staminaCost)
             {
                 StartCoroutine(CardCoroutine(cardOne, 1));
@@ -858,6 +967,8 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
         
         public void SecondCard()
         {
+            if (choseCard) return;
+
             if (curStamina >= cardTwo.staminaCost)
             {
                 StartCoroutine(CardCoroutine(cardTwo, 2));
@@ -866,6 +977,8 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
 
         public void ThirdCard()
         {
+            if (choseCard) return;
+
             if (curStamina >= cardThree.staminaCost)
             {
                 StartCoroutine(CardCoroutine(cardThree, 3));
@@ -873,7 +986,10 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
         }
 
         public IEnumerator CardCoroutine(CardSO card, int cardNum)
-        {
+        {    
+            RemoveStamina(card.staminaCost);
+            choseCard = true;
+
             int attackWaves = 1;
             if (cardNum == 1) attackWaves = cardOneAttackWaves;
             else if (cardNum == 2) attackWaves = cardTwoAttackWaves;
@@ -893,6 +1009,7 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
 
                 GameObject projectileObj = Instantiate(projToSpawn, spawnPos, Quaternion.identity);
                 Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
+                projectileScript.damageAmount = card.damageAmount;
 
                 if (curCharacterType == CharacterType.Player)
                 {
@@ -932,8 +1049,7 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
 
                 yield return new WaitForSeconds(0.5f);
             }
-                
-            RemoveStamina(card.staminaCost);
+
             TurnFinished();
         }
 

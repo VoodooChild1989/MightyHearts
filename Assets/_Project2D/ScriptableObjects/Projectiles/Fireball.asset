@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53214733c0c5af64a9b465ad4713a07d, type: 3}
-  m_Name: Waterball
+  m_Name: Fireball
   m_EditorClassIdentifier: 
   notes: 
   speed: 7
   damageAmount: 8
-  maxBlocks: 7
+  maxBlocks: 4
   idleSprites:
-  - {fileID: -8014774246758756502, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}
-  - {fileID: 38291735183647181, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}
-  - {fileID: -4280090040413819344, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}
-  - {fileID: 3608507672204763640, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}
+  - {fileID: 2286642844302290808, guid: d9a2ad1b39a5b9347be8421c31435425, type: 3}
+  - {fileID: 1034776368, guid: d9a2ad1b39a5b9347be8421c31435425, type: 3}
+  - {fileID: -484605958, guid: d9a2ad1b39a5b9347be8421c31435425, type: 3}

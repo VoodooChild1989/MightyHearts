@@ -72,16 +72,21 @@ public class WindowManager : MonoBehaviour
             canvasGroup.alpha = 0f;
             canvasGroup.interactable = false;   
             canvasGroup.blocksRaycasts = false;
+
+            // Button
+            Button button = GetComponent<Button>();
+            button.interactable = false;
                         
             Sequence seq = DOTween.Sequence();
-            seq.Append(rectTransform.DOAnchorPos(new Vector2(initX, initY - 10f), tweenDuration).SetEase(Ease.InOutSine));
-            seq.Join(rectTransform.DOScale(0.8f, tweenDuration).SetEase(Ease.InOutSine));
+            seq.Append(rectTransform.DOAnchorPos(new Vector2(initX, initY - 20f), tweenDuration).SetEase(Ease.InOutSine));
+            seq.Join(rectTransform.DOScale(0.7f, tweenDuration).SetEase(Ease.InOutSine));
             seq.Join(canvasGroup.DOFade(1f, tweenDuration).SetEase(Ease.InOutSine));
             seq.OnComplete(() =>
             {
                 canvasGroup.alpha = 1f;
                 canvasGroup.interactable = true;
                 canvasGroup.blocksRaycasts = true;
+                button.interactable = true;
                 isTweening = false;
             });
         }
@@ -96,13 +101,17 @@ public class WindowManager : MonoBehaviour
             isTweening = true;
 
             // RectTransform
-            rectTransform.anchoredPosition = new Vector2(initX, initY - 10f);
-            rectTransform.localScale = new Vector2(0.8f, 0.8f);
+            rectTransform.anchoredPosition = new Vector2(initX, initY - 20f);
+            rectTransform.localScale = new Vector2(0.7f, 0.7f);
 
             // CanvasGroup
             canvasGroup.alpha = 1f;
             canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = true;
+
+            // Button
+            Button button = GetComponent<Button>();
+            button.interactable = false;
                         
             Sequence seq = DOTween.Sequence();
             seq.Append(rectTransform.DOAnchorPos(new Vector2(initX, initY + 200f), tweenDuration).SetEase(Ease.InOutSine));
@@ -113,6 +122,7 @@ public class WindowManager : MonoBehaviour
                 canvasGroup.alpha = 0f;
                 canvasGroup.interactable = false;
                 canvasGroup.blocksRaycasts = false;
+                button.interactable = false;
                 isTweening = false;
             });
         }

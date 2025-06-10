@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5607fc9c76ec1984eac9a10c5b79e584, type: 3}
-  m_Name: Maggy
+  m_Name: Maggy_Player
   m_EditorClassIdentifier: 
   notes: 
-  maxHealth: 11
+  maxHealth: 150
   maxStamina: 100
   maxCooldown: 2
-  waitReward: 7
+  waitReward: 15
   curMovementType: 0
   idleSprites:
   - {fileID: -7586852357584557507, guid: abed7faf75084084c8039720f701cf9f, type: 3}
@@ -38,5 +38,8 @@ MonoBehaviour:
   damagedSprites:
   - {fileID: 21300000, guid: 5cd4d3bb802c2a94cbb6cd918ea9ed22, type: 3}
   cardOne: {fileID: 11400000, guid: 447eb4269ec9a80439e1643b8bc8eef0, type: 2}
+  cardOneAttackWaves: 2
   cardTwo: {fileID: 11400000, guid: 09983d32e26464a47820a3eaa88555bc, type: 2}
+  cardTwoAttackWaves: 2
   cardThree: {fileID: 11400000, guid: 44e152edd5b515a4480fcdd8a3c59eef, type: 2}
+  cardThreeAttackWaves: 1

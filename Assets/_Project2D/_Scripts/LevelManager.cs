@@ -197,7 +197,7 @@ public class LevelManager : MonoBehaviour
                 curQueueIndex = 0;
                 charactersOnQueue.Clear();
                 charactersOnQueueToIgnore.Clear();
-                cinemCamera.Follow = camDefaultPos;
+                // cinemCamera.Follow = camDefaultPos;
                 StartCooldown();
             }
             else
@@ -236,6 +236,11 @@ public class LevelManager : MonoBehaviour
         {
             playerCharacters.Remove(playerCharacter);   
 
+            if (playerCharacters.Count == 0)
+            {
+                GameObject.Find("Back").GetComponent<SceneChanger>().ChangeScene("LevelSelection");
+            }
+
             for (int i = 0; i < charactersOnQueue.Count; i++)
             {
                 if (charactersOnQueue[i] == playerCharacter)
@@ -249,6 +254,11 @@ public class LevelManager : MonoBehaviour
         public void RemoveEnemy(Character enemyCharacter)
         {
             enemyCharacters.Remove(enemyCharacter);   
+
+            if (enemyCharacters.Count == 0)
+            {
+                GameObject.Find("Back").GetComponent<SceneChanger>().ChangeScene("LevelSelection");
+            }
 
             for (int i = 0; i < charactersOnQueue.Count; i++)
             {

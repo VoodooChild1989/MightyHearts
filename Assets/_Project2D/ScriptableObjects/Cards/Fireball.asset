@@ -18,4 +18,4 @@ MonoBehaviour:
   cardDescription: A powerful fireball.
   staminaCost: 10
   damageAmount: 15
-  cardProjectile: {fileID: 11400000, guid: 49ac8f6f537ae4a4d8c5cffe747779bd, type: 2}
+  cardProjectile: {fileID: 11400000, guid: 4c9e20dfb476f2e4195751029809c161, type: 2}
