@@ -28,6 +28,7 @@ public class HandleCharacterSO : MonoBehaviour
             {
                 if (child.name == "Character")
                 {
+                    /*
                     Character chr = child.GetComponent<Character>();
 
                     chr.maxHealth = chrSO.maxHealth;
@@ -53,6 +54,30 @@ public class HandleCharacterSO : MonoBehaviour
                     chr.cardThreeOriginal = chrSO.cardThree;
                     chr.cardThreeAttackWaves = chrSO.cardThreeAttackWaves;
                     chr.cardThree = chr.CloneCard(chr.cardThreeOriginal, 3);
+                    */
+
+                    
+                    CharacterStatistics chrStats = child.GetComponent<CharacterStatistics>();
+                    chrStats.maxHealth = chrSO.maxHealth;
+                    chrStats.maxStamina = chrSO.maxStamina;
+                    chrStats.maxCooldown = chrSO.maxCooldown;
+                    chrStats.waitReward = chrSO.waitReward;
+                    chrStats.curCharacterType = curCharacterType;
+                    chrStats.cardOneOriginal = chrSO.cardOne;
+                    chrStats.cardOne = chrStats.CloneCard(chrSO.cardOne);
+                    chrStats.cardTwoOriginal = chrSO.cardTwo;
+                    chrStats.cardTwo = chrStats.CloneCard(chrSO.cardOne);
+                    chrStats.cardThreeOriginal = chrSO.cardThree;
+                    chrStats.cardThree = chrStats.CloneCard(chrSO.cardOne);
+
+                    CharacterMovement chrMove = child.GetComponent<CharacterMovement>();
+                    chrMove.curMovementType = chrSO.curMovementType;
+                    
+                    CharacterAnimation chrAnim = child.GetComponent<CharacterAnimation>();
+                    chrAnim.idleSprites = chrSO.idleSprites;
+                    chrAnim.runningSprites = chrSO.runningSprites;
+                    chrAnim.attackSprites = chrSO.attackSprites;
+                    chrAnim.damagedSprites = chrSO.damagedSprites;
                 }
             }
         }

@@ -214,7 +214,12 @@ public class CharacterMovement : MonoBehaviour
 
     #region MANUAL
     
-        private IEnumerator Movement() 
+        public void StartManualMovement()
+        {
+            movementCrt = StartCoroutine(ManualMovement());
+        }
+
+        private IEnumerator ManualMovement() 
         {
             while (true)
             {   

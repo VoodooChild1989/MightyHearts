@@ -970,11 +970,11 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
         {
             if (curCharacterType == CharacterType.Player)
             {
-                LevelManager.instance.RemovePlayer(this);
+                // LevelManager.instance.RemovePlayer(this);
             }
             else if (curCharacterType == CharacterType.Enemy)
             {
-                LevelManager.instance.RemoveEnemy(this);
+                // LevelManager.instance.RemoveEnemy(this);
             }
         }
 

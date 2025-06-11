@@ -50,24 +50,6 @@ public class CharacterStatistics : MonoBehaviour
             [ShowOnly] public CardSO cardThree;
             [ShowOnly] public CardSO cardThreeOriginal;
 
-        [Header("BOOSTERS")]
-            
-            [Header("Card")]
-            public int minStaminaBonus;
-            public int maxStaminaBonus;
-            public int minDamageBonus;
-            public int maxDamageBonus;
-            public int minWaveBonus;
-            public int maxWaveBonus;
-
-            [Header("Character")]
-            public int minHealthBonus;
-            public int maxHealthBonus;
-            public int minCharacterStaminaBonus;
-            public int maxCharacterStaminaBonus;
-            public int minCooldownBonus;
-            public int maxCooldownBonus;
-
         [Header("DISPLAY")]
 
             [Header("UI")]
@@ -80,7 +62,7 @@ public class CharacterStatistics : MonoBehaviour
 
             [Header("SCRIPTS")]
             private CharacterAnimation chrAnim;
-            private CharacterMovement chrMove;
+            public CharacterMovement chrMove;
 
     #endregion
 
@@ -188,16 +170,16 @@ public class CharacterStatistics : MonoBehaviour
         private void TurnToPlayer()
         {
             gameObject.layer = LayerMask.NameToLayer("Player");
-            // Material mat = Resources.Load<Material>("Materials/Player_Outline");
-            // sr.material = mat;
+            Material mat = Resources.Load<Material>("Materials/Player_Outline");
+            chrAnim.sr.material = mat;
         }
 
         private void TurnToEnemy()
         {
             gameObject.layer = LayerMask.NameToLayer("Enemy");
-            // Material mat = Resources.Load<Material>("Materials/Enemy_Outline");
-            // sr.material = mat;
-            // Flip(false);
+            Material mat = Resources.Load<Material>("Materials/Enemy_Outline");
+            chrAnim.sr.material = mat;
+            chrMove.Flip(false);
         }
 
         public void TurnStarted()
@@ -252,6 +234,60 @@ public class CharacterStatistics : MonoBehaviour
             }   
         }
 
+        public void Ready()
+        {
+            TurnStarted();
+
+            if ((curCharacterType == CharacterType.Player && LevelManager.instance.isPlayerAuto) || (curCharacterType == CharacterType.Enemy && LevelManager.instance.isEnemyAuto))
+            {
+                int rndNum = UnityEngine.Random.Range(1, 3);
+                
+                if (rndNum == 1)
+                {
+                    chrMove.StartAutoAttack();
+                }
+                else
+                {
+                    chrMove.StartAutoMove();
+                }
+            }
+            else
+            {
+                onTurn = true;
+                chrMove.StartManualMovement();
+                LevelManager.instance.ShowCards(cardOne, cardTwo, cardThree);
+
+                Button card01 = LevelManager.instance.cards[0];
+                Button card02 = LevelManager.instance.cards[1];
+                Button card03 = LevelManager.instance.cards[2];
+                Button waitButton = LevelManager.instance.waitButton;
+                Button addStepButton = LevelManager.instance.addStepButton;
+                Button removeStepButton = LevelManager.instance.removeStepButton;
+                chrMove.UpdateStepsText();
+                Button switchMove = LevelManager.instance.switchMovementTypesButton;
+                
+                card01.onClick.RemoveAllListeners();
+                card02.onClick.RemoveAllListeners();
+                card03.onClick.RemoveAllListeners();
+                waitButton.onClick.RemoveAllListeners();
+                addStepButton.onClick.RemoveAllListeners();
+                removeStepButton.onClick.RemoveAllListeners();
+                switchMove.onClick.RemoveAllListeners();
+
+                card01.onClick.AddListener(FirstCard);   
+                card02.onClick.AddListener(SecondCard);   
+                card03.onClick.AddListener(ThirdCard);    
+                waitButton.onClick.AddListener(Wait);     
+                addStepButton.onClick.AddListener(chrMove.AddStep);     
+                removeStepButton.onClick.AddListener(chrMove.RemoveStep); 
+                switchMove.onClick.AddListener(chrMove.SwitchMovementTypes);   
+
+                card01.gameObject.GetComponent<CardButtonDisplay>().card = cardOne;
+                card02.gameObject.GetComponent<CardButtonDisplay>().card = cardTwo;
+                card03.gameObject.GetComponent<CardButtonDisplay>().card = cardThree;
+            }
+        }
+
         /// <summary>
         /// Sent when an incoming collider makes contact with this object's
         /// collider (2D physics only).
@@ -262,9 +298,9 @@ public class CharacterStatistics : MonoBehaviour
             if (other.gameObject.CompareTag("CardBooster"))
             {
                 int num = UnityEngine.Random.Range(1, 4);
-                int staminaAmount = UnityEngine.Random.Range(minStaminaBonus, maxStaminaBonus);
-                int damageAmount = UnityEngine.Random.Range(minDamageBonus, maxDamageBonus);
-                int waveAmount = UnityEngine.Random.Range(minWaveBonus, maxWaveBonus);
+                int staminaAmount = UnityEngine.Random.Range(LevelManager.instance.minStaminaBonus, LevelManager.instance.maxStaminaBonus);
+                int damageAmount = UnityEngine.Random.Range(LevelManager.instance.minDamageBonus, LevelManager.instance.maxDamageBonus);
+                int waveAmount = UnityEngine.Random.Range(LevelManager.instance.minWaveBonus, LevelManager.instance.maxWaveBonus);
 
                 if (num == 1)
                 {
@@ -283,7 +319,7 @@ public class CharacterStatistics : MonoBehaviour
             }
             else if (other.gameObject.CompareTag("FlyBooster"))
             {            
-                // canSwitchMoveTypes = true;
+                chrMove.canSwitchMoveTypes = true;
                 other.gameObject.GetComponent<Booster>().Death();
             }
             else if (other.gameObject.CompareTag("CharacterBooster"))
@@ -304,7 +340,7 @@ public class CharacterStatistics : MonoBehaviour
         
         private void IncreaseMaxHealth()
         {
-            int amount = UnityEngine.Random.Range(minHealthBonus, maxHealthBonus);
+            int amount = UnityEngine.Random.Range(LevelManager.instance.minHealthBonus, LevelManager.instance.maxHealthBonus);
             maxHealth += amount;
             Heal(maxHealth - curHealth);
         }
@@ -372,7 +408,7 @@ public class CharacterStatistics : MonoBehaviour
 
         private void IncreaseMaxStamina()
         {
-            int amount = UnityEngine.Random.Range(minCharacterStaminaBonus, maxCharacterStaminaBonus);
+            int amount = UnityEngine.Random.Range(LevelManager.instance.minCharacterStaminaBonus, LevelManager.instance.maxCharacterStaminaBonus);
             maxStamina += amount;
             AddStamina(maxStamina - curStamina);
         }
@@ -423,7 +459,7 @@ public class CharacterStatistics : MonoBehaviour
 
         private void DecreaseMaxCooldown()
         {
-            int amount = UnityEngine.Random.Range(minCooldownBonus, maxCooldownBonus);
+            int amount = UnityEngine.Random.Range(LevelManager.instance.minCooldownBonus, LevelManager.instance.maxCooldownBonus);
 
             if (amount < maxCooldown)
             {
@@ -520,17 +556,14 @@ public class CharacterStatistics : MonoBehaviour
             }
         }
 
-        public CardSO CloneCard(CardSO cardToClone, int cardNum)
+        public CardSO CloneCard(CardSO cardToClone)
         {
             CardSO clone = ScriptableObject.CreateInstance<CardSO>();
 
             clone.cardIcon = cardToClone.cardIcon;
             clone.cardName = cardToClone.cardName;
             clone.cardDescription = cardToClone.cardDescription;
-            
-            if (cardNum == 1) clone.cardDescription += " " + cardOne.attackWaves + " waves.";
-            if (cardNum == 2) clone.cardDescription += " " + cardTwo.attackWaves + " waves.";
-            if (cardNum == 3) clone.cardDescription += " " + cardThree.attackWaves + " waves.";
+            clone.cardDescription += " " + clone.attackWaves + " waves.";
 
             clone.staminaCost = cardToClone.staminaCost;
             clone.damageAmount = cardToClone.damageAmount;
@@ -602,12 +635,10 @@ public class CharacterStatistics : MonoBehaviour
                     projectileScript.TurnToEnemy();
                 }
                 
-                /*
-                if (curFacingDirection == FacingDirection.Left)
+                if (chrMove.curFacingDirection == FacingDirection.Left)
                 {
                     projectileScript.Flip();
                 }
-                */
 
                 if (cardNum == 1)
                 {

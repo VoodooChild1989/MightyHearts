@@ -176,7 +176,7 @@ public class TilemapManager : MonoBehaviour
 
         public void ShowTrajectory(CardSO card)
         {
-            Character curChar = LevelManager.instance.charactersOnQueue[LevelManager.instance.curQueueIndex - 1];
+            CharacterStatistics curChar = LevelManager.instance.charactersOnQueue[LevelManager.instance.curQueueIndex - 1];
             int blocksToDraw = card.cardProjectile.maxBlocks;
             int initX = 0;
             int initY = 0;
@@ -201,7 +201,7 @@ public class TilemapManager : MonoBehaviour
             {
                 Cell cellObj = null;
 
-                if (curChar.curFacingDirection == FacingDirection.Left)
+                if (curChar.chrMove.curFacingDirection == FacingDirection.Left)
                 {
                     cellObj = collisionMatrixCells[initX - i, initY].GetComponent<Cell>();
                 }
@@ -216,7 +216,7 @@ public class TilemapManager : MonoBehaviour
 
         public void HideTrajectory(CardSO card)
         {
-            Character curChar = LevelManager.instance.charactersOnQueue[LevelManager.instance.curQueueIndex - 1];
+            CharacterStatistics curChar = LevelManager.instance.charactersOnQueue[LevelManager.instance.curQueueIndex - 1];
             int blocksToDraw = card.cardProjectile.maxBlocks;
             int initX = 0;
             int initY = 0;

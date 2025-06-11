@@ -20,10 +20,10 @@ public class LevelManager : MonoBehaviour
         [Header("VARIABLES")]
             
             [Header("Basic Variables")]
-            public List<Character> allCharacters;
-            public List<Character> playerCharacters;
-            public List<Character> enemyCharacters;
-            public List<Character> charactersOnQueue;
+            public List<CharacterStatistics> allCharacters;
+            public List<CharacterStatistics> playerCharacters;
+            public List<CharacterStatistics> enemyCharacters;
+            public List<CharacterStatistics> charactersOnQueue;
             public List<int> charactersOnQueueToIgnore;
             [ShowOnly] public int curQueueIndex;
             public Coroutine cooldownCrt;
@@ -56,6 +56,24 @@ public class LevelManager : MonoBehaviour
             public bool isPlayerAuto;
             public bool isEnemyAuto;
 
+        [Header("BOOSTERS")]
+            
+            [Header("Card")]
+            public int minStaminaBonus;
+            public int maxStaminaBonus;
+            public int minDamageBonus;
+            public int maxDamageBonus;
+            public int minWaveBonus;
+            public int maxWaveBonus;
+
+            [Header("Character")]
+            public int minHealthBonus;
+            public int maxHealthBonus;
+            public int minCharacterStaminaBonus;
+            public int maxCharacterStaminaBonus;
+            public int minCooldownBonus;
+            public int maxCooldownBonus;
+
     #endregion
 
     #region LIFE CYCLE METHODS
@@ -75,8 +93,8 @@ public class LevelManager : MonoBehaviour
         /// </summary>
         private void Start()
         {
-            allCharacters = FindObjectsByType<Character>(FindObjectsSortMode.None).ToList();
-            foreach (Character chr in allCharacters)
+            allCharacters = FindObjectsByType<CharacterStatistics>(FindObjectsSortMode.None).ToList();
+            foreach (CharacterStatistics chr in allCharacters)
             {
                 if (chr.curCharacterType == CharacterType.Player)
                 {
@@ -93,7 +111,7 @@ public class LevelManager : MonoBehaviour
             RemoveCardsStart();
             StartCoroutine(LevelStart());
                 
-            charactersOnQueue = new List<Character>();
+            charactersOnQueue = new List<CharacterStatistics>();
             charactersOnQueueToIgnore = new List<int>();
             curQueueIndex = 0;
             curTurnNumber = 1;
@@ -175,10 +193,10 @@ public class LevelManager : MonoBehaviour
             {
                 yield return new WaitForSeconds(1f);
 
-                List<Character> characters = FindObjectsByType<Character>(FindObjectsSortMode.None).ToList();
-                List<Character> readyCharacters = new List<Character>();
+                List<CharacterStatistics> characters = FindObjectsByType<CharacterStatistics>(FindObjectsSortMode.None).ToList();
+                List<CharacterStatistics> readyCharacters = new List<CharacterStatistics>();
 
-                foreach (Character character in characters)
+                foreach (CharacterStatistics character in characters)
                 {
                     if (character.curCooldown < character.maxCooldown)
                     {
@@ -193,7 +211,7 @@ public class LevelManager : MonoBehaviour
 
                 if (readyCharacters.Count > 0)
                 {
-                    foreach (Character character in readyCharacters)
+                    foreach (CharacterStatistics character in readyCharacters)
                     {
                         if (character.curCharacterType == CharacterType.Player)
                         {
@@ -202,7 +220,7 @@ public class LevelManager : MonoBehaviour
                         }
                     }   
                     
-                    foreach (Character character in readyCharacters)
+                    foreach (CharacterStatistics character in readyCharacters)
                     {
                         if (character.curCharacterType == CharacterType.Enemy)
                         {
@@ -270,7 +288,7 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        public void RemovePlayer(Character playerCharacter)
+        public void RemovePlayer(CharacterStatistics playerCharacter)
         {
             playerCharacters.Remove(playerCharacter);   
 
@@ -289,7 +307,7 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        public void RemoveEnemy(Character enemyCharacter)
+        public void RemoveEnemy(CharacterStatistics enemyCharacter)
         {
             enemyCharacters.Remove(enemyCharacter);   
 
