@@ -164,16 +164,16 @@ public class Projectile : MonoBehaviour
                 {
                     if (collidingObj.GetComponent<CharacterStatistics>() != null && !collidingObj.GetComponent<CharacterStatistics>().isDead)
                     {
-                        LevelManager.instance.MoveQueue();
+                        QueueManager.instance.MoveQueue();
                     }
                     else if (collidingObj.GetComponent<Block>() != null)
                     {
-                        LevelManager.instance.MoveQueue();
+                        QueueManager.instance.MoveQueue();
                     }
                 }
                 else
                 {
-                    LevelManager.instance.MoveQueue();
+                    QueueManager.instance.MoveQueue();
                 }
             }
             

@@ -36,9 +36,10 @@ public class CharacterMovement : MonoBehaviour
 
         [Header("REFERENCES")]
 
-            [Header("SCRIPTS")]
+            [Header("Scripts")]
             private CharacterAnimation chrAnim;
             private CharacterStatistics chrStats;
+            private CharacterCards chrCards;
 
     #endregion
 
@@ -52,6 +53,7 @@ public class CharacterMovement : MonoBehaviour
         {
             chrAnim = GetComponent<CharacterAnimation>();
             chrStats = GetComponent<CharacterStatistics>();
+            chrCards = GetComponent<CharacterCards>();
         }
 
         /// <summary>
@@ -137,27 +139,27 @@ public class CharacterMovement : MonoBehaviour
             {
                 if (i == 1)
                 {
-                    if (chrStats.curStamina >= chrStats.cardOne.staminaCost)
+                    if (chrStats.curStamina >= chrCards.cardOne.staminaCost)
                     {
-                        chrStats.FirstCard();
+                        chrCards.FirstCard();
                         canAttack = true;
                         break;
                     }
                 }
                 else if (i == 2)
                 {
-                    if (chrStats.curStamina >= chrStats.cardTwo.staminaCost)
+                    if (chrStats.curStamina >= chrCards.cardTwo.staminaCost)
                     {
-                        chrStats.SecondCard();
+                        chrCards.SecondCard();
                         canAttack = true;
                         break;
                     }
                 }
                 else if (i == 3)
                 {
-                    if (chrStats.curStamina >= chrStats.cardThree.staminaCost)
+                    if (chrStats.curStamina >= chrCards.cardThree.staminaCost)
                     {
-                        chrStats.ThirdCard();
+                        chrCards.ThirdCard();
                         canAttack = true;
                         break;
                     }
@@ -460,8 +462,11 @@ public class CharacterMovement : MonoBehaviour
 
         public void AddStep()
         {   
-            moveSteps++;
-            moveStaminaCost += 10;
+            if (chrStats.curStamina >= moveStaminaCost + 10)
+            {
+                moveSteps++;
+                moveStaminaCost += 10;
+            }
 
             UpdateStepsText();
         }
@@ -508,7 +513,7 @@ public class CharacterMovement : MonoBehaviour
         {
             chrStats.TurnFinished();
             chrAnim.SetIdleAnimation();
-            LevelManager.instance.MoveQueue();
+            QueueManager.instance.MoveQueue();
         }
 
         private bool IsThisNewPositionPossible(int moveX, int moveY)
@@ -542,7 +547,7 @@ public class CharacterMovement : MonoBehaviour
                 chrStats.CheckCards();
                 yield return new WaitForSeconds(1f);
                 chrStats.TurnFinished();
-                LevelManager.instance.MoveQueue();
+                QueueManager.instance.MoveQueue();
             }
         }
 

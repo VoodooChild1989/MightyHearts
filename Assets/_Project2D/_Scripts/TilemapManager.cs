@@ -23,17 +23,17 @@ public class TilemapManager : MonoBehaviour
             public GameObject block;
             public GameObject cell;
             public Vector2 gridOffset;
-            public bool areCellsVisible;
             public Button cellButton;
+            [ShowOnly] public bool areCellsVisible;
             public GameObject[,] collisionMatrixCells;
             public int[,] collisionMatrix;
             public static TilemapManager instance;
             
             [Header("Data")]
-            public int width;
-            public int height;
-            public int startX;
-            public int startY;
+            [ShowOnly] public int width;
+            [ShowOnly] public int height;
+            [ShowOnly] public int startX;
+            [ShowOnly] public int startY;
 
     #endregion
 
@@ -176,25 +176,25 @@ public class TilemapManager : MonoBehaviour
 
         public void ShowTrajectory(CardSO card)
         {
-            CharacterStatistics curChar = LevelManager.instance.charactersOnQueue[LevelManager.instance.curQueueIndex - 1];
+            CharacterStatistics curChar = QueueManager.instance.charactersOnQueue[QueueManager.instance.curQueueIndex - 1];
             int blocksToDraw = card.cardProjectile.maxBlocks;
             int initX = 0;
             int initY = 0;
 
-            if (curChar.cardOne == card)
+            if (curChar.chrCards.cardOne == card)
             {
-                initX = curChar.cardOneSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
-                initY = curChar.cardOneSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
+                initX = curChar.chrCards.cardOneSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
+                initY = curChar.chrCards.cardOneSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
             }
-            else if (curChar.cardTwo == card)
+            else if (curChar.chrCards.cardTwo == card)
             {
-                initX = curChar.cardTwoSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
-                initY = curChar.cardTwoSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
+                initX = curChar.chrCards.cardTwoSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
+                initY = curChar.chrCards.cardTwoSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
             }
-            else if (curChar.cardThree == card)
+            else if (curChar.chrCards.cardThree == card)
             {
-                initX = curChar.cardThreeSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
-                initY = curChar.cardThreeSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
+                initX = curChar.chrCards.cardThreeSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
+                initY = curChar.chrCards.cardThreeSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
             }
             
             for (int i = 0; i < blocksToDraw; i++)
@@ -216,27 +216,6 @@ public class TilemapManager : MonoBehaviour
 
         public void HideTrajectory(CardSO card)
         {
-            CharacterStatistics curChar = LevelManager.instance.charactersOnQueue[LevelManager.instance.curQueueIndex - 1];
-            int blocksToDraw = card.cardProjectile.maxBlocks;
-            int initX = 0;
-            int initY = 0;
-
-            if (curChar.cardOne == card)
-            {
-                initX = curChar.cardOneSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
-                initY = curChar.cardOneSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
-            }
-            else if (curChar.cardTwo == card)
-            {
-                initX = curChar.cardTwoSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
-                initY = curChar.cardTwoSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
-            }
-            else if (curChar.cardThree == card)
-            {
-                initX = curChar.cardThreeSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
-                initY = curChar.cardThreeSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
-            }
-            
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)

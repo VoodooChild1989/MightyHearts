@@ -27,48 +27,21 @@ public class HandleCharacterSO : MonoBehaviour
             foreach (Transform child in transform)
             {
                 if (child.name == "Character")
-                {
-                    /*
-                    Character chr = child.GetComponent<Character>();
-
-                    chr.maxHealth = chrSO.maxHealth;
-                    chr.maxStamina = chrSO.maxStamina;
-                    chr.maxCooldown = chrSO.maxCooldown;
-                    chr.waitReward = chrSO.waitReward;
-                    chr.curCharacterType = curCharacterType;
-                    chr.curMovementType = chrSO.curMovementType;
-
-                    chr.idleSprites = chrSO.idleSprites;
-                    chr.runningSprites = chrSO.runningSprites;
-                    chr.attackSprites = chrSO.attackSprites;
-                    chr.damagedSprites = chrSO.damagedSprites;
-                    
-                    chr.cardOneOriginal = chrSO.cardOne;
-                    chr.cardOneAttackWaves = chrSO.cardOneAttackWaves;
-                    chr.cardOne = chr.CloneCard(chr.cardOneOriginal, 1);
-                    
-                    chr.cardTwoOriginal = chrSO.cardTwo;
-                    chr.cardTwoAttackWaves = chrSO.cardTwoAttackWaves;
-                    chr.cardTwo = chr.CloneCard(chr.cardTwoOriginal, 2);
-
-                    chr.cardThreeOriginal = chrSO.cardThree;
-                    chr.cardThreeAttackWaves = chrSO.cardThreeAttackWaves;
-                    chr.cardThree = chr.CloneCard(chr.cardThreeOriginal, 3);
-                    */
-
-                    
+                {                    
                     CharacterStatistics chrStats = child.GetComponent<CharacterStatistics>();
                     chrStats.maxHealth = chrSO.maxHealth;
                     chrStats.maxStamina = chrSO.maxStamina;
                     chrStats.maxCooldown = chrSO.maxCooldown;
                     chrStats.waitReward = chrSO.waitReward;
                     chrStats.curCharacterType = curCharacterType;
-                    chrStats.cardOneOriginal = chrSO.cardOne;
-                    chrStats.cardOne = chrStats.CloneCard(chrSO.cardOne);
-                    chrStats.cardTwoOriginal = chrSO.cardTwo;
-                    chrStats.cardTwo = chrStats.CloneCard(chrSO.cardTwo);
-                    chrStats.cardThreeOriginal = chrSO.cardThree;
-                    chrStats.cardThree = chrStats.CloneCard(chrSO.cardThree);
+                    
+                    CharacterCards chrCards = child.GetComponent<CharacterCards>();
+                    chrCards.cardOneOriginal = chrSO.cardOne;
+                    chrCards.cardOne = chrCards.CloneCard(chrSO.cardOne);
+                    chrCards.cardTwoOriginal = chrSO.cardTwo;
+                    chrCards.cardTwo = chrCards.CloneCard(chrSO.cardTwo);
+                    chrCards.cardThreeOriginal = chrSO.cardThree;
+                    chrCards.cardThree = chrCards.CloneCard(chrSO.cardThree);
 
                     CharacterMovement chrMove = child.GetComponent<CharacterMovement>();
                     chrMove.curMovementType = chrSO.curMovementType;
