@@ -67,14 +67,15 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
             private Coroutine movementCrt;
             private bool onTurn;
             private bool choseCard;
-
             public int moveSteps;
             public int moveStaminaCost;
+            private bool canSwitchMoveTypes;
 
             [Header("UI")]
             private TMP_Text healthTMP;
             private TMP_Text staminaTMP;
             private TMP_Text cooldownTMP;
+            private Image moveTypeIcon;
 
         [Header("ANIMATIONS")]
             
@@ -161,6 +162,10 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                                 }
                             }
                         }
+                        else if (childChild.name == "MoveTypeIcon")
+                        {
+                            moveTypeIcon = childChild.GetComponent<Image>();
+                        }
                     }
                 }
             }
@@ -176,6 +181,21 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
             UpdateCooldown(0);
 
             SetIdleAnimation();
+            
+            if (curMovementType == MovementType.Ground)
+            {
+                Sprite icon = LevelManager.instance.groundIcon;
+                LevelManager.instance.switchMovementTypesButton.GetComponent<Image>().sprite = icon;
+                moveTypeIcon.sprite = icon;
+            }
+            else if (curMovementType == MovementType.Air)
+            {
+                Sprite icon = LevelManager.instance.airIcon;
+                LevelManager.instance.switchMovementTypesButton.GetComponent<Image>().sprite = icon;
+                moveTypeIcon.sprite = icon;
+            }
+
+            canSwitchMoveTypes = false;        
         }
 
         /// <summary>
@@ -293,6 +313,7 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                 Button addStepButton = LevelManager.instance.addStepButton;
                 Button removeStepButton = LevelManager.instance.removeStepButton;
                 UpdateStepsText();
+                Button switchMove = LevelManager.instance.switchMovementTypesButton;
                 
                 card01.onClick.RemoveAllListeners();
                 card02.onClick.RemoveAllListeners();
@@ -300,13 +321,15 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                 waitButton.onClick.RemoveAllListeners();
                 addStepButton.onClick.RemoveAllListeners();
                 removeStepButton.onClick.RemoveAllListeners();
+                switchMove.onClick.RemoveAllListeners();
 
                 card01.onClick.AddListener(FirstCard);   
                 card02.onClick.AddListener(SecondCard);   
                 card03.onClick.AddListener(ThirdCard);    
                 waitButton.onClick.AddListener(Wait);     
                 addStepButton.onClick.AddListener(AddStep);     
-                removeStepButton.onClick.AddListener(RemoveStep);   
+                removeStepButton.onClick.AddListener(RemoveStep); 
+                switchMove.onClick.AddListener(SwitchMovementTypes);   
 
                 card01.gameObject.GetComponent<CardButtonDisplay>().card = cardOne;
                 card02.gameObject.GetComponent<CardButtonDisplay>().card = cardTwo;
@@ -335,6 +358,21 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
             LevelManager.instance.cinemCamera.Follow = gameObject.transform;
             moveSteps = 1;
             moveStaminaCost = 0;
+
+            if (curMovementType == MovementType.Ground)
+            {
+                Sprite icon = LevelManager.instance.groundIcon;
+                LevelManager.instance.switchMovementTypesButton.GetComponent<Image>().sprite = icon;
+                moveTypeIcon.sprite = icon;
+            }
+            else if (curMovementType == MovementType.Air)
+            {
+                Sprite icon = LevelManager.instance.airIcon;
+                LevelManager.instance.switchMovementTypesButton.GetComponent<Image>().sprite = icon;
+                moveTypeIcon.sprite = icon;
+            }    
+            
+            LevelManager.instance.switchMovementTypesButton.interactable = canSwitchMoveTypes;
         }
 
         public void TurnFinished()
@@ -380,9 +418,8 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                 Destroy(other.gameObject);
             }
             else if (other.gameObject.CompareTag("FlyBooster"))
-            {
-                curMovementType = MovementType.Air;
-
+            {            
+                canSwitchMoveTypes = true;
                 Destroy(other.gameObject);
             }
             else if (other.gameObject.CompareTag("CharacterBooster"))
@@ -766,7 +803,23 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
             }
             else
             {
-                FinishMovement();
+                if (moveSteps > 0)
+                {
+                    if (IsThisNewPositionPossible(moveX, moveY))
+                    {
+                        yield return new WaitForSeconds(0.05f);
+
+                        Move(moveX, moveY);
+                    }
+                    else
+                    {
+                        FinishMovement();
+                    }
+                }
+                else
+                {
+                    FinishMovement();
+                }
             }
         }
 
@@ -790,6 +843,24 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
             }
 
             UpdateStepsText();
+        }
+
+        public void SwitchMovementTypes()
+        {
+            if (curMovementType == MovementType.Ground)
+            {
+                curMovementType = MovementType.Air;
+                Sprite icon = LevelManager.instance.airIcon;
+                LevelManager.instance.switchMovementTypesButton.GetComponent<Image>().sprite = icon;
+                moveTypeIcon.sprite = icon;
+            }
+            else if (curMovementType == MovementType.Air)
+            {
+                curMovementType = MovementType.Ground;
+                Sprite icon = LevelManager.instance.groundIcon;
+                LevelManager.instance.switchMovementTypesButton.GetComponent<Image>().sprite = icon;
+                moveTypeIcon.sprite = icon;
+            }
         }
 
         public void UpdateStepsText()

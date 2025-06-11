@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1387888674481213606}
   - component: {fileID: 4895634096967111494}
   m_Layer: 13
-  m_Name: Fly_Booster_01
+  m_Name: MoveType_Booster_01
   m_TagString: FlyBooster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

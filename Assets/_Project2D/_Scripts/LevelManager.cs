@@ -44,6 +44,9 @@ public class LevelManager : MonoBehaviour
             public GameObject moveStepsWindow;
             public Button addStepButton;
             public Button removeStepButton;
+            public Button switchMovementTypesButton;
+            public Sprite groundIcon;
+            public Sprite airIcon;
             public TMP_Text stepsNumber;
             public TMP_Text moveStaminaCost;
 
@@ -87,7 +90,7 @@ public class LevelManager : MonoBehaviour
             }
 
             RemoveCardsStart();
-            LevelStart();
+            StartCoroutine(LevelStart());
                 
             charactersOnQueue = new List<Character>();
             charactersOnQueueToIgnore = new List<int>();
@@ -121,10 +124,12 @@ public class LevelManager : MonoBehaviour
 
     #region CUSTOM METHODS
 
-        private void LevelStart()
+        private IEnumerator LevelStart()
         {
             cinemCamera.Follow = camDefaultPos;
             cinemCamera.Lens.OrthographicSize = initOrthoSize;
+
+            yield return new WaitForSeconds(1f);
             
             DOTween.To(() => cinemCamera.Lens.OrthographicSize,
                     x => cinemCamera.Lens.OrthographicSize = x,
