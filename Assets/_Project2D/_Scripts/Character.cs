@@ -415,12 +415,12 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                     CardWave();
                 }
                 
-                Destroy(other.gameObject);
+                other.gameObject.GetComponent<Booster>().Death();
             }
             else if (other.gameObject.CompareTag("FlyBooster"))
             {            
                 canSwitchMoveTypes = true;
-                Destroy(other.gameObject);
+                other.gameObject.GetComponent<Booster>().Death();
             }
             else if (other.gameObject.CompareTag("CharacterBooster"))
             {
@@ -430,7 +430,7 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                 else if (num == 2) IncreaseMaxStamina();
                 else if (num == 3) DecreaseMaxCooldown();
             
-                Destroy(other.gameObject);
+                other.gameObject.GetComponent<Booster>().Death();
             }
         }
 
@@ -1100,7 +1100,7 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
 
         private void CardDamage(int amount)
         {
-            int cardNum = UnityEngine.Random.Range(1, 3);
+            int cardNum = UnityEngine.Random.Range(1, 4);
 
             if (cardNum == 1) cardOne.damageAmount += amount;
             if (cardNum == 2) cardTwo.damageAmount += amount;

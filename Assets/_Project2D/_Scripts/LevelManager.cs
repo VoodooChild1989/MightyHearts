@@ -36,6 +36,7 @@ public class LevelManager : MonoBehaviour
             public float initOrthoSize;
             public float finalOrthoSize;
             public float levelCamIntroDuration;
+            public bool isFirstReady;
 
             [Header("Buttons")]
             public Button[] cards; 
@@ -130,16 +131,8 @@ public class LevelManager : MonoBehaviour
             cinemCamera.Lens.OrthographicSize = initOrthoSize;
 
             yield return new WaitForSeconds(1f);
-            
-            DOTween.To(() => cinemCamera.Lens.OrthographicSize,
-                    x => cinemCamera.Lens.OrthographicSize = x,
-                    finalOrthoSize,
-                    levelCamIntroDuration)
-                .SetEase(Ease.InExpo)
-                .OnComplete(() =>
-                {
-                    cooldownCrt = StartCoroutine(Cooldown());
-                });
+
+            cooldownCrt = StartCoroutine(Cooldown());
         }
 
         public void TogglePlayerAuto()
@@ -245,9 +238,19 @@ public class LevelManager : MonoBehaviour
                 }
                 else
                 {
+                    if (!isFirstReady)
+                    {
+                        DOTween.To(() => cinemCamera.Lens.OrthographicSize,
+                                            x => cinemCamera.Lens.OrthographicSize = x,
+                                            finalOrthoSize,
+                                            levelCamIntroDuration)
+                                            .SetEase(Ease.InOutSine);
+                    }
+
                     charactersOnQueue[curQueueIndex].Ready();
                     curTurnNumber++;
                     curQueueIndex++;
+                    isFirstReady = true;
                 }
             }
         }

@@ -78,7 +78,7 @@ public class WindowManager : MonoBehaviour
             button.interactable = false;
                         
             Sequence seq = DOTween.Sequence();
-            seq.Append(rectTransform.DOAnchorPos(new Vector2(initX, initY - 20f), tweenDuration).SetEase(Ease.InOutSine));
+            seq.Append(rectTransform.DOAnchorPos(new Vector2(initX, initY), tweenDuration).SetEase(Ease.InOutSine));
             seq.Join(rectTransform.DOScale(0.7f, tweenDuration).SetEase(Ease.InOutSine));
             seq.Join(canvasGroup.DOFade(1f, tweenDuration).SetEase(Ease.InOutSine));
             seq.OnComplete(() =>
@@ -101,7 +101,7 @@ public class WindowManager : MonoBehaviour
             isTweening = true;
 
             // RectTransform
-            rectTransform.anchoredPosition = new Vector2(initX, initY - 20f);
+            rectTransform.anchoredPosition = new Vector2(initX, initY);
             rectTransform.localScale = new Vector2(0.7f, 0.7f);
 
             // CanvasGroup

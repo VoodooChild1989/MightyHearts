@@ -106,7 +106,12 @@ MonoBehaviour:
   x: 0
   y: 0
   collidesWith: {fileID: 0}
-  defautTransparency: 0.7
+  fullCell: {fileID: 21300000, guid: f85c2c97c4b2e114ab9c1789911bc483, type: 3}
+  trajectoryCell: {fileID: 21300000, guid: eded960643958e34b9d6857254a571c9, type: 3}
+  emptyCell: {fileID: 21300000, guid: fa61d41255f94d74780620600c0e4f46, type: 3}
+  fullCellTransparency: 0.7
+  trajectoryCellTransparency: 1
+  emptyCellTransparency: 0.5
   sr: {fileID: 0}
   isTrajectory: 0
 --- !u!61 &-8498759413303780471

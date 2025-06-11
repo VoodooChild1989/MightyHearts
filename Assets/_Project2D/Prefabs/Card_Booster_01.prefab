@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 451615164977225275}
   - component: {fileID: 1387888674481213606}
+  - component: {fileID: 8902909867820014526}
   - component: {fileID: 4895634096967111494}
   m_Layer: 13
   m_Name: Card_Booster_01
@@ -88,6 +89,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8902909867820014526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185577359148186982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9149688ca7e61574ea8280a910dee2c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notes: 
+  pickedVFX: {fileID: 6245361130249214102, guid: 3192d04a5a96b0c45898233ae4a0ef4f, type: 3}
+  initScale: 0.9
+  finalScale: 1.1
+  duration: 0.5
 --- !u!61 &4895634096967111494
 BoxCollider2D:
   m_ObjectHideFlags: 0

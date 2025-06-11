@@ -21,7 +21,14 @@ public class Cell : MonoBehaviour
             public int x;
             public int y;
             public GameObject collidesWith;
-            public float defautTransparency;
+
+            [Header("Visuals")]
+            public Sprite fullCell;
+            public Sprite trajectoryCell;
+            public Sprite emptyCell;
+            public float fullCellTransparency;
+            public float trajectoryCellTransparency;
+            public float emptyCellTransparency;
             [ShowOnly] public SpriteRenderer sr;
             [ShowOnly] public bool isTrajectory;
 
@@ -87,17 +94,20 @@ public class Cell : MonoBehaviour
             {
                 if (isTrajectory)
                 {
-                    sr.color = new Color(0f, 0f, 1f, defautTransparency);   
+                    sr.color = new Color(0f, 0f, 1f, trajectoryCellTransparency);   
+                    sr.sprite = trajectoryCell;
                 }
                 else
                 {
                     if (collidesWith != null)
                     {
-                        sr.color = new Color(0f, 1f, 0f, defautTransparency);   
+                        sr.color = new Color(0f, 1f, 0f, fullCellTransparency);   
+                        sr.sprite = fullCell;
                     }
                     else
                     {
-                        sr.color = new Color(1f, 0f, 0f, defautTransparency);   
+                        sr.color = new Color(1f, 0f, 0f, emptyCellTransparency);   
+                        sr.sprite = emptyCell;
                     }
                 }
             }
