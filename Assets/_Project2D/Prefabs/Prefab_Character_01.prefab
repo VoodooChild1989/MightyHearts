@@ -977,6 +977,8 @@ MonoBehaviour:
   curCharacterType: 0
   curMovementType: 0
   curFacingDirection: 0
+  moveSteps: 0
+  moveStaminaCost: 0
   idleSprites:
   - {fileID: -7586852357584557507, guid: abed7faf75084084c8039720f701cf9f, type: 3}
   - {fileID: 7448851012896059752, guid: abed7faf75084084c8039720f701cf9f, type: 3}
@@ -1001,12 +1003,15 @@ MonoBehaviour:
   sr: {fileID: 0}
   deathVFX: {fileID: 0}
   cardOne: {fileID: 0}
+  cardOneOriginal: {fileID: 0}
   cardOneSpawnPoint: {fileID: 1040408162933978672}
   cardOneAttackWaves: 1
   cardTwo: {fileID: 0}
+  cardTwoOriginal: {fileID: 0}
   cardTwoSpawnPoint: {fileID: 8126469756734938150}
   cardTwoAttackWaves: 1
   cardThree: {fileID: 0}
+  cardThreeOriginal: {fileID: 0}
   cardThreeSpawnPoint: {fileID: 4057960734366867350}
   cardThreeAttackWaves: 1
 --- !u!61 &4899758862547987174

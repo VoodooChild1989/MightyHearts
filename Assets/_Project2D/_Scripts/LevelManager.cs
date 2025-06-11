@@ -41,6 +41,11 @@ public class LevelManager : MonoBehaviour
             public Button[] cards; 
             public Button waitButton;
             public Button autoButton;
+            public GameObject moveStepsWindow;
+            public Button addStepButton;
+            public Button removeStepButton;
+            public TMP_Text stepsNumber;
+            public TMP_Text moveStaminaCost;
 
             [Header("Data")]
             [ShowOnly] public int curTurnNumber;
@@ -160,6 +165,10 @@ public class LevelManager : MonoBehaviour
             waitButton.GetComponent<CanvasGroup>().alpha = 0f;
             waitButton.GetComponent<CanvasGroup>().interactable = false;
             waitButton.GetComponent<CanvasGroup>().blocksRaycasts = false;
+            
+            moveStepsWindow.GetComponent<CanvasGroup>().alpha = 0f;
+            moveStepsWindow.GetComponent<CanvasGroup>().interactable = false;
+            moveStepsWindow.GetComponent<CanvasGroup>().blocksRaycasts = false;
         }
 
         public IEnumerator Cooldown()
@@ -320,6 +329,7 @@ public class LevelManager : MonoBehaviour
             }
 
             waitButton.GetComponent<WindowManager>().OpenButton();
+            moveStepsWindow.GetComponent<WindowManager>().OpenStepsWindow();
         }
 
         public void AddDataToCard(CardSO card, Button cardButton)
@@ -359,6 +369,7 @@ public class LevelManager : MonoBehaviour
             }
             
             waitButton.GetComponent<WindowManager>().CloseButton();
+            moveStepsWindow.GetComponent<WindowManager>().CloseStepsWindow();
         }
 
     #endregion

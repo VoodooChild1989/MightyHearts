@@ -68,6 +68,9 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
             private bool onTurn;
             private bool choseCard;
 
+            public int moveSteps;
+            public int moveStaminaCost;
+
             [Header("UI")]
             private TMP_Text healthTMP;
             private TMP_Text staminaTMP;
@@ -287,16 +290,23 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                 Button card02 = LevelManager.instance.cards[1];
                 Button card03 = LevelManager.instance.cards[2];
                 Button waitButton = LevelManager.instance.waitButton;
+                Button addStepButton = LevelManager.instance.addStepButton;
+                Button removeStepButton = LevelManager.instance.removeStepButton;
+                UpdateStepsText();
                 
                 card01.onClick.RemoveAllListeners();
                 card02.onClick.RemoveAllListeners();
                 card03.onClick.RemoveAllListeners();
                 waitButton.onClick.RemoveAllListeners();
+                addStepButton.onClick.RemoveAllListeners();
+                removeStepButton.onClick.RemoveAllListeners();
 
                 card01.onClick.AddListener(FirstCard);   
                 card02.onClick.AddListener(SecondCard);   
                 card03.onClick.AddListener(ThirdCard);    
-                waitButton.onClick.AddListener(Wait);   
+                waitButton.onClick.AddListener(Wait);     
+                addStepButton.onClick.AddListener(AddStep);     
+                removeStepButton.onClick.AddListener(RemoveStep);   
 
                 card01.gameObject.GetComponent<CardButtonDisplay>().card = cardOne;
                 card02.gameObject.GetComponent<CardButtonDisplay>().card = cardTwo;
@@ -323,6 +333,8 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
         public void TurnStarted()
         {
             LevelManager.instance.cinemCamera.Follow = gameObject.transform;
+            moveSteps = 1;
+            moveStaminaCost = 0;
         }
 
         public void TurnFinished()
@@ -505,10 +517,11 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                     newX = -1;
                     newY = 1;
 
-                    if (IsThisNewPositionPossible(newX, newY))
+                    if (IsThisNewPositionPossible(newX, newY) && curStamina >= moveStaminaCost)
                     {
                         CheckCards();
                         Move(newX, newY);
+                        RemoveStamina(moveStaminaCost);
                         yield break;
                     }
                 }
@@ -517,10 +530,11 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                     newX = 0;
                     newY = 1;
 
-                    if (IsThisNewPositionPossible(newX, newY))
+                    if (IsThisNewPositionPossible(newX, newY) && curStamina >= moveStaminaCost)
                     {
                         CheckCards();
                         Move(newX, newY);
+                        RemoveStamina(moveStaminaCost);
                         yield break;
                     }
                 }
@@ -529,10 +543,11 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                     newX = 1;
                     newY = 1;
 
-                    if (IsThisNewPositionPossible(newX, newY))
+                    if (IsThisNewPositionPossible(newX, newY) && curStamina >= moveStaminaCost)
                     {
                         CheckCards();
                         Move(newX, newY);
+                        RemoveStamina(moveStaminaCost);
                         yield break;
                     }
                 }
@@ -541,10 +556,11 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                     newX = -1;
                     newY = 0;
 
-                    if (IsThisNewPositionPossible(newX, newY))
+                    if (IsThisNewPositionPossible(newX, newY) && curStamina >= moveStaminaCost)
                     {
                         CheckCards();
                         Move(newX, newY);
+                        RemoveStamina(moveStaminaCost);
                         yield break;
                     }
                 }
@@ -553,10 +569,11 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                     newX = 1;
                     newY = 0;
 
-                    if (IsThisNewPositionPossible(newX, newY))
+                    if (IsThisNewPositionPossible(newX, newY) && curStamina >= moveStaminaCost)
                     {
                         CheckCards();
                         Move(newX, newY);
+                        RemoveStamina(moveStaminaCost);
                         yield break;
                     }
                 }
@@ -565,10 +582,11 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                     newX = -1;
                     newY = -1;
 
-                    if (IsThisNewPositionPossible(newX, newY))
+                    if (IsThisNewPositionPossible(newX, newY) && curStamina >= moveStaminaCost)
                     {
                         CheckCards();
                         Move(newX, newY);
+                        RemoveStamina(moveStaminaCost);
                         yield break;
                     }
                 }
@@ -577,10 +595,11 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                     newX = 0;
                     newY = -1;
 
-                    if (IsThisNewPositionPossible(newX, newY))
+                    if (IsThisNewPositionPossible(newX, newY) && curStamina >= moveStaminaCost)
                     {
                         CheckCards();
                         Move(newX, newY);
+                        RemoveStamina(moveStaminaCost);
                         yield break;
                     }
                 }
@@ -589,10 +608,11 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
                     newX = 1;
                     newY = -1;
 
-                    if (IsThisNewPositionPossible(newX, newY))
+                    if (IsThisNewPositionPossible(newX, newY) && curStamina >= moveStaminaCost)
                     {
                         CheckCards();
                         Move(newX, newY);
+                        RemoveStamina(moveStaminaCost);
                         yield break;
                     }
                 }
@@ -684,13 +704,14 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
 
             if (TilemapManager.instance.IsNewPositionPossible(gameObject, sizeMatrix, moveX, moveY, curMovementType))
             {
-                StartCoroutine(MoveToNewPos(newPos));
+                StartCoroutine(MoveToNewPos(newPos, moveX, moveY));
             }
         }
 
-        private IEnumerator MoveToNewPos(Vector3 newPos)
+        private IEnumerator MoveToNewPos(Vector3 newPos, int moveX, int moveY)
         {
             SetRunningAnimation();
+            moveSteps--;    
             
             while (transform.parent.position != newPos)
             {
@@ -705,25 +726,83 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
             {
                 yield return new WaitForSeconds(0.1f);
 
-                if (IsThisNewPositionPossible(0, -1))
+                if (moveSteps > 0)
                 {
-                    yield return new WaitForSeconds(0.05f);
+                    if (IsThisNewPositionPossible(moveX, moveY))
+                    {
+                        yield return new WaitForSeconds(0.05f);
 
-                    Move(0, -1);   
+                        Move(moveX, moveY);
+                    }
+                    else
+                    {
+                        moveSteps = 0;
+                        
+                        if (IsThisNewPositionPossible(0, -1))
+                        {
+                            yield return new WaitForSeconds(0.05f);
+
+                            Move(0, -1);   
+                        }
+                        else
+                        {
+                            FinishMovement();
+                        }
+                    }
                 }
                 else
                 {
-                    TurnFinished();
-                    SetIdleAnimation();
-                    LevelManager.instance.MoveQueue();
+                    if (IsThisNewPositionPossible(0, -1))
+                    {
+                        yield return new WaitForSeconds(0.05f);
+
+                        Move(0, -1);   
+                    }
+                    else
+                    {
+                        FinishMovement();
+                    }
                 }
             }
             else
             {
-                TurnFinished();
-                SetIdleAnimation();
-                LevelManager.instance.MoveQueue();
+                FinishMovement();
             }
+        }
+
+        public void AddStep()
+        {   
+            moveSteps++;
+            moveStaminaCost += 10;
+
+            UpdateStepsText();
+        }
+
+        public void RemoveStep()
+        {
+            moveSteps--;
+            moveStaminaCost -= 10;
+
+            if (moveSteps < 1) 
+            {
+                moveSteps = 1;
+                moveStaminaCost = 0;
+            }
+
+            UpdateStepsText();
+        }
+
+        public void UpdateStepsText()
+        {
+            LevelManager.instance.stepsNumber.text = moveSteps.ToString();
+            LevelManager.instance.moveStaminaCost.text = moveStaminaCost.ToString();
+        }
+
+        private void FinishMovement()
+        {
+            TurnFinished();
+            SetIdleAnimation();
+            LevelManager.instance.MoveQueue();
         }
 
         private bool IsThisNewPositionPossible(int moveX, int moveY)
