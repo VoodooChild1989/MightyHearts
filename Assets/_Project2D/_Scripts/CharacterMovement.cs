@@ -3,6 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum MovementType
+{
+    Ground,
+    Air
+}
+
+public enum FacingDirection
+{
+    Right,
+    Left
+}
+
 public class CharacterMovement : MonoBehaviour
 {
 
@@ -217,6 +229,15 @@ public class CharacterMovement : MonoBehaviour
         public void StartManualMovement()
         {
             movementCrt = StartCoroutine(ManualMovement());
+        }
+
+        public void StopManualMovement()
+        {
+            if (movementCrt != null)
+            {
+                StopCoroutine(movementCrt);
+                movementCrt = null;
+            }
         }
 
         private IEnumerator ManualMovement() 

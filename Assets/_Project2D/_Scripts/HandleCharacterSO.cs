@@ -66,9 +66,9 @@ public class HandleCharacterSO : MonoBehaviour
                     chrStats.cardOneOriginal = chrSO.cardOne;
                     chrStats.cardOne = chrStats.CloneCard(chrSO.cardOne);
                     chrStats.cardTwoOriginal = chrSO.cardTwo;
-                    chrStats.cardTwo = chrStats.CloneCard(chrSO.cardOne);
+                    chrStats.cardTwo = chrStats.CloneCard(chrSO.cardTwo);
                     chrStats.cardThreeOriginal = chrSO.cardThree;
-                    chrStats.cardThree = chrStats.CloneCard(chrSO.cardOne);
+                    chrStats.cardThree = chrStats.CloneCard(chrSO.cardThree);
 
                     CharacterMovement chrMove = child.GetComponent<CharacterMovement>();
                     chrMove.curMovementType = chrSO.curMovementType;

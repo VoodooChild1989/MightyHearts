@@ -4,7 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class CharacterStatistics : MonoBehaviour
+public enum CharacterType
+{
+    Player, 
+    Enemy
+}
+
+public interface IDamageable
+{
+    public void TakeDamage(int damageAmount);
+    public void Heal(int healAmount);
+}
+
+public class CharacterStatistics : MonoBehaviour, IDamageable
 {
 
     #region FIELDS
@@ -61,8 +73,8 @@ public class CharacterStatistics : MonoBehaviour
         [Header("REFERENCES")]
 
             [Header("SCRIPTS")]
-            private CharacterAnimation chrAnim;
-            public CharacterMovement chrMove;
+            [ShowOnly] public CharacterAnimation chrAnim;
+            [ShowOnly] public CharacterMovement chrMove;
 
     #endregion
 
@@ -197,15 +209,7 @@ public class CharacterStatistics : MonoBehaviour
             choseCard = false;
             CheckCards();
             RemoveCooldown(curCooldown);
-            
-            /*
-            // Used with manual movement.
-            if (movementCrt != null)
-            {
-                StopCoroutine(movementCrt);
-                movementCrt = null;
-            }
-            */
+            chrMove.StopManualMovement();
         }
 
         private void DelayedAuto()
@@ -388,7 +392,6 @@ public class CharacterStatistics : MonoBehaviour
             Destroy(transform.parent.gameObject);
         }
 
-        /*
         private void OnDestroy() 
         {
             if (curCharacterType == CharacterType.Player)
@@ -400,7 +403,6 @@ public class CharacterStatistics : MonoBehaviour
                 LevelManager.instance.RemoveEnemy(this);
             }
         }
-        */
 
     #endregion
 

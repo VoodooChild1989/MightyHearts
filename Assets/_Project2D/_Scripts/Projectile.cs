@@ -139,7 +139,7 @@ public class Projectile : MonoBehaviour
         {
             if (collidingObj != null)
             {
-                collidingObj.GetComponent<Character>()?.GetComponent<IDamageable>().TakeDamage(damageAmount); 
+                collidingObj.GetComponent<CharacterStatistics>()?.GetComponent<IDamageable>().TakeDamage(damageAmount); 
                 StartDeath();
             }
         }
@@ -162,7 +162,7 @@ public class Projectile : MonoBehaviour
             {
                 if (collidingObj != null)
                 {
-                    if (collidingObj.GetComponent<Character>() != null && !collidingObj.GetComponent<Character>().isDead)
+                    if (collidingObj.GetComponent<CharacterStatistics>() != null && !collidingObj.GetComponent<CharacterStatistics>().isDead)
                     {
                         LevelManager.instance.MoveQueue();
                     }

@@ -157,7 +157,7 @@ public class Cell : MonoBehaviour
             
             if (collidedObj.GetComponent<IDamageable>() != null)
             {
-                collidedObj.GetComponent<Character>().AddCellToSizeMatrix(gameObject);
+                collidedObj.GetComponent<CharacterMovement>().AddCellToSizeMatrix(gameObject);
                 collidesWith = collidedObj;
             }
             else if (collidedObj.GetComponent<Block>() != null)
@@ -182,7 +182,7 @@ public class Cell : MonoBehaviour
             
             if (collidedObj.GetComponent<IDamageable>() != null)
             {
-                collidedObj.GetComponent<Character>().RemoveCellFromSizeMatrix(gameObject);
+                collidedObj.GetComponent<CharacterMovement>().RemoveCellFromSizeMatrix(gameObject);
                 collidesWith = null;
             }
             else if (collidedObj.GetComponent<Block>() != null)
