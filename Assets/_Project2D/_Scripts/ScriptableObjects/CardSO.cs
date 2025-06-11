@@ -18,6 +18,7 @@ public class CardSO : ScriptableObject
             public int staminaCost;
             public int damageAmount;
             public ProjectileSO cardProjectile;
+            [ShowOnly] public int attackWaves = 1;
 
     #endregion
     

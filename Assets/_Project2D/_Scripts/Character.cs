@@ -283,6 +283,7 @@ public class Character : MonoBehaviour, IDamageable, ICards, IWait
             }
         }
 
+        // !!!
         public void Ready()
         {
             TurnStarted();
