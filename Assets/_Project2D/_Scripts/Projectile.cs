@@ -30,6 +30,13 @@ public class Projectile : MonoBehaviour
             private GameObject collidingObj;
             [ShowOnly] public bool isLast;
 
+            public CardType curCardType;
+            public bool pushedSomebody;
+            public int maxNumberInSet;
+            public int curNumberInSet;
+            public CharacterStatistics pushedChr;
+            public CharacterCards cardsScript;
+
         [Header("ANIMATIONS")]
             
             [Header("Basic Variables")]
@@ -139,7 +146,66 @@ public class Projectile : MonoBehaviour
         {
             if (collidingObj != null)
             {
-                collidingObj.GetComponent<CharacterStatistics>()?.GetComponent<IDamageable>().TakeDamage(damageAmount); 
+                speed = 0f;
+                sr.color = new Color(0f, 0f, 0f, 0f);
+                col.enabled = false;
+                Instantiate(deathVFX, transform.position, Quaternion.identity);
+
+                CharacterStatistics chr = collidingObj.GetComponent<CharacterStatistics>();
+                
+                if (chr != null)
+                {
+                    chr.GetComponent<IDamageable>().TakeDamage(damageAmount); 
+
+                    if (curCardType == CardType.Poison)
+                    {   
+                        chr.isPoisoned = true;
+                        chr.poisonedTurnsLeft = 3;
+                    }
+                    else if (curCardType == CardType.PushBack)
+                    {
+                        if (sr.flipX)
+                        {
+                            if (chr.chrMove.IsThisNewPositionPossible(-1, 0))
+                            {                            
+                                cardsScript.hasSetPushedSomebody = true;
+                                cardsScript.pushedChr = chr;
+                                chr.chrMove.Move(-1, 0, false);
+                            }
+                        }
+                        else
+                        {
+                            if (chr.chrMove.IsThisNewPositionPossible(1, 0))
+                            {                            
+                                cardsScript.hasSetPushedSomebody = true;
+                                cardsScript.pushedChr = chr;
+                                chr.chrMove.Move(1, 0, false);
+                            }
+                        }
+                    }
+                    else if (curCardType == CardType.Pull)
+                    {
+                        if (sr.flipX)
+                        {
+                            if (chr.chrMove.IsThisNewPositionPossible(1, 0))
+                            {                            
+                                cardsScript.hasSetPushedSomebody = true;
+                                cardsScript.pushedChr = chr;
+                                chr.chrMove.Move(1, 0, false);
+                            }
+                        }
+                        else
+                        {
+                            if (chr.chrMove.IsThisNewPositionPossible(-1, 0))
+                            {                            
+                                cardsScript.hasSetPushedSomebody = true;
+                                cardsScript.pushedChr = chr;
+                                chr.chrMove.Move(-1, 0, false);
+                            }
+                        }
+                    }
+                }
+
                 StartDeath();
             }
         }
@@ -151,20 +217,22 @@ public class Projectile : MonoBehaviour
 
         public IEnumerator Death()
         {
-            speed = 0f;
-            sr.color = new Color(0f, 0f, 0f, 0f);
-            col.enabled = false;
-            Instantiate(deathVFX, transform.position, Quaternion.identity);
-
             yield return new WaitForSeconds(1.1f);
 
-            if (isLast)
+            if (curNumberInSet == maxNumberInSet)
             {
                 if (collidingObj != null)
                 {
                     if (collidingObj.GetComponent<CharacterStatistics>() != null && !collidingObj.GetComponent<CharacterStatistics>().isDead)
                     {
-                        QueueManager.instance.MoveQueue();
+                        if (pushedSomebody)
+                        {
+                            pushedChr.chrMove.Move(0, 0, true, true);
+                        }
+                        else
+                        {
+                            QueueManager.instance.MoveQueue();   
+                        }
                     }
                     else if (collidingObj.GetComponent<Block>() != null)
                     {

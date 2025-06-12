@@ -96,7 +96,7 @@ public class TilemapManager : MonoBehaviour
         /// </summary>
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(InputManager.instance.cellsVisibilityKey))
             {
                 ToggleCellsVisibility();
             }

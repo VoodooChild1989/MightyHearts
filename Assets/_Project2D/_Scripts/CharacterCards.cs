@@ -44,6 +44,9 @@ public class CharacterCards : MonoBehaviour
             private CharacterStatistics chrStats;
             private CharacterMovement chrMove;
 
+        public bool hasSetPushedSomebody;
+        public CharacterStatistics pushedChr;
+
     #endregion
 
     #region LIFE CYCLE METHODS
@@ -182,12 +185,15 @@ public class CharacterCards : MonoBehaviour
             clone.cardIcon = cardToClone.cardIcon;
             clone.cardName = cardToClone.cardName;
             clone.cardDescription = cardToClone.cardDescription;
+            clone.attackWaves = cardToClone.attackWaves;
             clone.cardDescription += " " + clone.attackWaves + " waves.";
 
             clone.staminaCost = cardToClone.staminaCost;
             clone.damageAmount = cardToClone.damageAmount;
             clone.damageAmount = cardToClone.damageAmount;
             clone.cardProjectile = cardToClone.cardProjectile;
+
+            clone.curCardType = cardToClone.curCardType;
 
             return clone;
         }
@@ -226,6 +232,8 @@ public class CharacterCards : MonoBehaviour
         {    
             chrStats.RemoveStamina(card.staminaCost);
             choseCard = true;
+            hasSetPushedSomebody = false;
+            pushedChr = null;
 
             int attackWaves = card.attackWaves;
                 
@@ -244,6 +252,8 @@ public class CharacterCards : MonoBehaviour
                 GameObject projectileObj = Instantiate(projToSpawn, spawnPos, Quaternion.identity);
                 Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
                 projectileScript.damageAmount = card.damageAmount;
+                projectileScript.curCardType = card.curCardType;
+                projectileScript.cardsScript = this;
 
                 if (chrStats.curCharacterType == CharacterType.Player)
                 {
@@ -259,29 +269,16 @@ public class CharacterCards : MonoBehaviour
                     projectileScript.Flip();
                 }
 
-                if (cardNum == 1)
+                projectileScript.maxNumberInSet = card.attackWaves;
+                projectileScript.curNumberInSet = i;
+
+                if (hasSetPushedSomebody)
                 {
-                    if (i == cardOne.attackWaves)
-                    {
-                        projectileScript.isLast = true;
-                    }
-                }
-                else if (cardNum == 2)
-                {
-                    if (i == cardTwo.attackWaves)
-                    {
-                        projectileScript.isLast = true;
-                    }
-                }
-                else if (cardNum == 3)
-                {
-                    if (i == cardThree.attackWaves)
-                    {
-                        projectileScript.isLast = true;
-                    }
+                    projectileScript.pushedSomebody = true;
+                    projectileScript.pushedChr = pushedChr;
                 }
 
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(1.1f);
             }
 
             chrStats.TurnFinished();

@@ -1,5 +1,12 @@
 using UnityEngine;
 
+public enum CardType
+{
+    Poison,
+    PushBack, 
+    Pull
+}
+
 [CreateAssetMenu(fileName = "Card", menuName = "Scriptable Objects/Card")]
 public class CardSO : ScriptableObject
 {
@@ -18,7 +25,12 @@ public class CardSO : ScriptableObject
             public int staminaCost;
             public int damageAmount;
             public ProjectileSO cardProjectile;
-            [ShowOnly] public int attackWaves = 1;
+            public int attackWaves = 1;
+
+        [Header("VARIABLES")]
+            
+            [Header("Basic Variables")]
+            public CardType curCardType;
 
     #endregion
     

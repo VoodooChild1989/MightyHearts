@@ -15,7 +15,9 @@ MonoBehaviour:
   notes: 
   cardIcon: {fileID: 21300000, guid: 40d9adccb8bcbe947aab43c7b5ba51a7, type: 3}
   cardName: Fireball
-  cardDescription: A powerful fireball.
+  cardDescription: A fire damages an enemy for 3 turns.
   staminaCost: 10
-  damageAmount: 15
+  damageAmount: 1
   cardProjectile: {fileID: 11400000, guid: 4c9e20dfb476f2e4195751029809c161, type: 2}
+  attackWaves: 4
+  curCardType: 2

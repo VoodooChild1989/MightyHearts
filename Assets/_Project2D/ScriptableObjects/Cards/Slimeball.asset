@@ -15,7 +15,9 @@ MonoBehaviour:
   notes: 
   cardIcon: {fileID: 21300000, guid: d2fec5f16d911e640bdbde4b7c206053, type: 3}
   cardName: Slimeball
-  cardDescription: A powerful slimeball.
+  cardDescription: Poisons an enemy for 5 turns.
   staminaCost: 30
-  damageAmount: 50
+  damageAmount: 1
   cardProjectile: {fileID: 11400000, guid: bfd6514cdde35eb49898aebcc175ee07, type: 2}
+  attackWaves: 1
+  curCardType: 1

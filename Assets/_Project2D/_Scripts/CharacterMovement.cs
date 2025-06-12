@@ -249,7 +249,7 @@ public class CharacterMovement : MonoBehaviour
                 int newX = 0;
                 int newY = 0;
 
-                if (Input.GetKeyDown(KeyCode.Q))
+                if (Input.GetKeyDown(InputManager.instance.upperLeftKey))
                 {
                     newX = -1;
                     newY = 1;
@@ -262,7 +262,7 @@ public class CharacterMovement : MonoBehaviour
                         yield break;
                     }
                 }
-                else if (Input.GetKeyDown(KeyCode.W))
+                else if (Input.GetKeyDown(InputManager.instance.upperKey))
                 {
                     newX = 0;
                     newY = 1;
@@ -275,7 +275,7 @@ public class CharacterMovement : MonoBehaviour
                         yield break;
                     }
                 }
-                else if (Input.GetKeyDown(KeyCode.E))
+                else if (Input.GetKeyDown(InputManager.instance.upperRightKey))
                 {
                     newX = 1;
                     newY = 1;
@@ -288,7 +288,7 @@ public class CharacterMovement : MonoBehaviour
                         yield break;
                     }
                 }
-                else if (Input.GetKeyDown(KeyCode.A))
+                else if (Input.GetKeyDown(InputManager.instance.midLeftKey))
                 {
                     newX = -1;
                     newY = 0;
@@ -301,7 +301,7 @@ public class CharacterMovement : MonoBehaviour
                         yield break;
                     }
                 }
-                else if (Input.GetKeyDown(KeyCode.D))
+                else if (Input.GetKeyDown(InputManager.instance.midRightKey))
                 {
                     newX = 1;
                     newY = 0;
@@ -314,7 +314,7 @@ public class CharacterMovement : MonoBehaviour
                         yield break;
                     }
                 }
-                else if (Input.GetKeyDown(KeyCode.Z))
+                else if (Input.GetKeyDown(InputManager.instance.lowerLeftKey))
                 {
                     newX = -1;
                     newY = -1;
@@ -327,7 +327,7 @@ public class CharacterMovement : MonoBehaviour
                         yield break;
                     }
                 }
-                else if (Input.GetKeyDown(KeyCode.X))
+                else if (Input.GetKeyDown(InputManager.instance.lowerKey))
                 {                    
                     newX = 0;
                     newY = -1;
@@ -340,7 +340,7 @@ public class CharacterMovement : MonoBehaviour
                         yield break;
                     }
                 }
-                else if (Input.GetKeyDown(KeyCode.C))
+                else if (Input.GetKeyDown(InputManager.instance.lowerRightKey))
                 { 
                     newX = 1;
                     newY = -1;
@@ -354,12 +354,13 @@ public class CharacterMovement : MonoBehaviour
                     }
                 }
 
-                if (Input.GetKeyDown(KeyCode.S))
+                if (Input.GetKeyDown(InputManager.instance.flipKey))
                 {
                     yield return null;
                     chrStats.CheckCards();
                     yield return null;
                     Flip();
+                    StartCheckFall();
                     yield break;
                 }
 
@@ -371,21 +372,28 @@ public class CharacterMovement : MonoBehaviour
 
     #region MOVEMENT
 
-        public void Move(int moveX, int moveY)
+        public void Move(int moveX, int moveY, bool checkFall = true, bool specialCheck = false)
         {
             Vector2 curPos = transform.position;
             Vector2 newPos = new Vector2(curPos.x + moveX, curPos.y + moveY);
 
             if (TilemapManager.instance.IsNewPositionPossible(gameObject, sizeMatrix, moveX, moveY, curMovementType))
             {
-                StartCoroutine(MoveToNewPos(newPos, moveX, moveY));
+                StartCoroutine(MoveToNewPos(newPos, moveX, moveY, checkFall, specialCheck));
             }
         }
 
-        private IEnumerator MoveToNewPos(Vector3 newPos, int moveX, int moveY)
+        private IEnumerator MoveToNewPos(Vector3 newPos, int moveX, int moveY, bool checkFall = true, bool specialCheck = false)
         {
             chrAnim.SetRunningAnimation();
             moveSteps--;    
+
+            if (specialCheck) 
+            {
+                moveSteps = 1;
+                StartCheckFall();
+                yield break;
+            }
             
             while (transform.parent.position != newPos)
             {
@@ -394,48 +402,25 @@ public class CharacterMovement : MonoBehaviour
                 yield return new WaitForSeconds(0.01f);
             }
 
-            transform.parent.position = newPos;   
+            transform.parent.position = newPos;
 
             if (curMovementType == MovementType.Ground)
             {
-                yield return new WaitForSeconds(0.1f);
-
                 if (moveSteps > 0)
                 {
                     if (IsThisNewPositionPossible(moveX, moveY))
                     {
-                        yield return new WaitForSeconds(0.05f);
-
                         Move(moveX, moveY);
                     }
                     else
                     {
                         moveSteps = 0;
-                        
-                        if (IsThisNewPositionPossible(0, -1))
-                        {
-                            yield return new WaitForSeconds(0.05f);
-
-                            Move(0, -1);   
-                        }
-                        else
-                        {
-                            FinishMovement();
-                        }
+                        if (checkFall) StartCheckFall();
                     }
                 }
                 else
                 {
-                    if (IsThisNewPositionPossible(0, -1))
-                    {
-                        yield return new WaitForSeconds(0.05f);
-
-                        Move(0, -1);   
-                    }
-                    else
-                    {
-                        FinishMovement();
-                    }
+                    if (checkFall) StartCheckFall();
                 }
             }
             else
@@ -444,8 +429,6 @@ public class CharacterMovement : MonoBehaviour
                 {
                     if (IsThisNewPositionPossible(moveX, moveY))
                     {
-                        yield return new WaitForSeconds(0.05f);
-
                         Move(moveX, moveY);
                     }
                     else
@@ -457,6 +440,25 @@ public class CharacterMovement : MonoBehaviour
                 {
                     FinishMovement();
                 }
+            }
+        }
+
+        public void StartCheckFall()
+        {   
+            StartCoroutine(CheckFall());   
+        }
+
+        public IEnumerator CheckFall()
+        {
+            yield return new WaitForSeconds(0.01f);
+
+            if (IsThisNewPositionPossible(0, -1))
+            {
+                Move(0, -1);   
+            }
+            else
+            {
+                FinishMovement();
             }
         }
 
@@ -513,10 +515,19 @@ public class CharacterMovement : MonoBehaviour
         {
             chrStats.TurnFinished();
             chrAnim.SetIdleAnimation();
-            QueueManager.instance.MoveQueue();
+
+            if (QueueManager.instance.fallingCharacters.Count == 0)
+            {
+                QueueManager.instance.CheckFallingCharacters();
+            }
+            else
+            {
+                QueueManager.instance.FindFallingCharacters();
+                QueueManager.instance.MoveFallQueue();
+            }
         }
 
-        private bool IsThisNewPositionPossible(int moveX, int moveY)
+        public bool IsThisNewPositionPossible(int moveX, int moveY)
         {
             Vector2 curPos = transform.position;
             Vector2 newPos = new Vector2(curPos.x + moveX, curPos.y + moveY);

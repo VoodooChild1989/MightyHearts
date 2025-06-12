@@ -112,7 +112,7 @@ public class LevelManager : MonoBehaviour
         /// </summary>
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.G))
+            if (Input.GetKeyDown(InputManager.instance.playerAutoKey))
             {
                 TogglePlayerAuto();
             }

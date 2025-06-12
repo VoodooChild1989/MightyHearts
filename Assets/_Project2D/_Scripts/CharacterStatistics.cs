@@ -59,6 +59,9 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             [ShowOnly] public CharacterMovement chrMove;
             [ShowOnly] public CharacterCards chrCards;
 
+        public bool isPoisoned;
+        public int poisonedTurnsLeft;
+
     #endregion
 
     #region LIFE CYCLE METHODS
@@ -179,6 +182,13 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
 
         public void TurnStarted()
         {
+            if (isPoisoned)
+            {
+                TakeDamage(10);
+                poisonedTurnsLeft--;
+                if (poisonedTurnsLeft == 0) isPoisoned = false;
+            }
+
             LevelManager.instance.cinemCamera.Follow = gameObject.transform;
             chrMove.moveSteps = 1;
             chrMove.moveStaminaCost = 0;
@@ -433,6 +443,7 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             AddStamina(waitReward);
             CheckCards();
             StartCoroutine(WaitCoroutine());
+            chrMove.StartCheckFall();
         }
 
         private IEnumerator WaitCoroutine()

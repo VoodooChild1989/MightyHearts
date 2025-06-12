@@ -26,6 +26,10 @@ public class QueueManager : MonoBehaviour
             public Coroutine cooldownCrt;
             public static QueueManager instance;
 
+            
+            public List<CharacterMovement> fallingCharacters;
+            [ShowOnly] public int curFallIndex;
+
     #endregion
 
     #region LIFE CYCLE METHODS
@@ -48,6 +52,9 @@ public class QueueManager : MonoBehaviour
             charactersOnQueue = new List<CharacterStatistics>();
             charactersOnQueueToIgnore = new List<int>();
             curQueueIndex = 0;
+
+            fallingCharacters = new List<CharacterMovement>();
+            curFallIndex = 0;
         }
 
         /// <summary>
@@ -169,6 +176,52 @@ public class QueueManager : MonoBehaviour
                     curQueueIndex++;
                     isFirstReady = true;
                 }
+            }
+        }
+
+        public void CheckFallingCharacters()
+        {
+            if (FindFallingCharacters())
+            {   
+                MoveFallQueue();
+            }
+            else
+            {
+                MoveQueue();
+            }
+        }
+
+        public bool FindFallingCharacters()
+        {
+            bool found = false;
+
+            foreach (CharacterStatistics chr in LevelManager.instance.allCharacters)
+            {
+                if (chr.chrMove.curMovementType == MovementType.Ground)
+                {
+                    if (chr.chrMove.IsThisNewPositionPossible(0, -1))
+                    {
+                        fallingCharacters.Add(chr.chrMove);
+                        found = true;
+                    }
+                }
+            }
+
+            return found;
+        }
+
+        public void MoveFallQueue()
+        {
+            if (curFallIndex >= fallingCharacters.Count)
+            {
+                curFallIndex = 0;
+                fallingCharacters.Clear();
+                QueueManager.instance.MoveQueue();
+            }
+            else
+            {
+                fallingCharacters[curFallIndex].StartCheckFall();
+                curFallIndex++;
             }
         }
 

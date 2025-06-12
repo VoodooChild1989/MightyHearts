@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   notes: 
   speed: 7
-  damageAmount: 8
-  maxBlocks: 4
+  maxBlocks: 6
   idleSprites:
   - {fileID: 2286642844302290808, guid: d9a2ad1b39a5b9347be8421c31435425, type: 3}
   - {fileID: 1034776368, guid: d9a2ad1b39a5b9347be8421c31435425, type: 3}
