@@ -18,6 +18,12 @@ public class CharacterSO : ScriptableObject
             public int waitReward = 5;
             public MovementType curMovementType;
 
+            [Header("Position and Size")]
+            public float offsetX;
+            public float offsetY;
+            public float sizeX;
+            public float sizeY;
+
         [Header("ANIMATIONS")]
             
             [Header("Basic Variables")]

@@ -33,7 +33,15 @@ public class CharacterAnimation : MonoBehaviour
         /// </summary>
         private void Awake()
         {
-            sr = GetComponent<SpriteRenderer>();
+            // sr = GetComponentInChildren<SpriteRenderer>();
+            foreach (Transform child in transform)
+            {
+                if (child.name == "Sprite")
+                {
+                    sr = child.GetComponent<SpriteRenderer>();
+                }
+            }
+
             deathVFX = Resources.Load<GameObject>("Prefabs/VFX/Character_Death");   
         }
 

@@ -175,7 +175,6 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             gameObject.layer = LayerMask.NameToLayer("Enemy");
             Material mat = Resources.Load<Material>("Materials/Enemy_Outline");
             chrAnim.sr.material = mat;
-            chrMove.Flip(false);
         }
 
         public void TurnStarted()
@@ -270,43 +269,60 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
         /// <param name="other">The Collision2D data associated with this collision.</param>
         void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.CompareTag("CardBooster"))
+            if (other.gameObject.CompareTag("CharacterBooster"))
             {
-                int num = UnityEngine.Random.Range(1, 4);
-                int staminaAmount = UnityEngine.Random.Range(LevelManager.instance.minStaminaBonus, LevelManager.instance.maxStaminaBonus + 1);
-                int damageAmount = UnityEngine.Random.Range(LevelManager.instance.minDamageBonus, LevelManager.instance.maxDamageBonus + 1);
-                int waveAmount = UnityEngine.Random.Range(LevelManager.instance.minWaveBonus, LevelManager.instance.maxWaveBonus + 1);
-
-                if (num == 1)
-                {
-                    chrCards.CardStamina(staminaAmount);
-                }
-                else if (num == 2)
-                {
-                    chrCards.CardDamage(damageAmount);
-                }
-                else if (num == 3)
-                {
-                    chrCards.CardWave(waveAmount);
-                }
-                
+                CharacterBooster();
+                other.gameObject.GetComponent<Booster>().Death();
+            }
+            else if (other.gameObject.CompareTag("CardBooster"))
+            {
+                CardBooster();
                 other.gameObject.GetComponent<Booster>().Death();
             }
             else if (other.gameObject.CompareTag("FlyBooster"))
             {            
-                chrMove.canSwitchMoveTypes = true;
+                EnableMoveTypesSwitch();
                 other.gameObject.GetComponent<Booster>().Death();
             }
-            else if (other.gameObject.CompareTag("CharacterBooster"))
-            {
-                int num = UnityEngine.Random.Range(1, 4);
+        }
 
-                if (num == 1) IncreaseMaxHealth();
-                else if (num == 2) IncreaseMaxStamina();
-                else if (num == 3) DecreaseMaxCooldown();
-            
-                other.gameObject.GetComponent<Booster>().Death();
+    #endregion
+
+    #region BOOSTERS
+
+        public void CharacterBooster()
+        {
+            int num = UnityEngine.Random.Range(1, 4);
+
+            if (num == 1) IncreaseMaxHealth();
+            else if (num == 2) IncreaseMaxStamina();
+            else if (num == 3) DecreaseMaxCooldown();
+        }
+
+        public void CardBooster()
+        {
+            int num = UnityEngine.Random.Range(1, 4);
+            int staminaAmount = UnityEngine.Random.Range(LevelManager.instance.minStaminaBonus, LevelManager.instance.maxStaminaBonus + 1);
+            int damageAmount = UnityEngine.Random.Range(LevelManager.instance.minDamageBonus, LevelManager.instance.maxDamageBonus + 1);
+            int waveAmount = UnityEngine.Random.Range(LevelManager.instance.minWaveBonus, LevelManager.instance.maxWaveBonus + 1);
+
+            if (num == 1)
+            {
+                chrCards.CardStamina(staminaAmount);
             }
+            else if (num == 2)
+            {
+                chrCards.CardDamage(damageAmount);
+            }
+            else if (num == 3)
+            {
+                chrCards.CardWave(waveAmount);
+            }
+        }
+
+        public void EnableMoveTypesSwitch()
+        {
+            chrMove.canSwitchMoveTypes = true;
         }
 
     #endregion

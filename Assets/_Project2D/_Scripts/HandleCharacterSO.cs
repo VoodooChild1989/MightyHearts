@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HandleCharacterSO : MonoBehaviour
@@ -13,6 +15,8 @@ public class HandleCharacterSO : MonoBehaviour
             [Header("Basic Variables")]
             public CharacterSO chrSO;
             public CharacterType curCharacterType;
+            public bool useFlip;
+            [ShowOnly] public CharacterStatistics curChr;
 
     #endregion
 
@@ -29,12 +33,14 @@ public class HandleCharacterSO : MonoBehaviour
                 if (child.name == "Character")
                 {                    
                     CharacterStatistics chrStats = child.GetComponent<CharacterStatistics>();
+                    curChr = chrStats;
+                    
                     chrStats.maxHealth = chrSO.maxHealth;
                     chrStats.maxStamina = chrSO.maxStamina;
                     chrStats.maxCooldown = chrSO.maxCooldown;
                     chrStats.waitReward = chrSO.waitReward;
                     chrStats.curCharacterType = curCharacterType;
-                    
+
                     CharacterCards chrCards = child.GetComponent<CharacterCards>();
                     chrCards.cardOneOriginal = chrSO.cardOne;
                     chrCards.cardOne = chrCards.CloneCard(chrSO.cardOne);
@@ -51,6 +57,20 @@ public class HandleCharacterSO : MonoBehaviour
                     chrAnim.runningSprites = chrSO.runningSprites;
                     chrAnim.attackSprites = chrSO.attackSprites;
                     chrAnim.damagedSprites = chrSO.damagedSprites;
+                    
+                    BoxCollider2D col = child.GetComponent<BoxCollider2D>();
+                    col.offset = new Vector2(chrSO.offsetX, chrSO.offsetY);
+                    col.size = new Vector2(chrSO.sizeX, chrSO.sizeY);
+
+                    foreach (Transform childChild in child)
+                    {
+                        if (childChild.name == "Sprite")
+                        {                    
+                            childChild.transform.localPosition = new Vector3(chrSO.offsetX, chrSO.offsetY, 0f);
+                        } 
+                    }
+                    
+                    if (useFlip) chrMove.Flip(false);
                 }
             }
         }
@@ -61,8 +81,10 @@ public class HandleCharacterSO : MonoBehaviour
         /// </summary>
         private void Start()
         {
-            // Perform initial setup that occurs when the game starts.
-            // Example: Initialize game state, start coroutines, load resources, etc.
+            if (curCharacterType == CharacterType.Enemy)
+            {
+                StartCoroutine(EnemyBuff());
+            }
         }
 
         /// <summary>
@@ -86,5 +108,17 @@ public class HandleCharacterSO : MonoBehaviour
         }
 
     #endregion
+
+    private IEnumerator EnemyBuff()
+    {
+        yield return null;
+
+        for (int i = 1; i <= 3; i++)
+        {
+            curChr.CharacterBooster();
+            curChr.CardBooster();
+            yield return null;
+        }
+    }
 
 }
