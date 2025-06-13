@@ -27,7 +27,7 @@ public class CardSO : ScriptableObject
             public int attackWaves = 1;
             public CardType curCardType = CardType.None;
 
-        [Header("Projectile")]
+            [Header("Projectile")]
             public int damageAmount = 1;
             public float speed = 5f;
             public int maxBlocks = 4;

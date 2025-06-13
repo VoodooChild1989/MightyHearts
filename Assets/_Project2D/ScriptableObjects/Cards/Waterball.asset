@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   notes: 
   cardIcon: {fileID: 21300000, guid: a46bb5ba81a6d5f4c94c4b9d9a0898c7, type: 3}
-  cardName: Waterball
+  cardName: Fountain
   cardDescription: Pushes back an enemy to 1 block.
   staminaCost: 20
   attackWaves: 4

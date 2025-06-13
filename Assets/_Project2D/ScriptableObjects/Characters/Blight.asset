@@ -55,7 +55,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e30dd4cd221770a41bd0e1b8e101f629, type: 3}
   cardOne: {fileID: 11400000, guid: 447eb4269ec9a80439e1643b8bc8eef0, type: 2}
   cardOneAttackWaves: 1
-  cardTwo: {fileID: 11400000, guid: 09983d32e26464a47820a3eaa88555bc, type: 2}
+  cardTwo: {fileID: 11400000, guid: 8cf99532fa0f38247addd259c7019492, type: 2}
   cardTwoAttackWaves: 1
   cardThree: {fileID: 11400000, guid: 44e152edd5b515a4480fcdd8a3c59eef, type: 2}
   cardThreeAttackWaves: 1

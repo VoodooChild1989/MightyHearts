@@ -23,7 +23,7 @@ MonoBehaviour:
   speed: 5
   maxBlocks: 4
   idleSprites:
-  - {fileID: 916162526, guid: 627af6fda1e00f243a8ee101762db3f1, type: 3}
-  - {fileID: 532747415, guid: 627af6fda1e00f243a8ee101762db3f1, type: 3}
-  - {fileID: 2109391692, guid: 627af6fda1e00f243a8ee101762db3f1, type: 3}
-  - {fileID: -1349296262, guid: 627af6fda1e00f243a8ee101762db3f1, type: 3}
+  - {fileID: -1430368370, guid: e4f082fa05223534cac746cc8d84f331, type: 3}
+  - {fileID: 854080383, guid: e4f082fa05223534cac746cc8d84f331, type: 3}
+  - {fileID: 924185086, guid: e4f082fa05223534cac746cc8d84f331, type: 3}
+  - {fileID: 1242815112, guid: e4f082fa05223534cac746cc8d84f331, type: 3}
