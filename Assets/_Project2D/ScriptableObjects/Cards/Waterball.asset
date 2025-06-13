@@ -17,7 +17,13 @@ MonoBehaviour:
   cardName: Waterball
   cardDescription: Pushes back an enemy to 1 block.
   staminaCost: 20
-  damageAmount: 1
-  cardProjectile: {fileID: 11400000, guid: 49ac8f6f537ae4a4d8c5cffe747779bd, type: 2}
   attackWaves: 4
-  curCardType: 1
+  curCardType: 2
+  damageAmount: 1
+  speed: 5
+  maxBlocks: 4
+  idleSprites:
+  - {fileID: -8014774246758756502, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}
+  - {fileID: 38291735183647181, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}
+  - {fileID: -4280090040413819344, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}
+  - {fileID: 3608507672204763640, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}

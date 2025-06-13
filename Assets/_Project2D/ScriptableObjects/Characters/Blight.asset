@@ -18,10 +18,10 @@ MonoBehaviour:
   maxCooldown: 4
   waitReward: 20
   curMovementType: 1
-  sizeX: 2
-  sizeY: 2
   offsetX: 0
   offsetY: 0
+  sizeX: 2
+  sizeY: 2
   idleSprites:
   - {fileID: 6072218138754977671, guid: 0c0e2272f8d47d84799cf73faa653680, type: 3}
   - {fileID: 5832749585956083080, guid: 0c0e2272f8d47d84799cf73faa653680, type: 3}

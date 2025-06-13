@@ -64,8 +64,6 @@ public class CharacterMovement : MonoBehaviour
         {
             sizeMatrix = new List<GameObject>();
             canSwitchMoveTypes = false;     
-
-            UpdateMovementType();
         }
 
         /// <summary>
@@ -74,8 +72,17 @@ public class CharacterMovement : MonoBehaviour
         /// </summary>
         private void Update()
         {
-            // Add your per-frame logic here.
-            // Example: Move objects, check user input, update animations, etc.
+            if (chrStats.onTurn)
+            {
+                if (Input.GetKeyDown(InputManager.instance.addStepKey))
+                {
+                    AddStep();
+                }
+                else if (Input.GetKeyDown(InputManager.instance.removeStepKey))
+                {
+                    RemoveStep();
+                }
+            }
         }
 
         /// <summary>
@@ -360,7 +367,8 @@ public class CharacterMovement : MonoBehaviour
                     chrStats.CheckCards();
                     yield return null;
                     Flip();
-                    StartCheckFall();
+                    //FinishMovement();
+                    // StartCheckFall();
                     yield break;
                 }
 
@@ -433,12 +441,12 @@ public class CharacterMovement : MonoBehaviour
                     }
                     else
                     {
-                        FinishMovement();
+                        if (checkFall) FinishMovement();
                     }
                 }
                 else
                 {
-                    FinishMovement();
+                    if (checkFall) FinishMovement();
                 }
             }
         }

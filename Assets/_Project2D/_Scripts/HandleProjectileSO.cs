@@ -11,7 +11,7 @@ public class HandleProjectileSO : MonoBehaviour
         [Header("VARIABLES")]
             
             [Header("Basic Variables")]
-            public ProjectileSO projSO;
+            public CardSO cardSO;
 
     #endregion
 
@@ -29,10 +29,10 @@ public class HandleProjectileSO : MonoBehaviour
                 {
                     Projectile proj = child.GetComponent<Projectile>();
 
-                    proj.speed = projSO.speed;
-                    proj.maxBlocks = projSO.maxBlocks;
+                    proj.speed = cardSO.speed;
+                    proj.maxBlocks = cardSO.maxBlocks;
 
-                    proj.idleSprites = projSO.idleSprites;
+                    proj.idleSprites = cardSO.idleSprites;
                 }
             }
         }

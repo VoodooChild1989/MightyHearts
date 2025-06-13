@@ -9,13 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53214733c0c5af64a9b465ad4713a07d, type: 3}
-  m_Name: Slimeball
+  m_Script: {fileID: 11500000, guid: 8d7529fba9561b641b8dcdbc6ee2bada, type: 3}
+  m_Name: Monster
   m_EditorClassIdentifier: 
   notes: 
-  speed: 7
-  damageAmount: 8
-  maxBlocks: 6
+  cardIcon: {fileID: 21300000, guid: d2fec5f16d911e640bdbde4b7c206053, type: 3}
+  cardName: Monster
+  cardDescription: Pulls an enemy to 1 block.
+  staminaCost: 10
+  attackWaves: 1
+  curCardType: 3
+  damageAmount: 1
+  speed: 5
+  maxBlocks: 4
   idleSprites:
   - {fileID: 916162526, guid: 627af6fda1e00f243a8ee101762db3f1, type: 3}
   - {fileID: 532747415, guid: 627af6fda1e00f243a8ee101762db3f1, type: 3}

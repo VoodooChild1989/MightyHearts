@@ -131,6 +131,8 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             UpdateHealth(0);
             UpdateStamina(0);
             UpdateCooldown(0);
+
+            chrMove.UpdateMovementType();
         }
 
         /// <summary>
@@ -148,6 +150,11 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
                     if (LevelManager.instance.areCardsOpen) LevelManager.instance.RemoveCards();
 
                     DelayedAuto();
+                }
+
+                if (Input.GetKeyDown(InputManager.instance.waitKey))
+                {
+                    Wait();
                 }
             }
         }
@@ -443,7 +450,7 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             AddStamina(waitReward);
             CheckCards();
             StartCoroutine(WaitCoroutine());
-            chrMove.StartCheckFall();
+            // chrMove.StartCheckFall();
         }
 
         private IEnumerator WaitCoroutine()

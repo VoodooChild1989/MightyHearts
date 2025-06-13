@@ -12184,6 +12184,9 @@ MonoBehaviour:
   lowerKey: 120
   lowerRightKey: 99
   flipKey: 115
+  waitKey: 109
+  addStepKey: 270
+  removeStepKey: 269
   cellsVisibilityKey: 102
   playerAutoKey: 118
 --- !u!1 &1491094826

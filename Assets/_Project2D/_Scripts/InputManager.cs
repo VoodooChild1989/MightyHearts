@@ -20,6 +20,9 @@ public class InputManager : MonoBehaviour
             public KeyCode lowerKey;
             public KeyCode lowerRightKey;
             public KeyCode flipKey;
+            public KeyCode waitKey;
+            public KeyCode addStepKey;
+            public KeyCode removeStepKey;
             public KeyCode cellsVisibilityKey;
             public KeyCode playerAutoKey;
             public static InputManager instance;

@@ -177,7 +177,7 @@ public class TilemapManager : MonoBehaviour
         public void ShowTrajectory(CardSO card)
         {
             CharacterStatistics curChar = QueueManager.instance.charactersOnQueue[QueueManager.instance.curQueueIndex - 1];
-            int blocksToDraw = card.cardProjectile.maxBlocks;
+            int blocksToDraw = card.maxBlocks;
             int initX = 0;
             int initY = 0;
 

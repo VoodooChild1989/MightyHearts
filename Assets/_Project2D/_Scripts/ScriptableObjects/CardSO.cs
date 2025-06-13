@@ -2,6 +2,7 @@ using UnityEngine;
 
 public enum CardType
 {
+    None,
     Poison,
     PushBack, 
     Pull
@@ -23,14 +24,14 @@ public class CardSO : ScriptableObject
             public string cardName;
             public string cardDescription;
             public int staminaCost;
-            public int damageAmount;
-            public ProjectileSO cardProjectile;
             public int attackWaves = 1;
+            public CardType curCardType = CardType.None;
 
-        [Header("VARIABLES")]
-            
-            [Header("Basic Variables")]
-            public CardType curCardType;
+        [Header("Projectile")]
+            public int damageAmount = 1;
+            public float speed = 5f;
+            public int maxBlocks = 4;
+            public Sprite[] idleSprites;
 
     #endregion
     

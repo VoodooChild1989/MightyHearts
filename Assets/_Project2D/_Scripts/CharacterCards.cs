@@ -185,15 +185,16 @@ public class CharacterCards : MonoBehaviour
             clone.cardIcon = cardToClone.cardIcon;
             clone.cardName = cardToClone.cardName;
             clone.cardDescription = cardToClone.cardDescription;
-            clone.attackWaves = cardToClone.attackWaves;
-            clone.cardDescription += " " + clone.attackWaves + " waves.";
-
             clone.staminaCost = cardToClone.staminaCost;
-            clone.damageAmount = cardToClone.damageAmount;
-            clone.damageAmount = cardToClone.damageAmount;
-            clone.cardProjectile = cardToClone.cardProjectile;
-
+            clone.attackWaves = cardToClone.attackWaves;
             clone.curCardType = cardToClone.curCardType;
+
+            clone.damageAmount = cardToClone.damageAmount;
+            clone.speed = cardToClone.speed;
+            clone.maxBlocks = cardToClone.maxBlocks;
+            clone.idleSprites = cardToClone.idleSprites;
+
+            clone.cardDescription += " " + clone.attackWaves + " waves.";
 
             return clone;
         }
@@ -242,7 +243,7 @@ public class CharacterCards : MonoBehaviour
                 chrAnim.SetAttackAnimation();
 
                 GameObject projToSpawn = Resources.Load<GameObject>("Prefabs/Prefab_Projectile_01");
-                projToSpawn.GetComponent<HandleProjectileSO>().projSO = card.cardProjectile;
+                projToSpawn.GetComponent<HandleProjectileSO>().cardSO = card;
 
                 Vector3 spawnPos = Vector3.zero;
                 if (cardNum == 1) spawnPos = cardOneSpawnPoint.position;

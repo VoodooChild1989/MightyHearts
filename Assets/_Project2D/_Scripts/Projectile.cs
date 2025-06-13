@@ -149,7 +149,6 @@ public class Projectile : MonoBehaviour
                 speed = 0f;
                 sr.color = new Color(0f, 0f, 0f, 0f);
                 col.enabled = false;
-                Instantiate(deathVFX, transform.position, Quaternion.identity);
 
                 CharacterStatistics chr = collidingObj.GetComponent<CharacterStatistics>();
                 
@@ -217,6 +216,11 @@ public class Projectile : MonoBehaviour
 
         public IEnumerator Death()
         {
+            speed = 0f;
+            sr.color = new Color(0f, 0f, 0f, 0f);
+            col.enabled = false;
+            Instantiate(deathVFX, transform.position, Quaternion.identity);
+
             yield return new WaitForSeconds(1.1f);
 
             if (curNumberInSet == maxNumberInSet)

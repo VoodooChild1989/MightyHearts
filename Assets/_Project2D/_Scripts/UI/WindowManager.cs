@@ -60,7 +60,7 @@ public class WindowManager : MonoBehaviour
         /// </summary>
         public void OpenCard()
         {
-            if (isTweening) return;
+            // if (isTweening) return;
 
             isTweening = true;
 

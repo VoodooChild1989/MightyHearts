@@ -182,7 +182,7 @@ public class LevelManager : MonoBehaviour
 
             if (playerCharacters.Count == 0)
             {
-                GameObject.Find("Back").GetComponent<SceneChanger>().ChangeScene("LevelSelection");
+                GameObject.Find("Back")?.GetComponent<SceneChanger>().ChangeScene("LevelSelection");
             }
 
             for (int i = 0; i < QueueManager.instance.charactersOnQueue.Count; i++)
@@ -201,7 +201,7 @@ public class LevelManager : MonoBehaviour
 
             if (enemyCharacters.Count == 0)
             {
-                GameObject.Find("Back").GetComponent<SceneChanger>().ChangeScene("LevelSelection");
+                GameObject.Find("Back")?.GetComponent<SceneChanger>().ChangeScene("LevelSelection");
             }
 
             for (int i = 0; i < QueueManager.instance.charactersOnQueue.Count; i++)
