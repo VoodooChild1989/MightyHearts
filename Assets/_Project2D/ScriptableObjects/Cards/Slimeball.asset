@@ -16,12 +16,12 @@ MonoBehaviour:
   cardIcon: {fileID: 21300000, guid: 049036591c367b644bb7556c10a10389, type: 3}
   cardName: Curse
   cardDescription: Poisons an enemy for 5 turns.
-  staminaCost: 30
+  staminaCost: 50
   attackWaves: 1
   curCardType: 1
-  damageAmount: 1
+  damageAmount: 10
   speed: 5
-  maxBlocks: 4
+  maxBlocks: 3
   idleSprites:
   - {fileID: 916162526, guid: 627af6fda1e00f243a8ee101762db3f1, type: 3}
   - {fileID: 532747415, guid: 627af6fda1e00f243a8ee101762db3f1, type: 3}

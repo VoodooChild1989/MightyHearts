@@ -26,6 +26,7 @@ public class CardSO : ScriptableObject
             public int staminaCost;
             public int attackWaves = 1;
             public CardType curCardType = CardType.None;
+            public bool canInteract;
 
             [Header("Projectile")]
             public int damageAmount = 1;

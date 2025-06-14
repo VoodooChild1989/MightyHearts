@@ -67,9 +67,9 @@ public class Projectile : MonoBehaviour
         /// </summary>
         private void Start()
         {
-            birthVFX = Resources.Load<GameObject>("Prefabs/VFX/Projectile_Birth");
-            deathVFX = Resources.Load<GameObject>("Prefabs/VFX/Projectile_Death");
-            Instantiate(birthVFX, transform.position, Quaternion.identity);
+            birthVFX = Resources.Load<GameObject>("Prefabs/VFX/Yellow_Sparkle");
+            deathVFX = Resources.Load<GameObject>("Prefabs/VFX/Explosion_Poof");
+            Birth();
             StartCoroutine(Animation(idleSprites));
             dir = new Vector2(1f, 0f);
         }
@@ -207,6 +207,11 @@ public class Projectile : MonoBehaviour
 
                 StartDeath();
             }
+        }
+
+        public void Birth()
+        {
+            Instantiate(birthVFX, transform.position, Quaternion.identity);
         }
 
         public void StartDeath()

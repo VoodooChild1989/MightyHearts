@@ -77,7 +77,7 @@ public class Cell : MonoBehaviour
     #endregion
 
     #region CUSTOM METHODS
-
+    
         public void SetAsTrajectory()
         {
             isTrajectory = true;
@@ -86,6 +86,11 @@ public class Cell : MonoBehaviour
         public void RemoveAsTrajectory()
         {
             isTrajectory = false;
+        }
+
+        public bool CanInteract()
+        {
+            return (isTrajectory && collidesWith != null && collidesWith.GetComponent<CharacterStatistics>() != null);
         }
 
         public void CheckVisibility()
@@ -132,6 +137,7 @@ public class Cell : MonoBehaviour
             {   
                 collidesWith = collidedObj;
                 Projectile projScript = collidedObj.GetComponent<Projectile>();
+                SFXManager.PlaySFX(Resources.Load<AudioClip>("SFX/FlyingProjectile"), transform, 1f);
 
                 if (projScript.curBlocks == projScript.maxBlocks)
                 {

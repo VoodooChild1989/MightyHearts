@@ -299,6 +299,59 @@ public class WindowManager : MonoBehaviour
             });
         }
 
+
+        /// <summary>
+        /// Opening a window.
+        /// </summary>
+        public void OpenStart()
+        {
+            // RectTransform
+            rectTransform.anchoredPosition = new Vector2(initX, initY + 200f);
+            rectTransform.localScale = new Vector2(0.2f, 0.2f);
+
+            // CanvasGroup
+            canvasGroup.alpha = 0f;
+            canvasGroup.interactable = false;   
+            canvasGroup.blocksRaycasts = false;
+                        
+            Sequence seq = DOTween.Sequence();
+            seq.Append(rectTransform.DOAnchorPos(new Vector2(initX, initY), tweenDuration).SetEase(Ease.InOutSine));
+            seq.Join(rectTransform.DOScale(0.8f, tweenDuration).SetEase(Ease.InOutSine));
+            seq.Join(canvasGroup.DOFade(1f, tweenDuration).SetEase(Ease.InOutSine));
+            seq.OnComplete(() =>
+            {
+                canvasGroup.alpha = 1f;
+                canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = true;
+            });
+        }
+
+        /// <summary>
+        /// Closing a window.
+        /// </summary>
+        public void CloseStart()
+        {   
+            // RectTransform
+            rectTransform.anchoredPosition = new Vector2(initX, initY);
+            rectTransform.localScale = new Vector2(0.8f, 0.8f);
+
+            // CanvasGroup
+            canvasGroup.alpha = 1f;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+                        
+            Sequence seq = DOTween.Sequence();
+            seq.Append(rectTransform.DOAnchorPos(new Vector2(initX, initY + 200f), tweenDuration).SetEase(Ease.InOutSine));
+            seq.Join(rectTransform.DOScale(0.2f, tweenDuration).SetEase(Ease.InOutSine));
+            seq.Join(canvasGroup.DOFade(0f, tweenDuration).SetEase(Ease.InOutSine));
+            seq.OnComplete(() =>
+            {
+                canvasGroup.alpha = 0f;
+                canvasGroup.interactable = false;
+                canvasGroup.blocksRaycasts = false;
+            });
+        }
+
     #endregion
 
 }

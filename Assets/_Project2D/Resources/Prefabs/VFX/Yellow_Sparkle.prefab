@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5506855305480633162}
   - component: {fileID: 1542258795625689571}
   m_Layer: 0
-  m_Name: Projectile_Birth
+  m_Name: Yellow_Sparkle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

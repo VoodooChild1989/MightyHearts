@@ -16,12 +16,12 @@ MonoBehaviour:
   cardIcon: {fileID: 21300000, guid: d2fec5f16d911e640bdbde4b7c206053, type: 3}
   cardName: Monster
   cardDescription: Pulls an enemy to 1 block.
-  staminaCost: 10
-  attackWaves: 1
+  staminaCost: 30
+  attackWaves: 2
   curCardType: 3
-  damageAmount: 1
+  damageAmount: 15
   speed: 5
-  maxBlocks: 4
+  maxBlocks: 6
   idleSprites:
   - {fileID: -1430368370, guid: e4f082fa05223534cac746cc8d84f331, type: 3}
   - {fileID: 854080383, guid: e4f082fa05223534cac746cc8d84f331, type: 3}

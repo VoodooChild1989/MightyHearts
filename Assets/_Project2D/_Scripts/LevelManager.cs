@@ -32,6 +32,11 @@ public class LevelManager : MonoBehaviour
             public float finalOrthoSize;
             public float levelCamIntroDuration;
 
+            [Header("Data")]
+            [ShowOnly] public bool areCardsOpen;
+            public bool isPlayerAuto;
+            public bool isEnemyAuto;
+
             [Header("Buttons")]
             public Button[] cards; 
             public Button waitButton;
@@ -44,11 +49,7 @@ public class LevelManager : MonoBehaviour
             public Sprite airIcon;
             public TMP_Text stepsNumber;
             public TMP_Text moveStaminaCost;
-
-            [Header("Data")]
-            [ShowOnly] public bool areCardsOpen;
-            public bool isPlayerAuto;
-            public bool isEnemyAuto;
+            public GameObject startWindow;
 
         [Header("BOOSTERS")]
             
@@ -136,10 +137,47 @@ public class LevelManager : MonoBehaviour
         {
             cinemCamera.Follow = camDefaultPos;
             cinemCamera.Lens.OrthographicSize = initOrthoSize;
+            startWindow.GetComponent<WindowManager>().CloseStart();
+
+            foreach (CharacterStatistics chr in allCharacters)
+            {
+                chr.transform.parent.gameObject.SetActive(false);
+            }
+
+            List<Booster> allBoosters = new List<Booster>();
+            allBoosters = FindObjectsByType<Booster>(FindObjectsSortMode.None).ToList();
+            foreach (Booster booster in allBoosters)
+            {
+                booster.gameObject.SetActive(false);
+            }
 
             yield return new WaitForSeconds(1f);
 
+            foreach (CharacterStatistics chr in allCharacters)
+            {
+                chr.transform.parent.gameObject.SetActive(true);
+                chr.Birth();
+
+                yield return new WaitForSeconds(0.2f);
+            }
+            
+            yield return new WaitForSeconds(0.4f);
+
+            foreach (Booster booster in allBoosters)
+            {
+                booster.gameObject.SetActive(true);
+                booster.Birth();
+
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+            startWindow.GetComponent<WindowManager>().OpenStart();
             QueueManager.instance.StartCooldown();
+
+            yield return new WaitForSeconds(1f);
+            startWindow.GetComponent<WindowManager>().CloseStart();
         }
 
         public void TogglePlayerAuto()

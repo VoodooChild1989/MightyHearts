@@ -20,6 +20,7 @@ public class CharacterAnimation : MonoBehaviour
             [ShowOnly] public float frameLength = 0.1f;
             [ShowOnly] public float damagedFrameLength = 1f;
             [ShowOnly] public SpriteRenderer sr;
+            [ShowOnly] public GameObject birthVFX;
             [ShowOnly] public GameObject deathVFX;
             private Coroutine animationCrt;
 
@@ -42,7 +43,8 @@ public class CharacterAnimation : MonoBehaviour
                 }
             }
 
-            deathVFX = Resources.Load<GameObject>("Prefabs/VFX/Character_Death");   
+            birthVFX = Resources.Load<GameObject>("Prefabs/VFX/Cloud_Poof");   
+            deathVFX = Resources.Load<GameObject>("Prefabs/VFX/Cloud_Poof");   
         }
 
         /// <summary>

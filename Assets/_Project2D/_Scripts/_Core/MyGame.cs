@@ -66,7 +66,7 @@ namespace MyGame
     /// <summary>
     /// A class that manages the data and its properties.
     /// </summary>
-    public static class Datas
+    public static class Data
     {
         /// <summary>
         /// Randomizes the order of elements in a one-dimensional array.

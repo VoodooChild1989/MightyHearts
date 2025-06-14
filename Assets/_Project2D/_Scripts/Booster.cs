@@ -8,6 +8,13 @@ using UnityEngine.Playables;
 using TMPro;
 using DG.Tweening;
 
+public enum BoosterType
+{
+    Character,
+    Card,
+    Switch
+}
+
 public class Booster : MonoBehaviour
 {
 
@@ -19,10 +26,12 @@ public class Booster : MonoBehaviour
         [Header("VARIABLES")]
             
             [Header("Basic Variables")]
-            public GameObject pickedVFX;
+            public GameObject birthVFX;
+            public GameObject deathVFX;
             public float initScale;
             public float finalScale;
             public float duration;
+            public BoosterType curBoosterType;
 
     #endregion
 
@@ -43,8 +52,10 @@ public class Booster : MonoBehaviour
         /// </summary>
         private void Start()
         {
-            transform.localScale = new Vector3(initScale, initScale, initScale);
+            birthVFX = Resources.Load<GameObject>("Prefabs/VFX/Bright_Sparkle");
+            deathVFX = Resources.Load<GameObject>("Prefabs/VFX/Yellow_Sparkle");
 
+            transform.localScale = new Vector3(initScale, initScale, initScale);
             transform.DOScale(finalScale, duration).SetLoops(-1, LoopType.Yoyo);
         }
 
@@ -72,13 +83,16 @@ public class Booster : MonoBehaviour
 
     #region CUSTOM METHODS
 
-        /// <summary>
-        /// An example custom method.
-        /// Replace with your own custom logic.
-        /// </summary>
+        public void Birth()
+        {
+            Instantiate(birthVFX, transform.position, Quaternion.identity);
+            SFXManager.PlaySFX(Resources.Load<AudioClip>("SFX/Chip"), transform, 1f);
+        }
+
         public void Death()
         {
-            Instantiate(pickedVFX, transform.position, Quaternion.identity);
+            Instantiate(deathVFX, transform.position, Quaternion.identity);
+            SFXManager.PlaySFX(Resources.Load<AudioClip>("SFX/PowerupCollected"), transform, 1f);
             Destroy(gameObject);
         }
 

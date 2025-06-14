@@ -133,6 +133,11 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             UpdateCooldown(0);
 
             chrMove.UpdateMovementType();
+
+            if (curCharacterType == CharacterType.Enemy)
+            {            
+                StartCoroutine(EnemyBuff());
+            }
         }
 
         /// <summary>
@@ -187,6 +192,18 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             chrAnim.sr.material = mat;
         }
 
+        private IEnumerator EnemyBuff()
+        {
+            yield return null;
+
+            for (int i = 1; i <= 3; i++)
+            {
+                CharacterBooster();
+                CardBooster();
+                yield return null;
+            }
+        }
+        
         public void TurnStarted()
         {
             if (isPoisoned)
@@ -219,12 +236,9 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
 
         private IEnumerator DelayedAutoCoroutine()
         {
-            yield return new WaitForSeconds(1f);
-            
-            int rndNum = UnityEngine.Random.Range(1, 3);
-            
-            if (rndNum == 1) chrMove.StartAutoAttack();
-            else chrMove.StartAutoMove();
+            yield return new WaitForSeconds(0.5f);
+
+            chrMove.StartAuto();
         }
 
         public void CheckCards()
@@ -244,16 +258,7 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
 
             if ((curCharacterType == CharacterType.Player && LevelManager.instance.isPlayerAuto) || (curCharacterType == CharacterType.Enemy && LevelManager.instance.isEnemyAuto))
             {
-                int rndNum = UnityEngine.Random.Range(1, 3);
-                
-                if (rndNum == 1)
-                {
-                    chrMove.StartAutoAttack();
-                }
-                else
-                {
-                    chrMove.StartAutoMove();
-                }
+                chrMove.StartAuto();
             }
             else
             {
@@ -286,20 +291,24 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
         /// <param name="other">The Collision2D data associated with this collision.</param>
         void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.CompareTag("CharacterBooster"))
+            if (other.gameObject.GetComponent<Booster>() != null)
             {
-                CharacterBooster();
-                other.gameObject.GetComponent<Booster>().Death();
-            }
-            else if (other.gameObject.CompareTag("CardBooster"))
-            {
-                CardBooster();
-                other.gameObject.GetComponent<Booster>().Death();
-            }
-            else if (other.gameObject.CompareTag("FlyBooster"))
-            {            
-                EnableMoveTypesSwitch();
-                other.gameObject.GetComponent<Booster>().Death();
+                Booster boosterScript = other.gameObject.GetComponent<Booster>();
+
+                if (boosterScript.curBoosterType == BoosterType.Character)
+                {
+                    CharacterBooster();
+                }
+                else if (boosterScript.curBoosterType == BoosterType.Card)
+                {
+                    CardBooster();
+                }
+                else if (boosterScript.curBoosterType == BoosterType.Switch)
+                {            
+                    EnableMoveTypesSwitch();
+                }
+
+                boosterScript.Death();
             }
         }
 
@@ -356,6 +365,8 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
         public void TakeDamage(int damageAmount)
         {
             chrAnim.SetDamagedAnimation();
+            AudioClip sfx = Resources.Load<AudioClip>("SFX/Damaged");  
+            SFXManager.PlaySFX(sfx, transform, 1f);
             UpdateHealth(-damageAmount);
         }
     
@@ -380,6 +391,13 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             healthTMP.text = curHealth.ToString() + "/" + maxHealth.ToString();            
         }
         
+        public void Birth()
+        {
+            Instantiate(chrAnim.birthVFX, transform.position, Quaternion.identity);
+            AudioClip sfx = Resources.Load<AudioClip>("SFX/Chip");  
+            SFXManager.PlaySFX(sfx, transform, 1f);
+        }
+
         private void StartDeath()
         {
             StartCoroutine(Death());

@@ -211,11 +211,18 @@ public class TilemapManager : MonoBehaviour
                 }
 
                 cellObj.SetAsTrajectory();
+
+                if (card.canInteract == false && cellObj.CanInteract())
+                {
+                    card.canInteract = true;
+                }
             }
         }
 
         public void HideTrajectory(CardSO card)
         {
+            card.canInteract = false;
+
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)

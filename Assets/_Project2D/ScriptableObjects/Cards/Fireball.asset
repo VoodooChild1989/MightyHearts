@@ -17,9 +17,9 @@ MonoBehaviour:
   cardName: Fireball
   cardDescription: A blast of fire.
   staminaCost: 10
-  attackWaves: 4
+  attackWaves: 1
   curCardType: 0
-  damageAmount: 1
+  damageAmount: 10
   speed: 5
   maxBlocks: 4
   idleSprites:

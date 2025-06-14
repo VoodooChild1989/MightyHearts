@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5506855305480633162}
   - component: {fileID: 1542258795625689571}
   m_Layer: 0
-  m_Name: Projectile_Death
+  m_Name: Bright_Sparkle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1545,13 +1545,10 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 1120803565, guid: 3ef5d7bbfe8545f438196a621461bce6, type: 3}
-    - sprite: {fileID: 1916195290, guid: 3ef5d7bbfe8545f438196a621461bce6, type: 3}
-    - sprite: {fileID: 1533887761, guid: 3ef5d7bbfe8545f438196a621461bce6, type: 3}
-    - sprite: {fileID: 2144478019, guid: 3ef5d7bbfe8545f438196a621461bce6, type: 3}
-    - sprite: {fileID: 858436068, guid: 3ef5d7bbfe8545f438196a621461bce6, type: 3}
-    - sprite: {fileID: 1382494120, guid: 3ef5d7bbfe8545f438196a621461bce6, type: 3}
-    - sprite: {fileID: 1807560827, guid: 3ef5d7bbfe8545f438196a621461bce6, type: 3}
+    - sprite: {fileID: -1981301138, guid: 07ca8c4058a4c114197962e71ed5c9cd, type: 3}
+    - sprite: {fileID: 2036588662, guid: 07ca8c4058a4c114197962e71ed5c9cd, type: 3}
+    - sprite: {fileID: -1751936189, guid: 07ca8c4058a4c114197962e71ed5c9cd, type: 3}
+    - sprite: {fileID: 824343290, guid: 07ca8c4058a4c114197962e71ed5c9cd, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:

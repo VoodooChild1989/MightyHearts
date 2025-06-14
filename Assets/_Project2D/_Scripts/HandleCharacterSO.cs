@@ -81,10 +81,7 @@ public class HandleCharacterSO : MonoBehaviour
         /// </summary>
         private void Start()
         {
-            if (curCharacterType == CharacterType.Enemy)
-            {
-                StartCoroutine(EnemyBuff());
-            }
+            // Code...
         }
 
         /// <summary>
@@ -108,17 +105,5 @@ public class HandleCharacterSO : MonoBehaviour
         }
 
     #endregion
-
-    private IEnumerator EnemyBuff()
-    {
-        yield return null;
-
-        for (int i = 1; i <= 3; i++)
-        {
-            curChr.CharacterBooster();
-            curChr.CardBooster();
-            yield return null;
-        }
-    }
 
 }

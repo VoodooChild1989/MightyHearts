@@ -16,12 +16,12 @@ MonoBehaviour:
   cardIcon: {fileID: 21300000, guid: a46bb5ba81a6d5f4c94c4b9d9a0898c7, type: 3}
   cardName: Fountain
   cardDescription: Pushes back an enemy to 1 block.
-  staminaCost: 20
-  attackWaves: 4
+  staminaCost: 30
+  attackWaves: 1
   curCardType: 2
-  damageAmount: 1
+  damageAmount: 20
   speed: 5
-  maxBlocks: 4
+  maxBlocks: 5
   idleSprites:
   - {fileID: -8014774246758756502, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}
   - {fileID: 38291735183647181, guid: 5bad3e523c129e5448d145b1a82b478b, type: 3}

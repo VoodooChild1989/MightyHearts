@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4895634096967111494}
   m_Layer: 13
   m_Name: MoveType_Booster_01
-  m_TagString: FlyBooster
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,6 +106,7 @@ MonoBehaviour:
   initScale: 0.9
   finalScale: 1.1
   duration: 0.5
+  curBoosterType: 2
 --- !u!61 &4895634096967111494
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5506855305480633162}
   - component: {fileID: 1542258795625689571}
   m_Layer: 0
-  m_Name: Character_Death
+  m_Name: Explosion_Poof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1545,13 +1545,13 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: -5438564911372218881, guid: 674cb5e259329c64cbc48edbb33c7417, type: 3}
-    - sprite: {fileID: 1507112176311742313, guid: 674cb5e259329c64cbc48edbb33c7417, type: 3}
-    - sprite: {fileID: -2817497781957313752, guid: 674cb5e259329c64cbc48edbb33c7417, type: 3}
-    - sprite: {fileID: -2458666094783645557, guid: 674cb5e259329c64cbc48edbb33c7417, type: 3}
-    - sprite: {fileID: 8623368979595225796, guid: 674cb5e259329c64cbc48edbb33c7417, type: 3}
-    - sprite: {fileID: 3468336437740011171, guid: 674cb5e259329c64cbc48edbb33c7417, type: 3}
-    - sprite: {fileID: -7193730212035476942, guid: 674cb5e259329c64cbc48edbb33c7417, type: 3}
+    - sprite: {fileID: 1120803565, guid: 3ef5d7bbfe8545f438196a621461bce6, type: 3}
+    - sprite: {fileID: 1916195290, guid: 3ef5d7bbfe8545f438196a621461bce6, type: 3}
+    - sprite: {fileID: 1533887761, guid: 3ef5d7bbfe8545f438196a621461bce6, type: 3}
+    - sprite: {fileID: 2144478019, guid: 3ef5d7bbfe8545f438196a621461bce6, type: 3}
+    - sprite: {fileID: 858436068, guid: 3ef5d7bbfe8545f438196a621461bce6, type: 3}
+    - sprite: {fileID: 1382494120, guid: 3ef5d7bbfe8545f438196a621461bce6, type: 3}
+    - sprite: {fileID: 1807560827, guid: 3ef5d7bbfe8545f438196a621461bce6, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:

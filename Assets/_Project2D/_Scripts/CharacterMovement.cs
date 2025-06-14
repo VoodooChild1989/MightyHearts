@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using MyGame;
 
 public enum MovementType
 {
@@ -33,6 +34,11 @@ public class CharacterMovement : MonoBehaviour
             [ShowOnly] public FacingDirection curFacingDirection;
             [ShowOnly] public bool canSwitchMoveTypes;
             private Coroutine movementCrt;
+
+        [Header("AUTO")]
+
+            [Header("Data")]
+            public GameObject closestOpponent;
 
         [Header("REFERENCES")]
 
@@ -131,104 +137,180 @@ public class CharacterMovement : MonoBehaviour
 
     #region AUTO
 
-        public void StartAutoAttack()
+        public void StartAuto()
         {
-            StartCoroutine(AutoAttack());
+            StartCoroutine(Auto());
         }
 
-        private IEnumerator AutoAttack()
+        private IEnumerator Auto()
         {
             yield return new WaitForSeconds(1f);
 
-            bool canAttack = false;
-
+            List<CardSO> canInteractCards = new List<CardSO>();
             for (int i = 1; i <= 3; i++)
             {
                 if (i == 1)
                 {
-                    if (chrStats.curStamina >= chrCards.cardOne.staminaCost)
+                    TilemapManager.instance.ShowTrajectory(chrCards.cardOne);     
+
+                    if (chrCards.cardOne.canInteract)
+                    {
+                        TilemapManager.instance.HideTrajectory(chrCards.cardOne);       
+                        canInteractCards.Add(chrCards.cardOne);
+                    }  
+                    
+                    TilemapManager.instance.HideTrajectory(chrCards.cardOne);       
+                }
+                else if (i == 2)
+                {
+                    TilemapManager.instance.ShowTrajectory(chrCards.cardTwo);     
+
+                    if (chrCards.cardTwo.canInteract)
+                    {
+                        TilemapManager.instance.HideTrajectory(chrCards.cardTwo);       
+                        canInteractCards.Add(chrCards.cardTwo);
+                    }  
+                    
+                    TilemapManager.instance.HideTrajectory(chrCards.cardTwo);       
+                }
+                else if (i == 3)
+                {
+                    TilemapManager.instance.ShowTrajectory(chrCards.cardThree);     
+
+                    if (chrCards.cardThree.canInteract)
+                    {
+                        TilemapManager.instance.HideTrajectory(chrCards.cardThree);       
+                        canInteractCards.Add(chrCards.cardThree);
+                    }  
+                    
+                    TilemapManager.instance.HideTrajectory(chrCards.cardThree);       
+                }
+            }
+
+            if (canInteractCards.Count != 0)
+            {
+                Data.ShuffleList(canInteractCards);
+                bool canAttack = false;
+                foreach (CardSO canInteractCard in canInteractCards)
+                {   
+                    if (canInteractCard == chrCards.cardOne && chrStats.curStamina >= chrCards.cardOne.staminaCost)
                     {
                         chrCards.FirstCard();
                         canAttack = true;
                         break;
                     }
-                }
-                else if (i == 2)
-                {
-                    if (chrStats.curStamina >= chrCards.cardTwo.staminaCost)
+                    else if (canInteractCard == chrCards.cardTwo && chrStats.curStamina >= chrCards.cardTwo.staminaCost)
                     {
                         chrCards.SecondCard();
                         canAttack = true;
                         break;
                     }
-                }
-                else if (i == 3)
-                {
-                    if (chrStats.curStamina >= chrCards.cardThree.staminaCost)
+                    else if (canInteractCard == chrCards.cardThree && chrStats.curStamina >= chrCards.cardThree.staminaCost)
                     {
                         chrCards.ThirdCard();
                         canAttack = true;
                         break;
                     }
                 }
-            }
 
-            if (!canAttack) 
-            {
-                int rndNum = UnityEngine.Random.Range(1, 3);
-                
-                if (rndNum == 1)
-                {
-                    Flip();
-                }
-                else
+                if (!canAttack)
                 {
                     chrStats.Wait();
                 }
             }
-        }
-
-        public void StartAutoMove()
-        {
-            StartCoroutine(AutoMove());
-        }
-
-        private IEnumerator AutoMove()
-        {
-            yield return new WaitForSeconds(1f);
-
-            bool canMove = false;
-
-            for (int i = -1; i <= 1; i++)
+            else
             {
-                for (int j = -1; j <= 1; j++)
-                {
-                    if (i == 0 && j == 0) continue;
+                Transform closestOppTransform = FindClosestOpponent().transform;
 
-                    if (IsThisNewPositionPossible(i, j))
+                if (transform.position.x > closestOppTransform.position.x && curFacingDirection == FacingDirection.Right)
+                {             
+                    Flip();
+                }
+                else if (transform.position.x > closestOppTransform.position.x && curFacingDirection == FacingDirection.Left)
+                {
+                    if (IsThisNewPositionPossible(-1, 0))
                     {
-                        Move(i, j);   
-                        canMove = true;
-                        break;
+                        Move(-1, 0);
+                    }
+                    else
+                    {
+                        chrStats.Wait();
                     }
                 }
-
-                if (canMove) break;
-            }
-
-            if (!canMove)
-            {   
-                int rndNum = UnityEngine.Random.Range(1, 3);
-                
-                if (rndNum == 1)
-                {
+                else if (transform.position.x < closestOppTransform.position.x && curFacingDirection == FacingDirection.Left)
+                {             
                     Flip();
                 }
-                else
+                else if (transform.position.x < closestOppTransform.position.x && curFacingDirection == FacingDirection.Right)
                 {
-                    chrStats.Wait();
+                    if (IsThisNewPositionPossible(1, 0))
+                    {
+                        Move(1, 0);
+                    }
+                    else
+                    {
+                        chrStats.Wait();
+                    }
                 }
             }
+        }
+
+        public GameObject FindClosestOpponent()
+        {
+            if (chrStats.curCharacterType == CharacterType.Player)
+            {
+                float ?minDis = null;
+                GameObject closestOpp = null;
+
+                foreach (CharacterStatistics opp in LevelManager.instance.enemyCharacters)
+                {
+                    float dis = Vector2.Distance(transform.position, opp.transform.position);
+                    
+                    if (minDis == null)
+                    {
+                        minDis = dis;
+                        closestOpp = opp.gameObject;
+                    }
+                    else
+                    {
+                        if (dis < minDis)
+                        {
+                            minDis = dis;
+                            closestOpp = opp.gameObject;
+                        }
+                    }
+                }
+                
+                return closestOpp;
+            }
+            else if (chrStats.curCharacterType == CharacterType.Enemy)
+            {
+                float ?minDis = null;
+                GameObject closestOpp = null;
+
+                foreach (CharacterStatistics opp in LevelManager.instance.playerCharacters)
+                {
+                    float dis = Vector2.Distance(transform.position, opp.transform.position);
+                    
+                    if (minDis == null)
+                    {
+                        minDis = dis;
+                        closestOpp = opp.gameObject;
+                    }
+                    else
+                    {
+                        if (dis < minDis)
+                        {
+                            minDis = dis;
+                            closestOpp = opp.gameObject;
+                        }
+                    }
+                }
+                
+                return closestOpp;
+            }
+
+            return null;
         }
 
     #endregion
@@ -367,8 +449,6 @@ public class CharacterMovement : MonoBehaviour
                     chrStats.CheckCards();
                     yield return null;
                     Flip();
-                    //FinishMovement();
-                    // StartCheckFall();
                     yield break;
                 }
 
@@ -393,7 +473,11 @@ public class CharacterMovement : MonoBehaviour
 
         private IEnumerator MoveToNewPos(Vector3 newPos, int moveX, int moveY, bool checkFall = true, bool specialCheck = false)
         {
-            chrAnim.SetRunningAnimation();
+            if (checkFall && !specialCheck) 
+            {
+                chrAnim.SetRunningAnimation();            
+                SFXManager.PlaySFX(Resources.Load<AudioClip>("SFX/Walking"), transform, 1f);
+            }
             moveSteps--;    
 
             if (specialCheck) 
