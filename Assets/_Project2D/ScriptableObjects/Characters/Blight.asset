@@ -15,7 +15,7 @@ MonoBehaviour:
   notes: 
   maxHealth: 100
   maxStamina: 60
-  maxCooldown: 4
+  maxCooldown: 2
   waitReward: 20
   curMovementType: 1
   offsetX: 0

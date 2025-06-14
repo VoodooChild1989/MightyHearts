@@ -147,6 +147,7 @@ public class CharacterMovement : MonoBehaviour
             yield return new WaitForSeconds(1f);
 
             List<CardSO> canInteractCards = new List<CardSO>();
+
             for (int i = 1; i <= 3; i++)
             {
                 if (i == 1)
@@ -191,6 +192,7 @@ public class CharacterMovement : MonoBehaviour
             {
                 Data.ShuffleList(canInteractCards);
                 bool canAttack = false;
+
                 foreach (CardSO canInteractCard in canInteractCards)
                 {   
                     if (canInteractCard == chrCards.cardOne && chrStats.curStamina >= chrCards.cardOne.staminaCost)
@@ -226,30 +228,124 @@ public class CharacterMovement : MonoBehaviour
                 {             
                     Flip();
                 }
-                else if (transform.position.x > closestOppTransform.position.x && curFacingDirection == FacingDirection.Left)
+                else if (transform.position.x >= closestOppTransform.position.x && curFacingDirection == FacingDirection.Left)
                 {
-                    if (IsThisNewPositionPossible(-1, 0))
+                    int rndMoveSteps = UnityEngine.Random.Range(1, 5);
+                    moveSteps = rndMoveSteps;
+                    int moveCost = moveSteps * 10 - 10;
+
+                    if (transform.position.y > closestOppTransform.position.y)
                     {
-                        Move(-1, 0);
+                        if (IsThisNewPositionPossible(-1, 1))
+                        {
+                            Move(-1, 1);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else
+                        {
+                            chrStats.Wait();
+                        }
                     }
-                    else
+                    else if (transform.position.y < closestOppTransform.position.y)
                     {
-                        chrStats.Wait();
+                        if (IsThisNewPositionPossible(-1, -1))
+                        {
+                            Move(-1, -1);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else
+                        {
+                            chrStats.Wait();
+                        }
+                    }
+                    else if (transform.position.y == closestOppTransform.position.y)
+                    {
+                        if (IsThisNewPositionPossible(-1, 1))
+                        {
+                            Move(-1, 1);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else if (IsThisNewPositionPossible(-1, -1))
+                        {
+                            Move(-1, -1);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else if (IsThisNewPositionPossible(-1, 0))
+                        {
+                            Move(-1, 0);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else
+                        {
+                            chrStats.Wait();
+                        }
                     }
                 }
                 else if (transform.position.x < closestOppTransform.position.x && curFacingDirection == FacingDirection.Left)
                 {             
                     Flip();
                 }
-                else if (transform.position.x < closestOppTransform.position.x && curFacingDirection == FacingDirection.Right)
+                else if (transform.position.x <= closestOppTransform.position.x && curFacingDirection == FacingDirection.Right)
                 {
-                    if (IsThisNewPositionPossible(1, 0))
+                    int rndMoveSteps = UnityEngine.Random.Range(1, 5);
+                    moveSteps = rndMoveSteps;
+                    int moveCost = moveSteps * 10 - 10;
+
+                    if (transform.position.y > closestOppTransform.position.y)
                     {
-                        Move(1, 0);
+                        if (IsThisNewPositionPossible(1, -1))
+                        {
+                            Move(1, -1);                        
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else if (IsThisNewPositionPossible(1, 0))
+                        {
+                            Move(1, 0);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else
+                        {
+                            chrStats.Wait();
+                        }
                     }
-                    else
+                    else if (transform.position.y < closestOppTransform.position.y)
                     {
-                        chrStats.Wait();
+                        if (IsThisNewPositionPossible(1, 1))
+                        {
+                            Move(1, 1);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else if (IsThisNewPositionPossible(1, 0))
+                        {
+                            Move(1, 0);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else
+                        {
+                            chrStats.Wait();
+                        }
+                    }
+                    else if (transform.position.y == closestOppTransform.position.y)
+                    {
+                        if (IsThisNewPositionPossible(1, -1))
+                        {
+                            Move(1, -1);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else if (IsThisNewPositionPossible(1, 1))
+                        {
+                            Move(1, 1);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else if (IsThisNewPositionPossible(1, 0))
+                        {
+                            Move(1, 0);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else
+                        {
+                            chrStats.Wait();
+                        }
                     }
                 }
             }
