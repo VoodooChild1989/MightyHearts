@@ -50,6 +50,8 @@ public class LevelManager : MonoBehaviour
             public TMP_Text stepsNumber;
             public TMP_Text moveStaminaCost;
             public GameObject startWindow;
+            public Button addY;
+            public Button removeY;
 
         [Header("BOOSTERS")]
             

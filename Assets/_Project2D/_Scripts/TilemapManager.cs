@@ -178,24 +178,8 @@ public class TilemapManager : MonoBehaviour
         {
             CharacterStatistics curChar = QueueManager.instance.charactersOnQueue[QueueManager.instance.curQueueIndex - 1];
             int blocksToDraw = card.maxBlocks;
-            int initX = 0;
-            int initY = 0;
-
-            if (curChar.chrCards.cardOne == card)
-            {
-                initX = curChar.chrCards.cardOneSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
-                initY = curChar.chrCards.cardOneSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
-            }
-            else if (curChar.chrCards.cardTwo == card)
-            {
-                initX = curChar.chrCards.cardTwoSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
-                initY = curChar.chrCards.cardTwoSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
-            }
-            else if (curChar.chrCards.cardThree == card)
-            {
-                initX = curChar.chrCards.cardThreeSpawnPoint.GetComponent<SpawnPoint>().collidingCell.x;
-                initY = curChar.chrCards.cardThreeSpawnPoint.GetComponent<SpawnPoint>().collidingCell.y;
-            }
+            int initX = curChar.chrCards.spawnPointCell.x;
+            int initY = curChar.chrCards.spawnPointCell.y;
             
             for (int i = 0; i < blocksToDraw; i++)
             {

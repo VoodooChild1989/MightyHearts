@@ -19,21 +19,20 @@ public class CharacterCards : MonoBehaviour
             
             [Header("Basic Variables")]
             [ShowOnly] public bool choseCard;
+            public Vector3 spawnPoint;
+            public Cell spawnPointCell;
 
         [Header("CARDS")]
 
             [Header("Card One")]
-            public Transform cardOneSpawnPoint;
             [ShowOnly] public CardSO cardOne;
             [ShowOnly] public CardSO cardOneOriginal;
 
             [Header("Card Two")]
-            public Transform cardTwoSpawnPoint;
             [ShowOnly] public CardSO cardTwo;
             [ShowOnly] public CardSO cardTwoOriginal;
 
             [Header("Card Three")]
-            public Transform cardThreeSpawnPoint;
             [ShowOnly] public CardSO cardThree;
             [ShowOnly] public CardSO cardThreeOriginal;
 
@@ -96,6 +95,134 @@ public class CharacterCards : MonoBehaviour
 
     #region CUSTOM METHODS
 
+        public Cell SetSpawnPoint()
+        {
+            if (chrMove.curFacingDirection == FacingDirection.Right)
+            {
+                int x = 0;
+                int y = 0;
+
+                int ?maxX = null;
+                int ?minY = null;
+
+                foreach (GameObject cell in chrMove.sizeMatrix)
+                {
+                    Cell cellToTest = cell.GetComponent<Cell>();
+
+                    if (maxX == null)
+                    {
+                        maxX = cellToTest.x;
+                    }
+                    else if (cellToTest.x > maxX)
+                    {
+                        maxX = cellToTest.x;
+                    }
+                    
+                    if (minY == null)
+                    {
+                        minY = cellToTest.y;
+                    }
+                    else if (cellToTest.y < minY)
+                    {
+                        minY = cellToTest.y;
+                    }
+                }
+                
+                Cell spawnPointCell = TilemapManager.instance.collisionMatrixCells[(int)maxX + 1, (int)minY].GetComponent<Cell>();
+                return spawnPointCell;
+            }
+            else if (chrMove.curFacingDirection == FacingDirection.Left)
+            {
+                int x = 0;
+                int y = 0;
+
+                int ?minX = null;
+                int ?minY = null;
+
+                foreach (GameObject cell in chrMove.sizeMatrix)
+                {
+                    Cell cellToTest = cell.GetComponent<Cell>();
+
+                    if (minX == null)
+                    {
+                        minX = cellToTest.x;
+                    }
+                    else if (cellToTest.x < minX)
+                    {
+                        minX = cellToTest.x;
+                    }
+                    
+                    if (minY == null)
+                    {
+                        minY = cellToTest.y;
+                    }
+                    else if (cellToTest.y < minY)
+                    {
+                        minY = cellToTest.y;
+                    }
+                }
+                
+                Cell spawnPointCell = TilemapManager.instance.collisionMatrixCells[(int)minX - 1, (int)minY].GetComponent<Cell>();
+                return spawnPointCell;
+            }
+
+            return null;
+        }
+
+        public void AddYToSpawnPoint()
+        {
+            Cell curCell = spawnPointCell;
+            int ?maxY = null;
+
+            foreach (GameObject cell in chrMove.sizeMatrix)
+            {
+                Cell cellToTest = cell.GetComponent<Cell>();
+
+                if (maxY == null)
+                {
+                    maxY = cellToTest.y;
+                }
+                else if (cellToTest.y > maxY)
+                {
+                    maxY = cellToTest.y;
+                }
+            }
+
+            if (curCell.y + 1 <= (int)maxY)
+            {
+                Cell newSpawnPointCell = TilemapManager.instance.collisionMatrixCells[curCell.x, curCell.y + 1].GetComponent<Cell>();
+                spawnPointCell = newSpawnPointCell;
+                spawnPoint = newSpawnPointCell.transform.position;
+            }
+        }
+
+        public void RemoveYToSpawnPoint()
+        {
+            Cell curCell = spawnPointCell;
+            int ?minY = null;
+
+            foreach (GameObject cell in chrMove.sizeMatrix)
+            {
+                Cell cellToTest = cell.GetComponent<Cell>();
+
+                if (minY == null)
+                {
+                    minY = cellToTest.y;
+                }
+                else if (cellToTest.y < minY)
+                {
+                    minY = cellToTest.y;
+                }
+            }
+
+            if (curCell.y - 1 >= (int)minY)
+            {
+                Cell newSpawnPointCell = TilemapManager.instance.collisionMatrixCells[curCell.x, curCell.y - 1].GetComponent<Cell>();
+                spawnPointCell = newSpawnPointCell;
+                spawnPoint = newSpawnPointCell.transform.position;
+            }
+        }
+
         /// <summary>
         /// An example custom method.
         /// Replace with your own custom logic.
@@ -103,6 +230,17 @@ public class CharacterCards : MonoBehaviour
         public void ApplyCards()
         {
             LevelManager.instance.ShowCards(cardOne, cardTwo, cardThree);
+
+
+            Button addY = LevelManager.instance.addY;
+            Button removeY = LevelManager.instance.removeY;
+
+            addY.onClick.RemoveAllListeners();
+            removeY.onClick.RemoveAllListeners();
+
+            addY.onClick.AddListener(AddYToSpawnPoint);   
+            removeY.onClick.AddListener(RemoveYToSpawnPoint);   
+
 
             Button card01 = LevelManager.instance.cards[0];
             Button card02 = LevelManager.instance.cards[1];
@@ -119,6 +257,9 @@ public class CharacterCards : MonoBehaviour
             card01.gameObject.GetComponent<CardButtonDisplay>().card = cardOne;
             card02.gameObject.GetComponent<CardButtonDisplay>().card = cardTwo;
             card03.gameObject.GetComponent<CardButtonDisplay>().card = cardThree;
+            
+            spawnPointCell = SetSpawnPoint();
+            spawnPoint = SetSpawnPoint().transform.position;
         }
 
     #endregion
@@ -245,12 +386,7 @@ public class CharacterCards : MonoBehaviour
                 GameObject projToSpawn = Resources.Load<GameObject>("Prefabs/Prefab_Projectile_01");
                 projToSpawn.GetComponent<HandleProjectileSO>().cardSO = card;
 
-                Vector3 spawnPos = Vector3.zero;
-                if (cardNum == 1) spawnPos = cardOneSpawnPoint.position;
-                else if (cardNum == 2) spawnPos = cardTwoSpawnPoint.position;
-                else if (cardNum == 3) spawnPos = cardThreeSpawnPoint.position;
-
-                GameObject projectileObj = Instantiate(projToSpawn, spawnPos, Quaternion.identity);
+                GameObject projectileObj = Instantiate(projToSpawn, spawnPoint, Quaternion.identity);
                 Projectile projectileScript = projectileObj.GetComponentInChildren<Projectile>();
                 projectileScript.damageAmount = card.damageAmount;
                 projectileScript.curCardType = card.curCardType;
