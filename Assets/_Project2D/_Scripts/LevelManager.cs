@@ -42,6 +42,7 @@ public class LevelManager : MonoBehaviour
             public Button waitButton;
             public Button autoButton;
             public GameObject moveStepsWindow;
+            public GameObject spawnPointWindow;
             public Button addStepButton;
             public Button removeStepButton;
             public Button switchMovementTypesButton;
@@ -139,7 +140,10 @@ public class LevelManager : MonoBehaviour
         {
             cinemCamera.Follow = camDefaultPos;
             cinemCamera.Lens.OrthographicSize = initOrthoSize;
-            startWindow.GetComponent<WindowManager>().CloseStart();
+            
+            startWindow.GetComponent<CanvasGroup>().alpha = 0f;
+            startWindow.GetComponent<CanvasGroup>().interactable = false;
+            startWindow.GetComponent<CanvasGroup>().blocksRaycasts = false;
 
             foreach (CharacterStatistics chr in allCharacters)
             {
@@ -175,11 +179,11 @@ public class LevelManager : MonoBehaviour
 
             yield return new WaitForSeconds(0.5f);
 
-            startWindow.GetComponent<WindowManager>().OpenStart();
+            startWindow.GetComponent<WindowManager>().OpenWindow();
             QueueManager.instance.StartCooldown();
 
             yield return new WaitForSeconds(1f);
-            startWindow.GetComponent<WindowManager>().CloseStart();
+            startWindow.GetComponent<WindowManager>().CloseWindow();
         }
 
         public void TogglePlayerAuto()
@@ -214,6 +218,10 @@ public class LevelManager : MonoBehaviour
             moveStepsWindow.GetComponent<CanvasGroup>().alpha = 0f;
             moveStepsWindow.GetComponent<CanvasGroup>().interactable = false;
             moveStepsWindow.GetComponent<CanvasGroup>().blocksRaycasts = false;
+
+            spawnPointWindow.GetComponent<CanvasGroup>().alpha = 0f;
+            spawnPointWindow.GetComponent<CanvasGroup>().interactable = false;
+            spawnPointWindow.GetComponent<CanvasGroup>().blocksRaycasts = false;
         }
 
         public void RemovePlayer(CharacterStatistics playerCharacter)
@@ -282,8 +290,9 @@ public class LevelManager : MonoBehaviour
                 }
             }
 
-            waitButton.GetComponent<WindowManager>().OpenButton();
-            moveStepsWindow.GetComponent<WindowManager>().OpenStepsWindow();
+            waitButton.GetComponent<WindowManager>().OpenWindow();
+            moveStepsWindow.GetComponent<WindowManager>().OpenWindow();
+            spawnPointWindow.GetComponent<WindowManager>().OpenWindow();
         }
 
         public void AddDataToCard(CardSO card, Button cardButton)
@@ -322,8 +331,9 @@ public class LevelManager : MonoBehaviour
                 card.GetComponent<WindowManager>().CloseCard();
             }
             
-            waitButton.GetComponent<WindowManager>().CloseButton();
-            moveStepsWindow.GetComponent<WindowManager>().CloseStepsWindow();
+            waitButton.GetComponent<WindowManager>().CloseWindow();
+            moveStepsWindow.GetComponent<WindowManager>().CloseWindow();
+            spawnPointWindow.GetComponent<WindowManager>().CloseWindow();
         }
 
     #endregion

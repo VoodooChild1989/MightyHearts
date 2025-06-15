@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Need to add heal, so gotta make projectiles' layer always just "Projectile"
 public enum CardType
 {
     None,
