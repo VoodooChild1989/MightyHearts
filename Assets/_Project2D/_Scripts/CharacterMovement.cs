@@ -236,7 +236,17 @@ public class CharacterMovement : MonoBehaviour
 
                     if (transform.position.y > closestOppTransform.position.y)
                     {
-                        if (IsThisNewPositionPossible(-1, 1))
+                        if (IsThisNewPositionPossible(-1, -1))
+                        {
+                            Move(-1, -1);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else if (IsThisNewPositionPossible(-1, 0))
+                        {
+                            Move(-1, 0);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else if (IsThisNewPositionPossible(-1, 1))
                         {
                             Move(-1, 1);   
                             chrStats.RemoveStamina(moveCost);
@@ -248,7 +258,17 @@ public class CharacterMovement : MonoBehaviour
                     }
                     else if (transform.position.y < closestOppTransform.position.y)
                     {
-                        if (IsThisNewPositionPossible(-1, -1))
+                        if (IsThisNewPositionPossible(-1, 1))
+                        {
+                            Move(-1, 1);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else if (IsThisNewPositionPossible(-1, 0))
+                        {
+                            Move(-1, 0);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else if (IsThisNewPositionPossible(-1, -1))
                         {
                             Move(-1, -1);   
                             chrStats.RemoveStamina(moveCost);
@@ -260,7 +280,12 @@ public class CharacterMovement : MonoBehaviour
                     }
                     else if (transform.position.y == closestOppTransform.position.y)
                     {
-                        if (IsThisNewPositionPossible(-1, 1))
+                        if (IsThisNewPositionPossible(-1, 0))
+                        {
+                            Move(-1, 0);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else if (IsThisNewPositionPossible(-1, 1))
                         {
                             Move(-1, 1);   
                             chrStats.RemoveStamina(moveCost);
@@ -268,11 +293,6 @@ public class CharacterMovement : MonoBehaviour
                         else if (IsThisNewPositionPossible(-1, -1))
                         {
                             Move(-1, -1);   
-                            chrStats.RemoveStamina(moveCost);
-                        }
-                        else if (IsThisNewPositionPossible(-1, 0))
-                        {
-                            Move(-1, 0);   
                             chrStats.RemoveStamina(moveCost);
                         }
                         else
@@ -295,12 +315,17 @@ public class CharacterMovement : MonoBehaviour
                     {
                         if (IsThisNewPositionPossible(1, -1))
                         {
-                            Move(1, -1);                        
+                            Move(1, -1);   
                             chrStats.RemoveStamina(moveCost);
                         }
                         else if (IsThisNewPositionPossible(1, 0))
                         {
                             Move(1, 0);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
+                        else if (IsThisNewPositionPossible(1, 1))
+                        {
+                            Move(1, 1);   
                             chrStats.RemoveStamina(moveCost);
                         }
                         else
@@ -320,6 +345,11 @@ public class CharacterMovement : MonoBehaviour
                             Move(1, 0);   
                             chrStats.RemoveStamina(moveCost);
                         }
+                        else if (IsThisNewPositionPossible(1, -1))
+                        {
+                            Move(1, -1);   
+                            chrStats.RemoveStamina(moveCost);
+                        }
                         else
                         {
                             chrStats.Wait();
@@ -327,9 +357,9 @@ public class CharacterMovement : MonoBehaviour
                     }
                     else if (transform.position.y == closestOppTransform.position.y)
                     {
-                        if (IsThisNewPositionPossible(1, -1))
+                        if (IsThisNewPositionPossible(1, 0))
                         {
-                            Move(1, -1);   
+                            Move(1, 0);   
                             chrStats.RemoveStamina(moveCost);
                         }
                         else if (IsThisNewPositionPossible(1, 1))
@@ -337,9 +367,9 @@ public class CharacterMovement : MonoBehaviour
                             Move(1, 1);   
                             chrStats.RemoveStamina(moveCost);
                         }
-                        else if (IsThisNewPositionPossible(1, 0))
+                        else if (IsThisNewPositionPossible(1, -1))
                         {
-                            Move(1, 0);   
+                            Move(1, -1);   
                             chrStats.RemoveStamina(moveCost);
                         }
                         else
