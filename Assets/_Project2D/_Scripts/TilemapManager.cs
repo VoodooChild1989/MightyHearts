@@ -174,6 +174,17 @@ public class TilemapManager : MonoBehaviour
             }
         }
 
+        public void ShowSingleBlockTrajectory(CharacterStatistics chr)
+        {
+            CharacterStatistics curChar = chr;
+            int initX = curChar.chrCards.spawnPointCell.x;
+            int initY = curChar.chrCards.spawnPointCell.y;
+            
+            Cell cellObj = null;
+            cellObj = collisionMatrixCells[initX, initY].GetComponent<Cell>();
+            cellObj.SetAsTrajectory();
+        }
+
         public void ShowTrajectory(CardSO card)
         {
             CharacterStatistics curChar = QueueManager.instance.charactersOnQueue[QueueManager.instance.curQueueIndex - 1];
@@ -203,9 +214,10 @@ public class TilemapManager : MonoBehaviour
             }
         }
 
-        public void HideTrajectory(CardSO card)
+        public void HideTrajectory(CardSO card = null)
         {
-            card.canInteract = false;
+            if (card != null)
+                card.canInteract = false;
 
             for (int i = 0; i < width; i++)
             {
@@ -214,6 +226,13 @@ public class TilemapManager : MonoBehaviour
                     collisionMatrixCells[i, j].GetComponent<Cell>().RemoveAsTrajectory();
                 }
             }
+            
+            /*
+            CharacterStatistics curChar = QueueManager.instance.charactersOnQueue[QueueManager.instance.curQueueIndex - 1];
+            curChar.chrCards.spawnPointCell = curChar.chrCards.SetSpawnPoint();
+            curChar.chrCards.spawnPoint = curChar.chrCards.SetSpawnPoint().transform.position;
+            ShowSingleBlockTrajectory(curChar);
+            */
         }
 
     #endregion

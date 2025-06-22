@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Cinemachine;
 
 public enum CharacterType
 {
@@ -176,82 +177,11 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
 
     #endregion
 
-    #region CUSTOM METHODS
+    #region ESSENTIALS
 
-        private void TurnToPlayer()
-        {
-            gameObject.layer = LayerMask.NameToLayer("Player");
-            Material mat = Resources.Load<Material>("Materials/Player_Outline");
-            chrAnim.sr.material = mat;
-        }
-
-        private void TurnToEnemy()
-        {
-            gameObject.layer = LayerMask.NameToLayer("Enemy");
-            Material mat = Resources.Load<Material>("Materials/Enemy_Outline");
-            chrAnim.sr.material = mat;
-        }
-
-        private IEnumerator EnemyBuff()
-        {
-            yield return null;
-
-            for (int i = 1; i <= 3; i++)
-            {
-                CharacterBooster();
-                CardBooster();
-                yield return null;
-            }
-        }
-        
-        public void TurnStarted()
-        {
-            if (isPoisoned)
-            {
-                TakeDamage(10);
-                poisonedTurnsLeft--;
-                if (poisonedTurnsLeft == 0) isPoisoned = false;
-            }
-
-            LevelManager.instance.cinemCamera.Follow = gameObject.transform;
-            chrMove.moveSteps = 1;
-            chrMove.moveStaminaCost = 0;
-
-            chrMove.UpdateMovementType();
-        }
-
-        public void TurnFinished()
-        {
-            onTurn = false;
-            chrCards.choseCard = false;
-            CheckCards();
-            RemoveCooldown(curCooldown);
-            chrMove.StopManualMovement();
-        }
-
-        private void DelayedAuto()
-        {
-            StartCoroutine(DelayedAutoCoroutine());
-        }
-
-        private IEnumerator DelayedAutoCoroutine()
-        {
-            yield return new WaitForSeconds(0.5f);
-
-            chrMove.StartAuto();
-        }
-
-        public void CheckCards()
-        {
-            if ((curCharacterType == CharacterType.Player && !LevelManager.instance.isPlayerAuto) || (curCharacterType == CharacterType.Enemy && !LevelManager.instance.isEnemyAuto))
-            {
-                if (LevelManager.instance.areCardsOpen)
-                {
-                    LevelManager.instance.RemoveCards();
-                }
-            }   
-        }
-
+        /// <summary>
+        /// Called when a character's turn comes.
+        /// </summary>
         public void Ready()
         {
             TurnStarted();
@@ -282,6 +212,126 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
                 removeStepButton.onClick.AddListener(chrMove.RemoveStep); 
                 switchMove.onClick.AddListener(chrMove.SwitchMovementTypes);   
             }
+        }
+
+        /// <summary>
+        /// Setting up the start of a turn.
+        /// </summary>
+        public void TurnStarted()
+        {
+            if (isPoisoned)
+            {
+                TakeDamage(10);
+                poisonedTurnsLeft--;
+                if (poisonedTurnsLeft == 0) isPoisoned = false;
+            }
+
+            LevelManager.instance.cinemCamera.Follow = gameObject.transform;
+            chrMove.moveSteps = 1;
+            chrMove.moveStaminaCost = 0;
+
+            chrMove.UpdateMovementType();
+            
+            chrCards.spawnPointCell = chrCards.SetSpawnPoint();
+            chrCards.spawnPoint = chrCards.SetSpawnPoint().transform.position;
+            TilemapManager.instance.ShowSingleBlockTrajectory(this);
+        }
+
+        /// <summary>
+        /// Setting up the end of a turn.
+        /// </summary>
+        public void TurnFinished()
+        {
+            onTurn = false;
+            chrCards.choseCard = false;
+            CheckCards();
+            RemoveCooldown(curCooldown);
+            chrMove.StopManualMovement();
+        }
+
+        /// <summary>
+        /// Closing the cards if they are active.
+        /// </summary>
+        public void CheckCards()
+        {
+            if ((curCharacterType == CharacterType.Player && !LevelManager.instance.isPlayerAuto) || (curCharacterType == CharacterType.Enemy && !LevelManager.instance.isEnemyAuto))
+            {
+                if (LevelManager.instance.areCardsOpen)
+                {
+                    LevelManager.instance.RemoveCards();
+                }
+            }   
+        }
+
+        /// <summary>
+        /// Waiting system.
+        /// </summary>
+        public void Wait()
+        {
+            AddStamina(waitReward);
+            CheckCards();
+            StartCoroutine(WaitCoroutine());
+        }
+
+        /// <summary>
+        /// Waiting coroutine.
+        /// </summary>
+        private IEnumerator WaitCoroutine()
+        {
+            yield return new WaitForSeconds(1f);
+            TurnFinished();
+            QueueManager.instance.MoveQueue();
+        }
+
+    #endregion
+
+    #region CUSTOM METHODS
+
+        /// <summary>
+        /// Turns a character to a player.
+        /// </summary>
+        private void TurnToPlayer()
+        {
+            gameObject.layer = LayerMask.NameToLayer("Player");
+            Material mat = Resources.Load<Material>("Materials/Player_Outline");
+            chrAnim.sr.material = mat;
+        }
+
+        /// <summary>
+        /// Turns a character to an enemy.
+        /// </summary>
+        private void TurnToEnemy()
+        {
+            gameObject.layer = LayerMask.NameToLayer("Enemy");
+            Material mat = Resources.Load<Material>("Materials/Enemy_Outline");
+            chrAnim.sr.material = mat;
+        }
+
+        /// <summary>
+        /// Buffs for enemies.
+        /// </summary>
+        private IEnumerator EnemyBuff()
+        {
+            yield return null;
+
+            for (int i = 1; i <= 3; i++)
+            {
+                CharacterBooster();
+                CardBooster();
+                yield return null;
+            }
+        }
+
+        private void DelayedAuto()
+        {
+            StartCoroutine(DelayedAutoCoroutine());
+        }
+
+        private IEnumerator DelayedAutoCoroutine()
+        {
+            yield return new WaitForSeconds(0.5f);
+
+            chrMove.StartAuto();
         }
 
         /// <summary>
@@ -316,6 +366,9 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
 
     #region BOOSTERS
 
+        /// <summary>
+        /// Randomly choosing a buff to apply.
+        /// </summary>
         public void CharacterBooster()
         {
             int num = UnityEngine.Random.Range(1, 4);
@@ -325,6 +378,9 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             else if (num == 3) DecreaseMaxCooldown();
         }
 
+        /// <summary>
+        /// Applying a buff to one of the cards.
+        /// </summary>
         public void CardBooster()
         {
             int num = UnityEngine.Random.Range(1, 4);
@@ -355,6 +411,9 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
 
     #region HEALTH
         
+        /// <summary>
+        /// Making the health capacity of a character bigger.
+        /// </summary>
         private void IncreaseMaxHealth()
         {
             int amount = UnityEngine.Random.Range(LevelManager.instance.minHealthBonus, LevelManager.instance.maxHealthBonus + 1);
@@ -362,19 +421,34 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             Heal(maxHealth - curHealth);
         }
 
+        /// <summary>
+        /// Taking damage.
+        /// </summary>
+        /// <param name="damageAmount">The amount of damage to take.</param>
         public void TakeDamage(int damageAmount)
         {
             chrAnim.SetDamagedAnimation();
-            AudioClip sfx = Resources.Load<AudioClip>("SFX/Damaged");  
-            SFXManager.PlaySFX(sfx, transform, 1f);
+            SFXManager.PlaySFX(Resources.Load<AudioClip>("SFX/Damaged"), transform, 1f);
+            GameObject.Find("CinemachineCamera").GetComponent<CinemachineImpulseSource>().GenerateImpulse();
             UpdateHealth(-damageAmount);
         }
     
+        /// <summary>
+        /// Healing a character.
+        /// </summary>
+        /// <param name="healAmount">The amount of heal to take.</param>
         public void Heal(int healAmount)
         {
+            // To be added: Healing SFX and VFX
+
             UpdateHealth(healAmount);
         }
 
+        /// <summary>
+        /// Updating the health of a character.
+        /// It can either get smaller (damage) or get bigger (heal).
+        /// </summary>
+        /// <param name="amount">The amount of either damage or heal to update.</param>
         void UpdateHealth(int amount)
         {
             curHealth += amount;
@@ -391,18 +465,26 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             healthTMP.text = curHealth.ToString() + "/" + maxHealth.ToString();            
         }
         
+        /// <summary>
+        /// Called when a character appears.
+        /// </summary>
         public void Birth()
         {
             Instantiate(chrAnim.birthVFX, transform.position, Quaternion.identity);
-            AudioClip sfx = Resources.Load<AudioClip>("SFX/Chip");  
-            SFXManager.PlaySFX(sfx, transform, 1f);
+            SFXManager.PlaySFX(Resources.Load<AudioClip>("SFX/Chip"), transform, 1f);
         }
 
+        /// <summary>
+        /// Starting the death coroutine.
+        /// </summary>
         private void StartDeath()
         {
             StartCoroutine(Death());
         }
 
+        /// <summary>
+        /// Death coroutine.
+        /// </summary>
         public IEnumerator Death()
         {
             isDead = true;
@@ -414,7 +496,10 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             Destroy(transform.parent.gameObject);
         }
 
-        private void OnDestroy() 
+        /// <summary>
+        /// This function is called when the MonoBehaviour will be destroyed.
+        /// </summary>
+        private void OnDestroy()
         {
             if (curCharacterType == CharacterType.Player)
             {
@@ -423,13 +508,16 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             else if (curCharacterType == CharacterType.Enemy)
             {
                 LevelManager.instance.RemoveEnemy(this);
-            }
+            }   
         }
 
     #endregion
 
     #region STAMINA
 
+        /// <summary>
+        /// Making the stamina capacity of a character bigger.
+        /// </summary>
         private void IncreaseMaxStamina()
         {
             int amount = UnityEngine.Random.Range(LevelManager.instance.minCharacterStaminaBonus, LevelManager.instance.maxCharacterStaminaBonus + 1);
@@ -437,16 +525,31 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             AddStamina(maxStamina - curStamina);
         }
 
+        /// <summary>
+        /// Adding stamina.
+        /// </summary>
+        /// <param name="amount">The amount of stamina to add.</param>
         public void AddStamina(int amount)
         {
+            // To be added: Stamina SFX and VFX
+
             UpdateStamina(amount);
         }
 
+        /// <summary>
+        /// Removing stamina.
+        /// </summary>
+        /// <param name="amount">The amount of stamina to remove.</param>
         public void RemoveStamina(int amount)
         {
             UpdateStamina(-amount);
         }
 
+        /// <summary>
+        /// Updating the stamina of a character.
+        /// It can either get smaller or get bigger.
+        /// </summary>
+        /// <param name="amount">The amount to update.</param>
         public void UpdateStamina(int amount)
         {
             curStamina += amount;
@@ -463,25 +566,13 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             staminaTMP.text = curStamina.ToString() + "/" + maxStamina.ToString();   
         }
 
-        public void Wait()
-        {
-            AddStamina(waitReward);
-            CheckCards();
-            StartCoroutine(WaitCoroutine());
-            // chrMove.StartCheckFall();
-        }
-
-        private IEnumerator WaitCoroutine()
-        {
-            yield return new WaitForSeconds(1f);
-            TurnFinished();
-            QueueManager.instance.MoveQueue();
-        }
-
     #endregion
  
     #region COOLDOWN
 
+        /// <summary>
+        /// Making the maximum cooldown capacity of a character bigger.
+        /// </summary>
         private void DecreaseMaxCooldown()
         {
             int amount = UnityEngine.Random.Range(LevelManager.instance.minCooldownBonus, LevelManager.instance.maxCooldownBonus + 1);
@@ -498,16 +589,29 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             UpdateCooldown(0);
         }
 
+        /// <summary>
+        /// Adding cooldown.
+        /// </summary>
+        /// <param name="amount">The amount of cooldown to add.</param>
         public void AddCooldown(int amount)
         {
             UpdateCooldown(amount);
         }
 
+        /// <summary>
+        /// Removing cooldown.
+        /// </summary>
+        /// <param name="amount">The amount of cooldown to remove.</param>
         public void RemoveCooldown(int amount)
         {
             UpdateCooldown(-amount);
         }
 
+        /// <summary>
+        /// Updating the cooldown of a character.
+        /// It can either get smaller or get bigger.
+        /// </summary>
+        /// <param name="amount">The amount to update.</param>
         public void UpdateCooldown(int amount)
         {
             curCooldown += amount;

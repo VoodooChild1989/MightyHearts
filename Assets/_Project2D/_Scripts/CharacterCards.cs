@@ -99,9 +99,6 @@ public class CharacterCards : MonoBehaviour
         {
             if (chrMove.curFacingDirection == FacingDirection.Right)
             {
-                int x = 0;
-                int y = 0;
-
                 int ?maxX = null;
                 int ?minY = null;
 
@@ -133,9 +130,6 @@ public class CharacterCards : MonoBehaviour
             }
             else if (chrMove.curFacingDirection == FacingDirection.Left)
             {
-                int x = 0;
-                int y = 0;
-
                 int ?minX = null;
                 int ?minY = null;
 
@@ -190,9 +184,11 @@ public class CharacterCards : MonoBehaviour
 
             if (curCell.y + 1 <= (int)maxY)
             {
+                TilemapManager.instance.HideTrajectory();
                 Cell newSpawnPointCell = TilemapManager.instance.collisionMatrixCells[curCell.x, curCell.y + 1].GetComponent<Cell>();
                 spawnPointCell = newSpawnPointCell;
                 spawnPoint = newSpawnPointCell.transform.position;
+                TilemapManager.instance.ShowSingleBlockTrajectory(chrStats);
             }
         }
 
@@ -217,9 +213,11 @@ public class CharacterCards : MonoBehaviour
 
             if (curCell.y - 1 >= (int)minY)
             {
+                TilemapManager.instance.HideTrajectory();
                 Cell newSpawnPointCell = TilemapManager.instance.collisionMatrixCells[curCell.x, curCell.y - 1].GetComponent<Cell>();
                 spawnPointCell = newSpawnPointCell;
                 spawnPoint = newSpawnPointCell.transform.position;
+                TilemapManager.instance.ShowSingleBlockTrajectory(chrStats);
             }
         }
 
@@ -346,7 +344,8 @@ public class CharacterCards : MonoBehaviour
 
             if (chrStats.curStamina >= cardOne.staminaCost)
             {
-                StartCoroutine(CardCoroutine(cardOne, 1));
+                StartCoroutine(CardCoroutine(cardOne, 1));            
+                chrStats.CheckCards();
             }   
         }
         
@@ -356,7 +355,8 @@ public class CharacterCards : MonoBehaviour
 
             if (chrStats.curStamina >= cardTwo.staminaCost)
             {
-                StartCoroutine(CardCoroutine(cardTwo, 2));
+                StartCoroutine(CardCoroutine(cardTwo, 2));         
+                chrStats.CheckCards();
             }
         }
 
@@ -366,7 +366,8 @@ public class CharacterCards : MonoBehaviour
 
             if (chrStats.curStamina >= cardThree.staminaCost)
             {
-                StartCoroutine(CardCoroutine(cardThree, 3));
+                StartCoroutine(CardCoroutine(cardThree, 3));         
+                chrStats.CheckCards();
             }
         }
 
