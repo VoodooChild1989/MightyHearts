@@ -36,6 +36,8 @@ public class LevelManager : MonoBehaviour
             [ShowOnly] public bool areCardsOpen;
             public bool isPlayerAuto;
             public bool isEnemyAuto;
+            public bool isLevelInfinite;
+            public List<GameObject> chrsSpawnPoints;
 
             [Header("Buttons")]
             public Button[] cards; 
@@ -162,6 +164,7 @@ public class LevelManager : MonoBehaviour
             foreach (CharacterStatistics chr in allCharacters)
             {
                 chr.transform.parent.gameObject.SetActive(true);
+                chr.chrAnim.SetIdleAnimation();
                 chr.Birth();
 
                 yield return new WaitForSeconds(0.2f);
@@ -247,9 +250,20 @@ public class LevelManager : MonoBehaviour
         {
             enemyCharacters.Remove(enemyCharacter);   
 
-            if (enemyCharacters.Count == 0)
+            if (!isLevelInfinite)
             {
-                GameObject.Find("Back")?.GetComponent<SceneChanger>().ChangeScene("LevelSelection");
+                if (enemyCharacters.Count == 0)
+                {
+                    GameObject.Find("Back")?.GetComponent<SceneChanger>().ChangeScene("LevelSelection");
+                }
+            }
+            else
+            {
+                GameObject prefab = Resources.Load<GameObject>("Prefabs/Prefab_Character_01");   
+                GameObject spawnedChr = Instantiate(prefab, chrsSpawnPoints[0].transform.position, Quaternion.identity);
+                HandleCharacterSO handler = spawnedChr.GetComponent<HandleCharacterSO>();
+                handler.curCharacterType = CharacterType.Enemy;
+                handler.Setup();
             }
 
             for (int i = 0; i < QueueManager.instance.charactersOnQueue.Count; i++)

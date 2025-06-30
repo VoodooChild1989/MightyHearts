@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Blight
   m_EditorClassIdentifier: 
   notes: 
-  maxHealth: 100
+  maxHealth: 10
   maxStamina: 60
   maxCooldown: 2
   waitReward: 20

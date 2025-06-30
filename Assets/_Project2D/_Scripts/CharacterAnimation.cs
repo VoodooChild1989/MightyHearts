@@ -34,7 +34,6 @@ public class CharacterAnimation : MonoBehaviour
         /// </summary>
         private void Awake()
         {
-            // sr = GetComponentInChildren<SpriteRenderer>();
             foreach (Transform child in transform)
             {
                 if (child.name == "Sprite")
