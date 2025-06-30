@@ -247,6 +247,7 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             CheckCards();
             RemoveCooldown(curCooldown);
             chrMove.StopManualMovement();
+            chrCards.HideSpawnPoint();
         }
 
         /// <summary>

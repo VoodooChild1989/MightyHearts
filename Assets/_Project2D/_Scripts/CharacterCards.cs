@@ -183,8 +183,8 @@ public class CharacterCards : MonoBehaviour
             }
 
             if (curCell.y + 1 <= (int)maxY)
-            {
-                TilemapManager.instance.HideTrajectory();
+            {            
+                HideSpawnPoint();
                 Cell newSpawnPointCell = TilemapManager.instance.collisionMatrixCells[curCell.x, curCell.y + 1].GetComponent<Cell>();
                 spawnPointCell = newSpawnPointCell;
                 spawnPoint = newSpawnPointCell.transform.position;
@@ -213,7 +213,7 @@ public class CharacterCards : MonoBehaviour
 
             if (curCell.y - 1 >= (int)minY)
             {
-                TilemapManager.instance.HideTrajectory();
+                HideSpawnPoint();
                 Cell newSpawnPointCell = TilemapManager.instance.collisionMatrixCells[curCell.x, curCell.y - 1].GetComponent<Cell>();
                 spawnPointCell = newSpawnPointCell;
                 spawnPoint = newSpawnPointCell.transform.position;
@@ -256,8 +256,20 @@ public class CharacterCards : MonoBehaviour
             card02.gameObject.GetComponent<CardButtonDisplay>().card = cardTwo;
             card03.gameObject.GetComponent<CardButtonDisplay>().card = cardThree;
             
+            HideSpawnPoint();
             spawnPointCell = SetSpawnPoint();
             spawnPoint = SetSpawnPoint().transform.position;
+            TilemapManager.instance.ShowSingleBlockTrajectory(chrStats);
+        }
+
+        public void HideSpawnPoint()
+        {
+            if (spawnPointCell != null)
+            {                
+                TilemapManager.instance.HideSingleBlockTrajectory(chrStats);
+                spawnPoint = Vector3.zero;
+                spawnPointCell = null;
+            }
         }
 
     #endregion

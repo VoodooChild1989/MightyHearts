@@ -185,6 +185,17 @@ public class TilemapManager : MonoBehaviour
             cellObj.SetAsTrajectory();
         }
 
+        public void HideSingleBlockTrajectory(CharacterStatistics chr)
+        {
+            CharacterStatistics curChar = chr;
+            int initX = curChar.chrCards.spawnPointCell.x;
+            int initY = curChar.chrCards.spawnPointCell.y;
+            
+            Cell cellObj = null;
+            cellObj = collisionMatrixCells[initX, initY].GetComponent<Cell>();
+            cellObj.RemoveAsTrajectory();
+        }
+
         public void ShowTrajectory(CardSO card)
         {
             CharacterStatistics curChar = QueueManager.instance.charactersOnQueue[QueueManager.instance.curQueueIndex - 1];
@@ -227,12 +238,26 @@ public class TilemapManager : MonoBehaviour
                 }
             }
             
-            /*
             CharacterStatistics curChar = QueueManager.instance.charactersOnQueue[QueueManager.instance.curQueueIndex - 1];
-            curChar.chrCards.spawnPointCell = curChar.chrCards.SetSpawnPoint();
-            curChar.chrCards.spawnPoint = curChar.chrCards.SetSpawnPoint().transform.position;
+            Cell cellCopy = null;
+            if (curChar.chrCards.spawnPointCell != null)
+            {
+                cellCopy = curChar.chrCards.spawnPointCell;
+                curChar.chrCards.HideSpawnPoint();
+            }
+
+            if (cellCopy != null)
+            {
+                curChar.chrCards.spawnPointCell = cellCopy;
+                curChar.chrCards.spawnPoint = cellCopy.transform.position;
+            }
+            else
+            {
+                curChar.chrCards.spawnPointCell = curChar.chrCards.SetSpawnPoint();
+                curChar.chrCards.spawnPoint = curChar.chrCards.SetSpawnPoint().transform.position;
+            }
+            
             ShowSingleBlockTrajectory(curChar);
-            */
         }
 
     #endregion
