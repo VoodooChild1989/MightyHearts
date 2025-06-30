@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5607fc9c76ec1984eac9a10c5b79e584, type: 3}
   m_Name: Bandit
   m_EditorClassIdentifier: 
-  notes: 
+  notes: 'X: 0
+
+    Y: 0'
   maxHealth: 150
   maxStamina: 100
   maxCooldown: 2
   waitReward: 20
   curMovementType: 0
-  sizeX: 2
-  sizeY: 3
   offsetX: 0
   offsetY: 0.5
+  sizeX: 2
+  sizeY: 3
   idleSprites:
   - {fileID: -37525313, guid: 52928195e4234ee43b3c212563c6991e, type: 3}
   - {fileID: 508605744, guid: 52928195e4234ee43b3c212563c6991e, type: 3}

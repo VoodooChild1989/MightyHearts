@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5607fc9c76ec1984eac9a10c5b79e584, type: 3}
   m_Name: Maggy
   m_EditorClassIdentifier: 
-  notes: 
+  notes: 'X: 0
+
+    Y: 0'
   maxHealth: 150
   maxStamina: 100
   maxCooldown: 2

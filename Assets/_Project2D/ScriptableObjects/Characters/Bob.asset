@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5607fc9c76ec1984eac9a10c5b79e584, type: 3}
   m_Name: Bob
   m_EditorClassIdentifier: 
-  notes: 
+  notes: 'X: 0.5
+
+    Y: 0'
   maxHealth: 150
   maxStamina: 100
   maxCooldown: 2
   waitReward: 20
   curMovementType: 0
-  sizeX: 1
-  sizeY: 1
   offsetX: 0
   offsetY: -0.5
+  sizeX: 1
+  sizeY: 1
   idleSprites:
   - {fileID: 1203653750, guid: b415f716c77466f4cb41ed28430fe1b7, type: 3}
   - {fileID: -669735964, guid: b415f716c77466f4cb41ed28430fe1b7, type: 3}

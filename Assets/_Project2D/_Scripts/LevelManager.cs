@@ -38,6 +38,7 @@ public class LevelManager : MonoBehaviour
             public bool isEnemyAuto;
             public bool isLevelInfinite;
             public List<GameObject> chrsSpawnPoints;
+            public List<CharacterSO> chrSOs;
 
             [Header("Buttons")]
             public Button[] cards; 
@@ -260,12 +261,23 @@ public class LevelManager : MonoBehaviour
             else
             {
                 GameObject prefab = Resources.Load<GameObject>("Prefabs/Prefab_Character_01");   
-                GameObject spawnedChr = Instantiate(prefab, chrsSpawnPoints[0].transform.position, Quaternion.identity);
+                
+                int rndIndexSpawn = UnityEngine.Random.Range(0, chrsSpawnPoints.Count);
+                Vector3 spawnPos = chrsSpawnPoints[rndIndexSpawn].transform.position;
+
+                int rndIndexSO = UnityEngine.Random.Range(0, chrSOs.Count);
+                if (chrSOs[rndIndexSO].sizeX % 2 != 0 && chrSOs[rndIndexSO].sizeY % 2 != 0)
+                {
+                    spawnPos = new Vector3(spawnPos.x + 0.5f, spawnPos.y, spawnPos.z);
+                }
+
+                GameObject spawnedChr = Instantiate(prefab, spawnPos, Quaternion.identity);
                 HandleCharacterSO handler = spawnedChr.GetComponent<HandleCharacterSO>();
+                handler.chrSO = chrSOs[rndIndexSO];
                 handler.curCharacterType = CharacterType.Enemy;
                 handler.Setup();
             }
-
+            
             for (int i = 0; i < QueueManager.instance.charactersOnQueue.Count; i++)
             {
                 if (QueueManager.instance.charactersOnQueue[i] == enemyCharacter)
