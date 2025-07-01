@@ -19,6 +19,7 @@ MonoBehaviour:
   staminaCost: 10
   attackWaves: 1
   curCardType: 0
+  canInteract: 0
   damageAmount: 10
   speed: 5
   maxBlocks: 4

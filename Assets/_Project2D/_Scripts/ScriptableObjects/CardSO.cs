@@ -25,7 +25,7 @@ public class CardSO : ScriptableObject
             public string cardName;
             public string cardDescription;
             public int staminaCost;
-            public int attackWaves = 1;
+            [ShowOnly] public int attackWaves = 1;
             public CardType curCardType = CardType.None;
             public bool canInteract;
 

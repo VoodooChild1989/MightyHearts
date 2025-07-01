@@ -337,15 +337,12 @@ public class CharacterCards : MonoBehaviour
             clone.cardName = cardToClone.cardName;
             clone.cardDescription = cardToClone.cardDescription;
             clone.staminaCost = cardToClone.staminaCost;
-            clone.attackWaves = cardToClone.attackWaves;
             clone.curCardType = cardToClone.curCardType;
 
             clone.damageAmount = cardToClone.damageAmount;
             clone.speed = cardToClone.speed;
             clone.maxBlocks = cardToClone.maxBlocks;
             clone.idleSprites = cardToClone.idleSprites;
-
-            clone.cardDescription += " " + clone.attackWaves + " waves.";
 
             return clone;
         }

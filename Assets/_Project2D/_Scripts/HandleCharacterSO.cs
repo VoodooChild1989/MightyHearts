@@ -83,10 +83,16 @@ public class HandleCharacterSO : MonoBehaviour
                     CharacterCards chrCards = child.GetComponent<CharacterCards>();
                     chrCards.cardOneOriginal = chrSO.cardOne;
                     chrCards.cardOne = chrCards.CloneCard(chrSO.cardOne);
+                    chrCards.cardOne.attackWaves = chrSO.cardOneAttackWaves;
+                    chrCards.cardOne.cardDescription += " " + chrCards.cardOne.attackWaves + " waves.";
                     chrCards.cardTwoOriginal = chrSO.cardTwo;
                     chrCards.cardTwo = chrCards.CloneCard(chrSO.cardTwo);
+                    chrCards.cardTwo.attackWaves = chrSO.cardTwoAttackWaves;
+                    chrCards.cardTwo.cardDescription += " " + chrCards.cardTwo.attackWaves + " waves.";
                     chrCards.cardThreeOriginal = chrSO.cardThree;
                     chrCards.cardThree = chrCards.CloneCard(chrSO.cardThree);
+                    chrCards.cardThree.attackWaves = chrSO.cardThreeAttackWaves;
+                    chrCards.cardThree.cardDescription += " " + chrCards.cardThree.attackWaves + " waves.";
 
                     CharacterMovement chrMove = child.GetComponent<CharacterMovement>();
                     chrMove.curMovementType = chrSO.curMovementType;

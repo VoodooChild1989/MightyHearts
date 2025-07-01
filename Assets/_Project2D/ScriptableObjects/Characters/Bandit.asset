@@ -43,7 +43,7 @@ MonoBehaviour:
   damagedSprites:
   - {fileID: 21300000, guid: c4f8568112652034fb7fcba355803f6e, type: 3}
   cardOne: {fileID: 11400000, guid: 447eb4269ec9a80439e1643b8bc8eef0, type: 2}
-  cardOneAttackWaves: 2
+  cardOneAttackWaves: 4
   cardTwo: {fileID: 11400000, guid: 09983d32e26464a47820a3eaa88555bc, type: 2}
   cardTwoAttackWaves: 2
   cardThree: {fileID: 11400000, guid: 44e152edd5b515a4480fcdd8a3c59eef, type: 2}

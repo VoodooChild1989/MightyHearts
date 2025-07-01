@@ -17,8 +17,9 @@ MonoBehaviour:
   cardName: Monster
   cardDescription: Pulls an enemy to 1 block.
   staminaCost: 30
-  attackWaves: 2
+  attackWaves: 1
   curCardType: 3
+  canInteract: 0
   damageAmount: 15
   speed: 5
   maxBlocks: 6
