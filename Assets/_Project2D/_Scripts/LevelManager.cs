@@ -176,7 +176,7 @@ public class LevelManager : MonoBehaviour
             foreach (Booster booster in allBoosters)
             {
                 booster.gameObject.SetActive(true);
-                booster.Birth();
+                // booster.Birth();
 
                 yield return new WaitForSeconds(0.1f);
             }

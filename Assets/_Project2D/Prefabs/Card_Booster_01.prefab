@@ -102,7 +102,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notes: 
-  pickedVFX: {fileID: 6245361130249214102, guid: 3192d04a5a96b0c45898233ae4a0ef4f, type: 3}
+  birthVFX: {fileID: 0}
+  deathVFX: {fileID: 0}
   initScale: 0.9
   finalScale: 1.1
   duration: 0.5
