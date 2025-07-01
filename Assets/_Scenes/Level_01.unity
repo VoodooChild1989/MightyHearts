@@ -10602,6 +10602,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4899359137956183051, guid: f5084955e56f01c4d98ad106d680895f, type: 3}
+      propertyPath: useFlip
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4899359137956183051, guid: f5084955e56f01c4d98ad106d680895f, type: 3}
       propertyPath: curCharacterType
       value: 1
       objectReference: {fileID: 0}
@@ -14245,6 +14249,10 @@ PrefabInstance:
       propertyPath: chrSO
       value: 
       objectReference: {fileID: 11400000, guid: dbcd1123c47c9034799284f77f7d2df6, type: 2}
+    - target: {fileID: 4899359137956183051, guid: f5084955e56f01c4d98ad106d680895f, type: 3}
+      propertyPath: useFlip
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4899359137956183051, guid: f5084955e56f01c4d98ad106d680895f, type: 3}
       propertyPath: curCharacterType
       value: 1

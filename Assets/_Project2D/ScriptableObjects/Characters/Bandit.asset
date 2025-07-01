@@ -17,8 +17,8 @@ MonoBehaviour:
     Y: 0'
   maxHealth: 150
   maxStamina: 100
-  maxCooldown: 2
-  waitReward: 20
+  maxCooldown: 3
+  waitReward: 30
   curMovementType: 0
   offsetX: 0
   offsetY: 0.5

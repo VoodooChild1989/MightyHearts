@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Blight
   m_EditorClassIdentifier: 
   notes: 
-  maxHealth: 10
+  maxHealth: 30
   maxStamina: 60
   maxCooldown: 2
-  waitReward: 20
+  waitReward: 30
   curMovementType: 1
   offsetX: 0
   offsetY: 0

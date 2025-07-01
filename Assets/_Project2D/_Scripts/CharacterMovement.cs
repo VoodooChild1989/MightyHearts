@@ -747,10 +747,17 @@ public class CharacterMovement : MonoBehaviour
 
         public bool IsThisNewPositionPossible(int moveX, int moveY)
         {
-            Vector2 curPos = transform.position;
-            Vector2 newPos = new Vector2(curPos.x + moveX, curPos.y + moveY);
+            if (gameObject != null)
+            {
+                Vector2 curPos = transform.position;
+                Vector2 newPos = new Vector2(curPos.x + moveX, curPos.y + moveY);
 
-            return TilemapManager.instance.IsNewPositionPossible(gameObject, sizeMatrix, moveX, moveY, curMovementType);
+                return TilemapManager.instance.IsNewPositionPossible(gameObject, sizeMatrix, moveX, moveY, curMovementType);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void Flip(bool useTurnFinished = true)

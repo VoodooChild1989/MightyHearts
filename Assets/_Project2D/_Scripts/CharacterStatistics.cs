@@ -219,14 +219,22 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
         /// </summary>
         public void TurnStarted()
         {
+            StartCoroutine(TurnStartedCoroutine());
+        }
+
+        private IEnumerator TurnStartedCoroutine()
+        {
+            LevelManager.instance.cinemCamera.Follow = gameObject.transform;
+
             if (isPoisoned)
             {
                 TakeDamage(10);
                 poisonedTurnsLeft--;
                 if (poisonedTurnsLeft == 0) isPoisoned = false;
+
+                yield return new WaitForSeconds(1f);
             }
 
-            LevelManager.instance.cinemCamera.Follow = gameObject.transform;
             chrMove.moveSteps = 1;
             chrMove.moveStaminaCost = 0;
 
@@ -234,7 +242,11 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             
             chrCards.spawnPointCell = chrCards.SetSpawnPoint();
             chrCards.spawnPoint = chrCards.SetSpawnPoint().transform.position;
-            TilemapManager.instance.ShowSingleBlockTrajectory(this);
+            
+            if (curCharacterType == CharacterType.Player)
+            {
+                TilemapManager.instance.ShowSingleBlockTrajectory(this);
+            }
         }
 
         /// <summary>
@@ -494,9 +506,20 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
             yield return new WaitForSeconds(1f);
 
             Instantiate(chrAnim.deathVFX, transform.position, Quaternion.identity);
+            
+            if (curCharacterType == CharacterType.Player)
+            {
+                LevelManager.instance.RemovePlayer(this);
+            }
+            else if (curCharacterType == CharacterType.Enemy)
+            {
+                LevelManager.instance.RemoveEnemy(this);
+            }   
+
             Destroy(transform.parent.gameObject);
         }
 
+        /*
         /// <summary>
         /// This function is called when the MonoBehaviour will be destroyed.
         /// </summary>
@@ -511,6 +534,7 @@ public class CharacterStatistics : MonoBehaviour, IDamageable
                 LevelManager.instance.RemoveEnemy(this);
             }   
         }
+        */
 
     #endregion
 
