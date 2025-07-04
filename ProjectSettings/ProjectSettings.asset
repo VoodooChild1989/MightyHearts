@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Block That Kick!
+  companyName: Revolution 9
   productName: Mighty Hearts
   defaultCursor: {fileID: 2800000, guid: 2e0bc86e28b3cca4a80aeaa22d50475c, type: 3}
   cursorHotspot: {x: 0, y: 0}
