@@ -1,2 +1,2 @@
 # Mighty Hearts
-Turn-based platformer strategy.
+Lead your troops to victory!
